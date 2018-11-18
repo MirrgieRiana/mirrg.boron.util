@@ -10,15 +10,13 @@ import java.util.stream.Stream;
 
 import org.junit.Test;
 
-import mirrg.boron.util.suppliterator.ISuppliterator;
-
 public class TestSuppliterator
 {
 
 	@Test
 	public void test()
 	{
-		Function<String, ISuppliterator<Integer>> f = s -> of(s.chars()
+		Function<String, ISuppliterator<Integer>> f = s -> ofIterator(s.chars()
 			.mapToObj(i -> i)
 			.collect(Collectors.toCollection(ArrayList::new)).iterator());
 

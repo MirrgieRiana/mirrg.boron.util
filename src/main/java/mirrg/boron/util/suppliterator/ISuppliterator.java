@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Spliterator;
@@ -85,11 +86,163 @@ public interface ISuppliterator<T> extends Iterable<T>
 		};
 	}
 
+	public static ISuppliterator<Byte> ofArray(byte... array)
+	{
+		return new SuppliteratorNullableBase<Byte>() {
+			private int index = 0;
+
+			@Override
+			public Byte nullableNextImpl()
+			{
+				if (index < array.length) {
+					byte next = array[index];
+					index++;
+					return next;
+				} else {
+					return null;
+				}
+			}
+		};
+	}
+
+	public static ISuppliterator<Character> ofArray(char... array)
+	{
+		return new SuppliteratorNullableBase<Character>() {
+			private int index = 0;
+
+			@Override
+			public Character nullableNextImpl()
+			{
+				if (index < array.length) {
+					char next = array[index];
+					index++;
+					return next;
+				} else {
+					return null;
+				}
+			}
+		};
+	}
+
+	public static ISuppliterator<Short> ofArray(short... array)
+	{
+		return new SuppliteratorNullableBase<Short>() {
+			private int index = 0;
+
+			@Override
+			public Short nullableNextImpl()
+			{
+				if (index < array.length) {
+					short next = array[index];
+					index++;
+					return next;
+				} else {
+					return null;
+				}
+			}
+		};
+	}
+
+	public static ISuppliterator<Integer> ofArray(int... array)
+	{
+		return new SuppliteratorNullableBase<Integer>() {
+			private int index = 0;
+
+			@Override
+			public Integer nullableNextImpl()
+			{
+				if (index < array.length) {
+					int next = array[index];
+					index++;
+					return next;
+				} else {
+					return null;
+				}
+			}
+		};
+	}
+
+	public static ISuppliterator<Long> ofArray(long... array)
+	{
+		return new SuppliteratorNullableBase<Long>() {
+			private int index = 0;
+
+			@Override
+			public Long nullableNextImpl()
+			{
+				if (index < array.length) {
+					long next = array[index];
+					index++;
+					return next;
+				} else {
+					return null;
+				}
+			}
+		};
+	}
+
+	public static ISuppliterator<Float> ofArray(float... array)
+	{
+		return new SuppliteratorNullableBase<Float>() {
+			private int index = 0;
+
+			@Override
+			public Float nullableNextImpl()
+			{
+				if (index < array.length) {
+					float next = array[index];
+					index++;
+					return next;
+				} else {
+					return null;
+				}
+			}
+		};
+	}
+
+	public static ISuppliterator<Double> ofArray(double... array)
+	{
+		return new SuppliteratorNullableBase<Double>() {
+			private int index = 0;
+
+			@Override
+			public Double nullableNextImpl()
+			{
+				if (index < array.length) {
+					double next = array[index];
+					index++;
+					return next;
+				} else {
+					return null;
+				}
+			}
+		};
+	}
+
+	public static ISuppliterator<Boolean> ofArray(boolean... array)
+	{
+		return new SuppliteratorNullableBase<Boolean>() {
+			private int index = 0;
+
+			@Override
+			public Boolean nullableNextImpl()
+			{
+				if (index < array.length) {
+					boolean next = array[index];
+					index++;
+					return next;
+				} else {
+					return null;
+				}
+			}
+		};
+	}
+
 	/**
 	 * @param iterator
 	 *            nullを含まないTのIterator
 	 */
-	public static <T> ISuppliterator<T> of(Iterator<T> iterator)
+	public static <T> ISuppliterator<T> ofIterator(Iterator<T> iterator)
 	{
 		return new SuppliteratorNullableBase<T>() {
 			@Override
@@ -104,18 +257,18 @@ public interface ISuppliterator<T> extends Iterable<T>
 	 * @param iterable
 	 *            nullを含まないTのIterable
 	 */
-	public static <T> ISuppliterator<T> of(Iterable<T> iterable)
+	public static <T> ISuppliterator<T> ofIterable(Iterable<T> iterable)
 	{
-		return of(iterable.iterator());
+		return ofIterator(iterable.iterator());
 	}
 
 	/**
 	 * @param enumeration
 	 *            nullを含まないTのEnumeration
 	 */
-	public static <T> ISuppliterator<T> of(Enumeration<T> enumeration)
+	public static <T> ISuppliterator<T> ofEnumeration(Enumeration<T> enumeration)
 	{
-		return of(new Iterator<T>() {
+		return ofIterator(new Iterator<T>() {
 			@Override
 			public T next()
 			{
@@ -136,33 +289,33 @@ public interface ISuppliterator<T> extends Iterable<T>
 	 * @param stream
 	 *            nullを含まないTのStream
 	 */
-	public static <T> ISuppliterator<T> of(Stream<T> stream)
+	public static <T> ISuppliterator<T> ofStream(Stream<T> stream)
 	{
-		return of((Iterable<T>) stream.collect(Collectors.toCollection(ArrayList::new)));
+		return ofIterable(stream.collect(Collectors.toCollection(ArrayList::new)));
 	}
 
 	/**
 	 * このメソッドは呼び出し時にストリームのすべての要素にアクセスします。
 	 */
-	public static ISuppliterator<Integer> of(IntStream stream)
+	public static ISuppliterator<Integer> ofStream(IntStream stream)
 	{
-		return of(stream.mapToObj(x -> x));
+		return ofStream(stream.mapToObj(x -> x));
 	}
 
 	/**
 	 * このメソッドは呼び出し時にストリームのすべての要素にアクセスします。
 	 */
-	public static ISuppliterator<Long> of(LongStream stream)
+	public static ISuppliterator<Long> ofStream(LongStream stream)
 	{
-		return of(stream.mapToObj(x -> x));
+		return ofStream(stream.mapToObj(x -> x));
 	}
 
 	/**
 	 * このメソッドは呼び出し時にストリームのすべての要素にアクセスします。
 	 */
-	public static ISuppliterator<Double> of(DoubleStream stream)
+	public static ISuppliterator<Double> ofStream(DoubleStream stream)
 	{
-		return of(stream.mapToObj(x -> x));
+		return ofStream(stream.mapToObj(x -> x));
 	}
 
 	@SafeVarargs
@@ -407,7 +560,7 @@ public interface ISuppliterator<T> extends Iterable<T>
 
 	public default ISuppliterator<T> reverse()
 	{
-		return of(toCollection(ArrayDeque::new).descendingIterator());
+		return ofIterator(toCollection(ArrayDeque::new).descendingIterator());
 	}
 
 	/**
@@ -415,9 +568,9 @@ public interface ISuppliterator<T> extends Iterable<T>
 	 */
 	public default ISuppliterator<T> sorted(Comparator<? super T> comparator)
 	{
-		ArrayList<T> list = toCollection();
+		List<T> list = toCollection();
 		list.sort(comparator);
-		return of(list);
+		return ofIterable(list);
 	}
 
 	/**
@@ -425,9 +578,9 @@ public interface ISuppliterator<T> extends Iterable<T>
 	 */
 	public default ISuppliterator<T> sortedObj(Function<? super T, Comparable<? super T>> function)
 	{
-		ArrayList<T> list = toCollection();
+		List<T> list = toCollection();
 		list.sort((a, b) -> function.apply(a).compareTo(b));
-		return of(list);
+		return ofIterable(list);
 	}
 
 	/**
@@ -435,7 +588,7 @@ public interface ISuppliterator<T> extends Iterable<T>
 	 */
 	public default ISuppliterator<T> sortedInt(ToIntFunction<? super T> function)
 	{
-		ArrayList<T> list = toCollection();
+		List<T> list = toCollection();
 		list.sort((a, b) -> {
 			int a2 = function.applyAsInt(a);
 			int b2 = function.applyAsInt(b);
@@ -445,7 +598,7 @@ public interface ISuppliterator<T> extends Iterable<T>
 					? -1
 					: 0;
 		});
-		return of(list);
+		return ofIterable(list);
 	}
 
 	/**
@@ -453,7 +606,7 @@ public interface ISuppliterator<T> extends Iterable<T>
 	 */
 	public default ISuppliterator<T> sortedLong(ToLongFunction<? super T> function)
 	{
-		ArrayList<T> list = toCollection();
+		List<T> list = toCollection();
 		list.sort((a, b) -> {
 			long a2 = function.applyAsLong(a);
 			long b2 = function.applyAsLong(b);
@@ -463,7 +616,7 @@ public interface ISuppliterator<T> extends Iterable<T>
 					? -1
 					: 0;
 		});
-		return of(list);
+		return ofIterable(list);
 	}
 
 	/**
@@ -471,13 +624,13 @@ public interface ISuppliterator<T> extends Iterable<T>
 	 */
 	public default ISuppliterator<T> sortedDouble(ToDoubleFunction<? super T> function)
 	{
-		ArrayList<T> list = toCollection();
+		List<T> list = toCollection();
 		list.sort((a, b) -> {
 			double a2 = function.applyAsDouble(a);
 			double b2 = function.applyAsDouble(b);
 			return Double.compare(a2, b2);
 		});
-		return of(list);
+		return ofIterable(list);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -585,20 +738,20 @@ public interface ISuppliterator<T> extends Iterable<T>
 		return collection;
 	}
 
-	public default ArrayList<T> toCollection()
+	public default List<T> toCollection()
 	{
 		return toCollection(ArrayList::new);
 	}
 
 	public default T[] toArray(IntFunction<T[]> sArray)
 	{
-		ArrayList<T> list = toCollection();
+		List<T> list = toCollection();
 		return list.toArray(sArray.apply(list.size()));
 	}
 
 	public default ImmutableArray<T> toImmutableArray()
 	{
-		return new ImmutableArray<>(toCollection());
+		return ImmutableArray.ofList(toCollection());
 	}
 
 	public default int[] toIntArray(ToIntFunction<? super T> function)
