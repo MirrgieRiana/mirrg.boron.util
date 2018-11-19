@@ -125,7 +125,7 @@ public final class ImmutableArray<T> implements Iterable<T>
 		return new ImmutableArray<>(array2);
 	}
 
-	public static <T> ImmutableArray<T> pfStream(Stream<? extends T> stream)
+	public static <T> ImmutableArray<T> ofStream(Stream<? extends T> stream)
 	{
 		return ofList((List<? extends T>) stream.collect(Collectors.toCollection(ArrayList::new)));
 	}
