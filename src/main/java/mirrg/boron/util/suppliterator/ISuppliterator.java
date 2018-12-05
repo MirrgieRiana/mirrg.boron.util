@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Spliterator;
@@ -746,6 +749,20 @@ public interface ISuppliterator<T> extends Iterable<T>
 	public default List<T> toList()
 	{
 		return toCollection(ArrayList::new);
+	}
+
+	public static <K, V, M extends Map<? super K, ? super V>> M toMap(ISuppliterator<? extends Entry<? extends K, ? extends V>> suppliterator, Supplier<? extends M> sMap)
+	{
+		M map = sMap.get();
+		for (Entry<? extends K, ? extends V> entry : suppliterator) {
+			map.put(entry.getKey(), entry.getValue());
+		}
+		return map;
+	}
+
+	public static <K, V> Map<K, V> toMap(ISuppliterator<? extends Entry<? extends K, ? extends V>> suppliterator)
+	{
+		return toMap(suppliterator, HashMap::new);
 	}
 
 	public default T[] toArray(IntFunction<T[]> sArray)
