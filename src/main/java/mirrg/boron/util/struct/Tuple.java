@@ -1,6 +1,8 @@
 package mirrg.boron.util.struct;
 
-public final class Tuple<X, Y>
+import java.util.Map.Entry;
+
+public final class Tuple<X, Y> implements Entry<X, Y>
 {
 
 	public final X x;
@@ -62,6 +64,24 @@ public final class Tuple<X, Y>
 			if (other.y != null) return false;
 		} else if (!y.equals(other.y)) return false;
 		return true;
+	}
+
+	@Override
+	public X getKey()
+	{
+		return x;
+	}
+
+	@Override
+	public Y getValue()
+	{
+		return y;
+	}
+
+	@Override
+	public Y setValue(Y value)
+	{
+		throw new UnsupportedOperationException("setValue");
 	}
 
 }
