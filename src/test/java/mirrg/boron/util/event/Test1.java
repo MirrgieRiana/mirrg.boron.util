@@ -1,10 +1,13 @@
-package mirrg.boron.event;
+package mirrg.boron.util.event;
 
 import static org.junit.Assert.*;
 
 import java.util.function.Consumer;
 
 import org.junit.Test;
+
+import mirrg.boron.util.event.IEventProvider;
+import mirrg.boron.util.event.IRemover;
 
 public class Test1
 {

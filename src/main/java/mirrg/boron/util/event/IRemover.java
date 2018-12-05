@@ -1,4 +1,4 @@
-package mirrg.boron.event;
+package mirrg.boron.util.event;
 
 public interface IRemover
 {

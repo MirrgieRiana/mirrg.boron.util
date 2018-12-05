@@ -1,4 +1,4 @@
-package mirrg.boron.event;
+package mirrg.boron.util.event;
 
 import static org.junit.Assert.*;
 
@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.function.BiConsumer;
 
 import org.junit.Test;
+
+import mirrg.boron.util.event.IEventProvider;
 
 public class Test2
 {

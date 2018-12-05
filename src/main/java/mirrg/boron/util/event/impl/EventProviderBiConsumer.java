@@ -1,4 +1,4 @@
-package mirrg.boron.event.impl;
+package mirrg.boron.util.event.impl;
 
 import java.util.function.BiConsumer;
 

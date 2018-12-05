@@ -1,10 +1,10 @@
-package mirrg.boron.event.impl;
+package mirrg.boron.util.event.impl;
 
 import java.util.TreeMap;
 import java.util.function.Consumer;
 
-import mirrg.boron.event.IEventProvider;
-import mirrg.boron.event.IRemover;
+import mirrg.boron.util.event.IEventProvider;
+import mirrg.boron.util.event.IRemover;
 
 public abstract class EventProvider<L> implements IEventProvider<L>
 {
