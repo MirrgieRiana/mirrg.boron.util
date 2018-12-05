@@ -1,6 +1,5 @@
 package mirrg.boron.util.logging;
 
-import java.util.Optional;
 import java.util.function.Supplier;
 
 /**
@@ -10,154 +9,175 @@ import java.util.function.Supplier;
 public final class Logger
 {
 
-	private final LogSink logSink;
-	private final String tag;
+	private final ILogHandler logHandler;
+	private final String name;
 
-	Logger(LogSink logSink, String tag)
+	Logger(ILogHandler logHandler, String name)
 	{
-		this.logSink = logSink;
-		this.tag = tag;
+		this.logHandler = logHandler;
+		this.name = name;
 	}
 
 	//////////////////////////
 
-	public void println(Supplier<String> sString, Optional<EnumLogLevel> oLogLevel)
+	public final void fatal(Supplier<String> sMessage)
 	{
-		logSink.println(tag, sString, oLogLevel);
+		logHandler.log(EnumLogLevel.FATAL, name, sMessage);
 	}
 
-	public void println(Supplier<String> sString)
+	public final void fatal(String message)
 	{
-		println(sString, Optional.empty());
+		logHandler.log(EnumLogLevel.FATAL, name, () -> message);
 	}
 
-	public void println(Supplier<String> sString, EnumLogLevel logLevel)
+	public final void fatal(Supplier<String> sMessage, Throwable e)
 	{
-		println(sString, Optional.of(logLevel));
+		logHandler.log(EnumLogLevel.FATAL, name, sMessage, e);
 	}
 
-	public void fatal(Supplier<String> sString)
+	public final void fatal(String message, Throwable e)
 	{
-		println(sString, EnumLogLevel.FATAL);
+		logHandler.log(EnumLogLevel.FATAL, name, () -> message, e);
 	}
 
-	public void error(Supplier<String> sString)
+	public final void fatal(Throwable e)
 	{
-		println(sString, EnumLogLevel.ERROR);
+		logHandler.log(EnumLogLevel.FATAL, name, e);
 	}
 
-	public void warn(Supplier<String> sString)
+	//
+
+	public final void error(Supplier<String> sMessage)
 	{
-		println(sString, EnumLogLevel.WARN);
+		logHandler.log(EnumLogLevel.ERROR, name, sMessage);
 	}
 
-	public void info(Supplier<String> sString)
+	public final void error(String message)
 	{
-		println(sString, EnumLogLevel.INFO);
+		logHandler.log(EnumLogLevel.ERROR, name, () -> message);
 	}
 
-	public void debug(Supplier<String> sString)
+	public final void error(Supplier<String> sMessage, Throwable e)
 	{
-		println(sString, EnumLogLevel.DEBUG);
+		logHandler.log(EnumLogLevel.ERROR, name, sMessage, e);
 	}
 
-	public void trace(Supplier<String> sString)
+	public final void error(String message, Throwable e)
 	{
-		println(sString, EnumLogLevel.TRACE);
+		logHandler.log(EnumLogLevel.ERROR, name, () -> message, e);
 	}
 
-	//////////////////////////
-
-	public void println(String string, Optional<EnumLogLevel> oLogLevel)
+	public final void error(Throwable e)
 	{
-		println(() -> string, oLogLevel);
+		logHandler.log(EnumLogLevel.ERROR, name, e);
 	}
 
-	public void println(String string)
+	//
+
+	public final void warn(Supplier<String> sMessage)
 	{
-		println(() -> string);
+		logHandler.log(EnumLogLevel.WARN, name, sMessage);
 	}
 
-	public void println(String string, EnumLogLevel logLevel)
+	public final void warn(String message)
 	{
-		println(() -> string, logLevel);
+		logHandler.log(EnumLogLevel.WARN, name, () -> message);
 	}
 
-	public void fatal(String string)
+	public final void warn(Supplier<String> sMessage, Throwable e)
 	{
-		fatal(() -> string);
+		logHandler.log(EnumLogLevel.WARN, name, sMessage, e);
 	}
 
-	public void error(String string)
+	public final void warn(String message, Throwable e)
 	{
-		error(() -> string);
+		logHandler.log(EnumLogLevel.WARN, name, () -> message, e);
 	}
 
-	public void warn(String string)
+	public final void warn(Throwable e)
 	{
-		warn(() -> string);
+		logHandler.log(EnumLogLevel.WARN, name, e);
 	}
 
-	public void info(String string)
+	//
+
+	public final void info(Supplier<String> sMessage)
 	{
-		info(() -> string);
+		logHandler.log(EnumLogLevel.INFO, name, sMessage);
 	}
 
-	public void debug(String string)
+	public final void info(String message)
 	{
-		debug(() -> string);
+		logHandler.log(EnumLogLevel.INFO, name, () -> message);
 	}
 
-	public void trace(String string)
+	public final void info(Supplier<String> sMessage, Throwable e)
 	{
-		trace(() -> string);
+		logHandler.log(EnumLogLevel.INFO, name, sMessage, e);
 	}
 
-	//////////////////////////
-
-	public void println(Throwable e, Optional<EnumLogLevel> oLogLevel)
+	public final void info(String message, Throwable e)
 	{
-		logSink.println(tag, e, oLogLevel);
+		logHandler.log(EnumLogLevel.INFO, name, () -> message, e);
 	}
 
-	public void println(Throwable e)
+	public final void info(Throwable e)
 	{
-		println(e, Optional.empty());
+		logHandler.log(EnumLogLevel.INFO, name, e);
 	}
 
-	public void println(Throwable e, EnumLogLevel logLevel)
+	//
+
+	public final void debug(Supplier<String> sMessage)
 	{
-		println(e, Optional.of(logLevel));
+		logHandler.log(EnumLogLevel.DEBUG, name, sMessage);
 	}
 
-	public void fatal(Throwable e)
+	public final void debug(String message)
 	{
-		println(e, EnumLogLevel.FATAL);
+		logHandler.log(EnumLogLevel.DEBUG, name, () -> message);
 	}
 
-	public void error(Throwable e)
+	public final void debug(Supplier<String> sMessage, Throwable e)
 	{
-		println(e, EnumLogLevel.ERROR);
+		logHandler.log(EnumLogLevel.DEBUG, name, sMessage, e);
 	}
 
-	public void warn(Throwable e)
+	public final void debug(String message, Throwable e)
 	{
-		println(e, EnumLogLevel.WARN);
+		logHandler.log(EnumLogLevel.DEBUG, name, () -> message, e);
 	}
 
-	public void info(Throwable e)
+	public final void debug(Throwable e)
 	{
-		println(e, EnumLogLevel.INFO);
+		logHandler.log(EnumLogLevel.DEBUG, name, e);
 	}
 
-	public void debug(Throwable e)
+	//
+
+	public final void trace(Supplier<String> sMessage)
 	{
-		println(e, EnumLogLevel.DEBUG);
+		logHandler.log(EnumLogLevel.TRACE, name, sMessage);
 	}
 
-	public void trace(Throwable e)
+	public final void trace(String message)
 	{
-		println(e, EnumLogLevel.TRACE);
+		logHandler.log(EnumLogLevel.TRACE, name, () -> message);
+	}
+
+	public final void trace(Supplier<String> sMessage, Throwable e)
+	{
+		logHandler.log(EnumLogLevel.TRACE, name, sMessage, e);
+	}
+
+	public final void trace(String message, Throwable e)
+	{
+		logHandler.log(EnumLogLevel.TRACE, name, () -> message, e);
+	}
+
+	public final void trace(Throwable e)
+	{
+		logHandler.log(EnumLogLevel.TRACE, name, e);
 	}
 
 }
