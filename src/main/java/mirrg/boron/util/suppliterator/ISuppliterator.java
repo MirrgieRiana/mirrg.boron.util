@@ -527,7 +527,7 @@ public interface ISuppliterator<T> extends Iterable<T>
 		return function.apply(this);
 	}
 
-	public static <T> ISuppliterator<T> flatten(ISuppliterator<ISuppliterator<T>> suppliterator)
+	public static <T> ISuppliterator<T> flatten(ISuppliterator<? extends ISuppliterator<T>> suppliterator)
 	{
 		return new SuppliteratorNullableBase<T>() {
 			private ISuppliterator<T> current = null;
