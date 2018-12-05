@@ -4,7 +4,7 @@ import java.util.function.Supplier;
 
 /**
  * ログの回収のために各地に提供されるクラスです。
- * このクラスのインスタンスは {@link LogSink#logger(String)} によって提供されます。
+ * このクラスのインスタンスは {@link ILogHandler#getLogger(String)} によって提供されます。
  */
 public final class Logger
 {

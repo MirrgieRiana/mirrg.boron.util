@@ -66,7 +66,7 @@ public class PercentEncoding
 
 	/**
 	 * <p>
-	 * {@link #encode(byte[])} によってエンコードされた文字列をデコードします。
+	 * {@link #encode(byte[], byte)} によってエンコードされた文字列をデコードします。
 	 * 入力文字列は次の正規表現に従う必要があります。
 	 * そうでない場合の動作は保証されません。
 	 * </p>
