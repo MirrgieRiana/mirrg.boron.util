@@ -3,28 +3,8 @@ package mirrg.boron.util;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import mirrg.beryllium.lang.string.PercentEncoding;
-
 public class UtilsString
 {
-
-	/**
-	 * @see PercentEncoding#encode(String)
-	 */
-	public static String encode(String string)
-	{
-		return PercentEncoding.encode(string);
-	}
-
-	/**
-	 * @see PercentEncoding#decode(String)
-	 */
-	public static String decode(String string)
-	{
-		return PercentEncoding.decode(string);
-	}
-
-	//
 
 	public static String repeat(char ch, int t)
 	{
