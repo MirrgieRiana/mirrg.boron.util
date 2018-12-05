@@ -12,8 +12,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.Spliterator;
-import java.util.Spliterators;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -30,8 +28,8 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
+import mirrg.boron.util.UtilsLambda;
 import mirrg.boron.util.struct.ImmutableArray;
 import mirrg.boron.util.struct.Tuple;
 
@@ -870,10 +868,7 @@ public interface ISuppliterator<T> extends Iterable<T>
 
 	public default Stream<T> stream()
 	{
-		return StreamSupport.stream(
-			Spliterators.spliteratorUnknownSize(
-				iterator(),
-				Spliterator.ORDERED), false);
+		return UtilsLambda.toStream(iterator());
 	}
 
 	public default IntStream streamToInt(ToIntFunction<? super T> function)
