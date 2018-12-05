@@ -519,7 +519,7 @@ public interface ISuppliterator<T> extends Iterable<T>
 		return ISuppliterator.concat(this, ts);
 	}
 
-	public default <O> ISuppliterator<O> apply(Function<? super ISuppliterator<T>, ? extends ISuppliterator<O>> function)
+	public default <O> O apply(Function<? super ISuppliterator<T>, ? extends O> function)
 	{
 		return function.apply(this);
 	}
