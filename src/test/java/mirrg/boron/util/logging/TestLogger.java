@@ -2,11 +2,12 @@ package mirrg.boron.util.logging;
 
 import static org.junit.Assert.*;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.function.Supplier;
 
 import org.junit.Test;
 
+import mirrg.boron.util.logging.lib.LogHandlerConsole;
 import mirrg.boron.util.suppliterator.ISuppliterator;
 
 public class TestLogger
@@ -20,14 +21,9 @@ public class TestLogger
 		ArrayList<String> list = new ArrayList<>();
 
 		// ログ出力
-		Logger logger = new ILogHandler() {
-			@Override
-			public void log(EnumLogLevel logLevel, String name, Supplier<String> sMessage)
+		Logger logger = new LogHandlerConsole(list::add) {
 			{
-				list.add(String.format("%-5s [%s] %s",
-					logLevel,
-					name,
-					sMessage.get()));
+				formatter = DateTimeFormatter.ofPattern("*");
 			}
 		}.getLogger("Test");
 
@@ -38,13 +34,13 @@ public class TestLogger
 		logger.debug("005");
 		logger.trace("006");
 
-		assertEquals(list, ISuppliterator.of(
-			"FATAL [Test] 001",
-			"ERROR [Test] 002",
-			"WARN  [Test] 003",
-			"INFO  [Test] 004",
-			"DEBUG [Test] 005",
-			"TRACE [Test] 006").toCollection(ArrayList::new));
+		assertEquals(ISuppliterator.of(
+			"* FATAL [Test] 001",
+			"* ERROR [Test] 002",
+			"* WARN  [Test] 003",
+			"* INFO  [Test] 004",
+			"* DEBUG [Test] 005",
+			"* TRACE [Test] 006").toCollection(ArrayList::new), list);
 
 	}
 
