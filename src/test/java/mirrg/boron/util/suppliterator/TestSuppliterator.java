@@ -10,6 +10,8 @@ import java.util.stream.Stream;
 
 import org.junit.Test;
 
+import mirrg.boron.util.struct.Tuple;
+
 public class TestSuppliterator
 {
 
@@ -107,6 +109,16 @@ public class TestSuppliterator
 		assertEquals(e, ISuppliterator.of(ss).sortedInt(s -> s.length()).join(","));
 		assertEquals(e, ISuppliterator.of(ss).sortedLong(s -> s.length()).join(","));
 		assertEquals(e, ISuppliterator.of(ss).sortedDouble(s -> s.length()).join(","));
+
+		assertEquals("1a2b3c", ISuppliterator.ofIterable(ISuppliterator.of(
+			new Tuple<>(1, "a"),
+			new Tuple<>(2, "b"),
+			new Tuple<>(3, "c"))
+			.apply(ISuppliterator::toMap).entrySet())
+			.sortedObj(e2 -> e2.getKey())
+			.map(e2 -> e2.getKey() + e2.getValue())
+			.join());
+
 	}
 
 	@Test
