@@ -327,23 +327,84 @@ public interface ISuppliterator<T> extends Iterable<T>
 		return flatten(of(suppliterators));
 	}
 
+	/**
+	 * 開始値が終了値より大きい場合はデクリメントします。
+	 */
 	public static ISuppliterator<Integer> range(int startInclusive, int endExclusive)
 	{
-		return new SuppliteratorNullableBase<Integer>() {
-			private int i = startInclusive;
+		if (startInclusive > endExclusive) {
+			return new SuppliteratorNullableBase<Integer>() {
+				private int i = startInclusive;
 
-			@Override
-			public Integer nullableNextImpl()
-			{
-				if (i < endExclusive) {
-					int i2 = i;
-					i++;
-					return i2;
-				} else {
-					return null;
+				@Override
+				public Integer nullableNextImpl()
+				{
+					if (i > endExclusive) {
+						int i2 = i;
+						i--;
+						return i2;
+					} else {
+						return null;
+					}
 				}
-			}
-		};
+			};
+		} else {
+			return new SuppliteratorNullableBase<Integer>() {
+				private int i = startInclusive;
+
+				@Override
+				public Integer nullableNextImpl()
+				{
+					if (i < endExclusive) {
+						int i2 = i;
+						i++;
+						return i2;
+					} else {
+						return null;
+					}
+				}
+			};
+		}
+	}
+
+	/**
+	 * 開始値が終了値より大きい場合はデクリメントします。
+	 */
+	public static ISuppliterator<Integer> rangeClosed(int startInclusive, int endInclusive)
+	{
+		if (startInclusive > endInclusive) {
+			return new SuppliteratorNullableBase<Integer>() {
+				private int i = startInclusive;
+
+				@Override
+				public Integer nullableNextImpl()
+				{
+					if (i >= endInclusive) {
+						int i2 = i;
+						i--;
+						return i2;
+					} else {
+						return null;
+					}
+				}
+			};
+		} else {
+			return new SuppliteratorNullableBase<Integer>() {
+				private int i = startInclusive;
+
+				@Override
+				public Integer nullableNextImpl()
+				{
+					if (i <= endInclusive) {
+						int i2 = i;
+						i++;
+						return i2;
+					} else {
+						return null;
+					}
+				}
+			};
+		}
 	}
 
 	// 中間操作

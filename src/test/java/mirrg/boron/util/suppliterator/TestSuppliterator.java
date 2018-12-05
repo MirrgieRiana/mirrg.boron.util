@@ -80,6 +80,11 @@ public class TestSuppliterator
 		assertEquals("5<>6<>7<>8<>9<>10", range(5, 11).map(i -> "" + i).collect(Collectors.joining("<>")));
 		assertEquals(6L, (long) range(5, 11).collect(Collectors.counting()));
 		assertEquals(6, range(5, 11).count());
+
+		assertEquals("3456", range(3, 7).join());
+		assertEquals("7654", range(7, 3).join());
+		assertEquals("34567", rangeClosed(3, 7).join());
+		assertEquals("76543", rangeClosed(7, 3).join());
 	}
 
 	@Test
