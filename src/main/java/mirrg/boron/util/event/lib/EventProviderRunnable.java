@@ -1,4 +1,4 @@
-package mirrg.boron.util.event.impl;
+package mirrg.boron.util.event.lib;
 
 public class EventProviderRunnable extends EventProvider<Runnable>
 {

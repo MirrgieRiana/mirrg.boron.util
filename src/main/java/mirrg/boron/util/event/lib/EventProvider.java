@@ -1,4 +1,4 @@
-package mirrg.boron.util.event.impl;
+package mirrg.boron.util.event.lib;
 
 import java.util.TreeMap;
 import java.util.function.Consumer;

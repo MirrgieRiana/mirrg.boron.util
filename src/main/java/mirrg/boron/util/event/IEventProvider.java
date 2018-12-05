@@ -3,9 +3,9 @@ package mirrg.boron.util.event;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-import mirrg.boron.util.event.impl.EventProviderBiConsumer;
-import mirrg.boron.util.event.impl.EventProviderConsumer;
-import mirrg.boron.util.event.impl.EventProviderRunnable;
+import mirrg.boron.util.event.lib.EventProviderBiConsumer;
+import mirrg.boron.util.event.lib.EventProviderConsumer;
+import mirrg.boron.util.event.lib.EventProviderRunnable;
 
 /**
  * 単一の種類のイベントが流れるイベントプロバイダーです。
