@@ -576,10 +576,10 @@ public interface ISuppliterator<T> extends Iterable<T>
 	/**
 	 * 昇順にソートします。
 	 */
-	public default ISuppliterator<T> sortedObj(Function<? super T, Comparable<? super T>> function)
+	public default <C extends Comparable<? super C>> ISuppliterator<T> sortedObj(Function<? super T, ? extends C> function)
 	{
-		list.sort((a, b) -> function.apply(a).compareTo(b));
 		List<T> list = toList();
+		list.sort((a, b) -> function.apply(a).compareTo(function.apply(b)));
 		return ofIterable(list);
 	}
 
