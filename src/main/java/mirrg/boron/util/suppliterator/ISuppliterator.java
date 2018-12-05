@@ -489,6 +489,19 @@ public interface ISuppliterator<T> extends Iterable<T>
 
 	}
 
+	public default <O> ISuppliterator<O> filterInstance(Class<? extends O> clazz)
+	{
+		return filter(clazz::isInstance)
+			.map(clazz::cast);
+	}
+
+	public static <T> ISuppliterator<T> filterPresent(ISuppliterator<Optional<T>> suppliterator)
+	{
+		return suppliterator
+			.filter(Optional::isPresent)
+			.map(Optional::get);
+	}
+
 	public default ISuppliterator<T> peek(Consumer<? super T> consumer)
 	{
 		ISuppliterator<T> this2 = this;
