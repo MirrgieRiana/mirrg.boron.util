@@ -568,7 +568,7 @@ public interface ISuppliterator<T> extends Iterable<T>
 	 */
 	public default ISuppliterator<T> sorted(Comparator<? super T> comparator)
 	{
-		List<T> list = toCollection();
+		List<T> list = toList();
 		list.sort(comparator);
 		return ofIterable(list);
 	}
@@ -578,8 +578,8 @@ public interface ISuppliterator<T> extends Iterable<T>
 	 */
 	public default ISuppliterator<T> sortedObj(Function<? super T, Comparable<? super T>> function)
 	{
-		List<T> list = toCollection();
 		list.sort((a, b) -> function.apply(a).compareTo(b));
+		List<T> list = toList();
 		return ofIterable(list);
 	}
 
@@ -588,7 +588,7 @@ public interface ISuppliterator<T> extends Iterable<T>
 	 */
 	public default ISuppliterator<T> sortedInt(ToIntFunction<? super T> function)
 	{
-		List<T> list = toCollection();
+		List<T> list = toList();
 		list.sort((a, b) -> {
 			int a2 = function.applyAsInt(a);
 			int b2 = function.applyAsInt(b);
@@ -606,7 +606,7 @@ public interface ISuppliterator<T> extends Iterable<T>
 	 */
 	public default ISuppliterator<T> sortedLong(ToLongFunction<? super T> function)
 	{
-		List<T> list = toCollection();
+		List<T> list = toList();
 		list.sort((a, b) -> {
 			long a2 = function.applyAsLong(a);
 			long b2 = function.applyAsLong(b);
@@ -624,7 +624,7 @@ public interface ISuppliterator<T> extends Iterable<T>
 	 */
 	public default ISuppliterator<T> sortedDouble(ToDoubleFunction<? super T> function)
 	{
-		List<T> list = toCollection();
+		List<T> list = toList();
 		list.sort((a, b) -> {
 			double a2 = function.applyAsDouble(a);
 			double b2 = function.applyAsDouble(b);
@@ -738,20 +738,25 @@ public interface ISuppliterator<T> extends Iterable<T>
 		return collection;
 	}
 
-	public default List<T> toCollection()
+	public default Collection<T> toCollection()
+	{
+		return toList();
+	}
+
+	public default List<T> toList()
 	{
 		return toCollection(ArrayList::new);
 	}
 
 	public default T[] toArray(IntFunction<T[]> sArray)
 	{
-		List<T> list = toCollection();
+		List<T> list = toList();
 		return list.toArray(sArray.apply(list.size()));
 	}
 
 	public default ImmutableArray<T> toImmutableArray()
 	{
-		return ImmutableArray.ofList(toCollection());
+		return ImmutableArray.ofList(toList());
 	}
 
 	public default int[] toIntArray(ToIntFunction<? super T> function)
