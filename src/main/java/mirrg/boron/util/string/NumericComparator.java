@@ -1,6 +1,7 @@
 package mirrg.boron.util.string;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -8,6 +9,8 @@ import mirrg.boron.util.struct.ImmutableArray;
 
 public final class NumericComparator implements Comparable<NumericComparator>
 {
+
+	public static final Comparator<String> COMPARATOR = (a, b) -> split(a).compareTo(split(b));
 
 	public static int compareWithNumberImpl(String a, String b)
 	{
@@ -26,13 +29,22 @@ public final class NumericComparator implements Comparable<NumericComparator>
 			String s = matcher.group();
 			Token token;
 			if ('0' <= s.charAt(0) && s.charAt(0) <= '9') {
-				token = new Token(Integer.parseInt(s));
+				token = new Token(Integer.parseInt(s), getZeros(s));
 			} else {
 				token = new Token(s.charAt(0));
 			}
 			list.add(token);
 		}
 		return new NumericComparator(ImmutableArray.ofList(list));
+	}
+
+	private static int getZeros(String string)
+	{
+		int i;
+		for (i = 0; i < string.length(); i++) {
+			if (string.charAt(i) != '0') break;
+		}
+		return i;
 	}
 
 	//
@@ -90,19 +102,22 @@ public final class NumericComparator implements Comparable<NumericComparator>
 
 		public final char ch;
 		public final int i;
+		public final int zeros;
 		public final boolean isInteger;
 
 		public Token(char ch)
 		{
 			this.ch = ch;
 			this.i = 0;
+			this.zeros = 0;
 			this.isInteger = false;
 		}
 
-		public Token(int integer)
+		public Token(int integer, int zeros)
 		{
 			this.ch = '0';
 			this.i = integer;
+			this.zeros = zeros;
 			this.isInteger = true;
 		}
 
@@ -110,7 +125,9 @@ public final class NumericComparator implements Comparable<NumericComparator>
 		public int compareTo(Token o)
 		{
 			if (isInteger && o.isInteger) {
-				return Integer.compare(i, o.i);
+				int a = Integer.compare(i, o.i);
+				if (a != 0) return a;
+				return Integer.compare(zeros, o.zeros);
 			} else {
 				return Character.compare(ch, o.ch);
 			}
