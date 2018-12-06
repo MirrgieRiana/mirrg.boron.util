@@ -1,7 +1,9 @@
 package mirrg.boron.util.string;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,7 +31,7 @@ public final class NumericComparator implements Comparable<NumericComparator>
 			String s = matcher.group();
 			Token token;
 			if ('0' <= s.charAt(0) && s.charAt(0) <= '9') {
-				token = new Token(Integer.parseInt(s), getZeros(s));
+				token = new Token(new BigInteger(s), getZeros(s));
 			} else {
 				token = new Token(s.charAt(0));
 			}
@@ -101,22 +103,22 @@ public final class NumericComparator implements Comparable<NumericComparator>
 	{
 
 		public final char ch;
-		public final int i;
+		public final BigInteger i;
 		public final int zeros;
 		public final boolean isInteger;
 
 		public Token(char ch)
 		{
 			this.ch = ch;
-			this.i = 0;
+			this.i = null;
 			this.zeros = 0;
 			this.isInteger = false;
 		}
 
-		public Token(int integer, int zeros)
+		public Token(BigInteger i, int zeros)
 		{
 			this.ch = '0';
-			this.i = integer;
+			this.i = i;
 			this.zeros = zeros;
 			this.isInteger = true;
 		}
@@ -125,7 +127,7 @@ public final class NumericComparator implements Comparable<NumericComparator>
 		public int compareTo(Token o)
 		{
 			if (isInteger && o.isInteger) {
-				int a = Integer.compare(i, o.i);
+				int a = i.compareTo(o.i);
 				if (a != 0) return a;
 				return Integer.compare(zeros, o.zeros);
 			} else {
@@ -139,7 +141,7 @@ public final class NumericComparator implements Comparable<NumericComparator>
 			final int prime = 31;
 			int result = 1;
 			result = prime * result + ch;
-			result = prime * result + i;
+			result = prime * result + i.hashCode();
 			result = prime * result + (isInteger ? 1231 : 1237);
 			return result;
 		}
@@ -152,7 +154,7 @@ public final class NumericComparator implements Comparable<NumericComparator>
 			if (getClass() != obj.getClass()) return false;
 			Token other = (Token) obj;
 			if (ch != other.ch) return false;
-			if (i != other.i) return false;
+			if (!Objects.equals(i, other.i)) return false;
 			if (isInteger != other.isInteger) return false;
 			return true;
 		}

@@ -2,6 +2,8 @@ package mirrg.boron.util.string;
 
 import static org.junit.Assert.*;
 
+import java.math.BigInteger;
+
 import org.junit.Test;
 
 import mirrg.boron.util.string.NumericComparator.Token;
@@ -19,6 +21,7 @@ public final class TestNumericComparator
 		assertEquals(nc(t('a')), nc("a"));
 		assertEquals(nc(t(1)), nc("1"));
 		assertEquals(nc(t(1234567890)), nc("1234567890"));
+		assertEquals(nc(t("123456789012345678901234567890", 0)), nc("123456789012345678901234567890"));
 		assertEquals(nc(t(159, 2)), nc("00159"));
 		assertEquals(nc(t('a'), t('b')), nc("ab"));
 		assertEquals(nc(t('a'), t('b'), t(1562, 1)), nc("ab01562"));
@@ -55,6 +58,7 @@ public final class TestNumericComparator
 		assertTrue(nc("aaaa").compareTo(nc("aaa0a")) > 0);
 		assertTrue(nc("00").compareTo(nc("0")) > 0);
 		assertTrue(nc("01").compareTo(nc("1")) > 0);
+		assertTrue(nc("1234567890123456789010").compareTo(nc("123456789012345678902")) > 0);
 
 	}
 
@@ -167,12 +171,17 @@ public final class TestNumericComparator
 
 	private static Token t(int i)
 	{
-		return new Token(i, 0);
+		return new Token(BigInteger.valueOf(i), 0);
 	}
 
 	private static Token t(int i, int zeros)
 	{
-		return new Token(i, zeros);
+		return new Token(BigInteger.valueOf(i), zeros);
+	}
+
+	private static Token t(String i, int zeros)
+	{
+		return new Token(new BigInteger(i), zeros);
 	}
 
 	private static NumericComparator nc(Token... tokens)
