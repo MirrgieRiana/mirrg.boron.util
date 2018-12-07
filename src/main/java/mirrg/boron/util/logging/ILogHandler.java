@@ -27,4 +27,9 @@ public interface ILogHandler
 		return new Logger(this, name);
 	}
 
+	public default Logger getLogger(Class<?> clazz)
+	{
+		return getLogger(clazz.getName());
+	}
+
 }
