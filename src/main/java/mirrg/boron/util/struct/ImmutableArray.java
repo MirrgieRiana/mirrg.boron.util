@@ -119,8 +119,10 @@ public final class ImmutableArray<T> implements Iterable<T>
 	public static <T> ImmutableArray<T> ofList(List<? extends T> array)
 	{
 		T[] array2 = (T[]) new Object[array.size()];
-		for (int i = 0; i < array.size(); i++) {
-			array2[i] = array.get(i);
+		int i = 0;
+		for (T t : array) {
+			array2[i] = t;
+			i++;
 		}
 		return new ImmutableArray<>(array2);
 	}
