@@ -69,4 +69,29 @@ public final class Struct2<X, Y>
 		return true;
 	}
 
+	public <T> Struct3<T, X, Y> addFirst(T t)
+	{
+		return new Struct3<>(t, x, y);
+	}
+
+	public <T> Struct3<X, Y, T> addLast(T t)
+	{
+		return new Struct3<>(x, y, t);
+	}
+
+	public Struct1<Y> removeFirst()
+	{
+		return new Struct1<>(y);
+	}
+
+	public Struct1<X> removeLast()
+	{
+		return new Struct1<>(x);
+	}
+
+	public Tuple<X, Y> toTuple()
+	{
+		return new Tuple<>(x, y);
+	}
+
 }

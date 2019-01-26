@@ -80,4 +80,29 @@ public final class Tuple3<X, Y, Z>
 		return true;
 	}
 
+	public <T> Tuple4<T, X, Y, Z> addFirst(T t)
+	{
+		return new Tuple4<>(t, x, y, z);
+	}
+
+	public <T> Tuple4<X, Y, Z, T> addLast(T t)
+	{
+		return new Tuple4<>(x, y, z, t);
+	}
+
+	public Tuple<Y, Z> removeFirst()
+	{
+		return new Tuple<>(y, z);
+	}
+
+	public Tuple<X, Y> removeLast()
+	{
+		return new Tuple<>(x, y);
+	}
+
+	public Struct3<X, Y, Z> toStruct()
+	{
+		return new Struct3<>(x, y, z);
+	}
+
 }

@@ -48,4 +48,29 @@ public final class Tuple1<X>
 		return true;
 	}
 
+	public <T> Tuple<T, X> addFirst(T t)
+	{
+		return new Tuple<>(t, x);
+	}
+
+	public <T> Tuple<X, T> addLast(T t)
+	{
+		return new Tuple<>(x, t);
+	}
+
+	public Tuple0 removeFirst()
+	{
+		return Tuple0.instance;
+	}
+
+	public Tuple0 removeLast()
+	{
+		return Tuple0.instance;
+	}
+
+	public Struct1<X> toStruct()
+	{
+		return new Struct1<>(x);
+	}
+
 }

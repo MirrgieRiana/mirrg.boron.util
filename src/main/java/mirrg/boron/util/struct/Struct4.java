@@ -101,4 +101,31 @@ public final class Struct4<X, Y, Z, W>
 		return true;
 	}
 
+	/*
+	public <T> Struct5<T, X, Y, Z, W> addFirst(T t)
+	{
+		return new Struct5<>(t, x, y, z, w);
+	}
+	
+	public <T> Struct5<X, Y, Z, W, T> addLast(T t)
+	{
+		return new Struct5<>(x, y, z, w, t);
+	}
+	*/
+
+	public Struct3<Y, Z, W> removeFirst()
+	{
+		return new Struct3<>(y, z, w);
+	}
+
+	public Struct3<X, Y, Z> removeLast()
+	{
+		return new Struct3<>(x, y, z);
+	}
+
+	public Tuple4<X, Y, Z, W> toTuple()
+	{
+		return new Tuple4<>(x, y, z, w);
+	}
+
 }

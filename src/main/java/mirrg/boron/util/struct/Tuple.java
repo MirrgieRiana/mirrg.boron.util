@@ -84,4 +84,29 @@ public final class Tuple<X, Y> implements Entry<X, Y>
 		throw new UnsupportedOperationException("setValue");
 	}
 
+	public <T> Tuple3<T, X, Y> addFirst(T t)
+	{
+		return new Tuple3<>(t, x, y);
+	}
+
+	public <T> Tuple3<X, Y, T> addLast(T t)
+	{
+		return new Tuple3<>(x, y, t);
+	}
+
+	public Tuple1<Y> removeFirst()
+	{
+		return new Tuple1<>(y);
+	}
+
+	public Tuple1<X> removeLast()
+	{
+		return new Tuple1<>(x);
+	}
+
+	public Struct2<X, Y> toStruct()
+	{
+		return new Struct2<>(x, y);
+	}
+
 }
