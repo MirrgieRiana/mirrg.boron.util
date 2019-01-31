@@ -88,9 +88,7 @@ public interface ISuppliterator<T> extends Iterable<T>
 	 */
 	public static <T> ISuppliterator<T> ofObjArray(T[] array, int start, int length)
 	{
-		if (start < 0) throw new ArrayIndexOutOfBoundsException("" + start + " < 0");
-		if (start >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " >= " + array.length);
-		if (start + length >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " + " + length + " >= " + array.length);
+		ISuppliteratorLocal.checkRange(array.length, start, length);
 
 		return new SuppliteratorNullableBase<T>() {
 			private int index = start;
@@ -133,9 +131,7 @@ public interface ISuppliterator<T> extends Iterable<T>
 
 	public static ISuppliterator<Byte> ofByteArray(byte[] array, int start, int length)
 	{
-		if (start < 0) throw new ArrayIndexOutOfBoundsException("" + start + " < 0");
-		if (start >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " >= " + array.length);
-		if (start + length >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " + " + length + " >= " + array.length);
+		ISuppliteratorLocal.checkRange(array.length, start, length);
 
 		return new SuppliteratorNullableBase<Byte>() {
 			private int index = start;
@@ -178,9 +174,7 @@ public interface ISuppliterator<T> extends Iterable<T>
 
 	public static ISuppliterator<Character> ofCharArray(char[] array, int start, int length)
 	{
-		if (start < 0) throw new ArrayIndexOutOfBoundsException("" + start + " < 0");
-		if (start >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " >= " + array.length);
-		if (start + length >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " + " + length + " >= " + array.length);
+		ISuppliteratorLocal.checkRange(array.length, start, length);
 
 		return new SuppliteratorNullableBase<Character>() {
 			private int index = 0;
@@ -223,9 +217,7 @@ public interface ISuppliterator<T> extends Iterable<T>
 
 	public static ISuppliterator<Short> ofShortArray(short[] array, int start, int length)
 	{
-		if (start < 0) throw new ArrayIndexOutOfBoundsException("" + start + " < 0");
-		if (start >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " >= " + array.length);
-		if (start + length >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " + " + length + " >= " + array.length);
+		ISuppliteratorLocal.checkRange(array.length, start, length);
 
 		return new SuppliteratorNullableBase<Short>() {
 			private int index = 0;
@@ -268,9 +260,7 @@ public interface ISuppliterator<T> extends Iterable<T>
 
 	public static ISuppliterator<Integer> ofIntArray(int[] array, int start, int length)
 	{
-		if (start < 0) throw new ArrayIndexOutOfBoundsException("" + start + " < 0");
-		if (start >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " >= " + array.length);
-		if (start + length >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " + " + length + " >= " + array.length);
+		ISuppliteratorLocal.checkRange(array.length, start, length);
 
 		return new SuppliteratorNullableBase<Integer>() {
 			private int index = 0;
@@ -313,9 +303,7 @@ public interface ISuppliterator<T> extends Iterable<T>
 
 	public static ISuppliterator<Long> ofLongArray(long[] array, int start, int length)
 	{
-		if (start < 0) throw new ArrayIndexOutOfBoundsException("" + start + " < 0");
-		if (start >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " >= " + array.length);
-		if (start + length >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " + " + length + " >= " + array.length);
+		ISuppliteratorLocal.checkRange(array.length, start, length);
 
 		return new SuppliteratorNullableBase<Long>() {
 			private int index = 0;
@@ -358,9 +346,7 @@ public interface ISuppliterator<T> extends Iterable<T>
 
 	public static ISuppliterator<Float> ofFloatArray(float[] array, int start, int length)
 	{
-		if (start < 0) throw new ArrayIndexOutOfBoundsException("" + start + " < 0");
-		if (start >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " >= " + array.length);
-		if (start + length >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " + " + length + " >= " + array.length);
+		ISuppliteratorLocal.checkRange(array.length, start, length);
 
 		return new SuppliteratorNullableBase<Float>() {
 			private int index = 0;
@@ -403,9 +389,7 @@ public interface ISuppliterator<T> extends Iterable<T>
 
 	public static ISuppliterator<Double> ofDoubleArray(double[] array, int start, int length)
 	{
-		if (start < 0) throw new ArrayIndexOutOfBoundsException("" + start + " < 0");
-		if (start >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " >= " + array.length);
-		if (start + length >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " + " + length + " >= " + array.length);
+		ISuppliteratorLocal.checkRange(array.length, start, length);
 
 		return new SuppliteratorNullableBase<Double>() {
 			private int index = 0;
@@ -448,9 +432,7 @@ public interface ISuppliterator<T> extends Iterable<T>
 
 	public static ISuppliterator<Boolean> ofBoolArray(boolean[] array, int start, int length)
 	{
-		if (start < 0) throw new ArrayIndexOutOfBoundsException("" + start + " < 0");
-		if (start >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " >= " + array.length);
-		if (start + length >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " + " + length + " >= " + array.length);
+		ISuppliteratorLocal.checkRange(array.length, start, length);
 
 		return new SuppliteratorNullableBase<Boolean>() {
 			private int index = 0;
@@ -1165,6 +1147,18 @@ public interface ISuppliterator<T> extends Iterable<T>
 				return iterator.hasNext();
 			}
 		};
+	}
+
+}
+
+class ISuppliteratorLocal
+{
+
+	static void checkRange(int lengthOfArray, int start, int length)
+	{
+		if (start < 0) throw new ArrayIndexOutOfBoundsException("" + start + " < 0");
+		if (start >= lengthOfArray) throw new ArrayIndexOutOfBoundsException("" + start + " >= " + lengthOfArray);
+		if (start + length > lengthOfArray) throw new ArrayIndexOutOfBoundsException("" + start + " + " + length + " > " + lengthOfArray);
 	}
 
 }
