@@ -68,35 +68,25 @@ public interface ISuppliterator<T> extends Iterable<T>
 	 *            nullを含まないTの配列
 	 */
 	@SafeVarargs
-	public static <T> ISuppliterator<T> of(T... ts)
+	public static <T> ISuppliterator<T> of(T... array)
 	{
-		return ofObjects(ts);
+		return ofObjArray(array);
 	}
 
 	/**
 	 * @param array
 	 *            nullを含まないTの配列
 	 */
-	@SafeVarargs
-	public static <T> ISuppliterator<T> ofObjects(T... array)
+	public static <T> ISuppliterator<T> ofObjArray(T[] array)
 	{
-		return ofArray(array);
+		return ofObjArray(array, 0, array.length);
 	}
 
 	/**
 	 * @param array
 	 *            nullを含まないTの配列
 	 */
-	public static <T> ISuppliterator<T> ofArray(T[] array)
-	{
-		return ofArray(array, 0, array.length);
-	}
-
-	/**
-	 * @param array
-	 *            nullを含まないTの配列
-	 */
-	public static <T> ISuppliterator<T> ofArray(T[] array, int start, int length)
+	public static <T> ISuppliterator<T> ofObjArray(T[] array, int start, int length)
 	{
 		if (start < 0) throw new ArrayIndexOutOfBoundsException("" + start + " < 0");
 		if (start >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " >= " + array.length);
@@ -119,22 +109,29 @@ public interface ISuppliterator<T> extends Iterable<T>
 		};
 	}
 
+	//
+
 	public static ISuppliterator<Byte> ofBytes(byte... array)
 	{
-		return ofArray(array);
+		return ofByteArray(array);
 	}
 
 	// TODO on version up
 	/**
-	 * 将来可変長引数から配列に変更されます。
+	 * このメソッドは将来削除されます。
 	 */
 	@Deprecated
 	public static ISuppliterator<Byte> ofArray(byte... array)
 	{
-		return ofArray(array, 0, array.length);
+		return ofByteArray(array, 0, array.length);
 	}
 
-	public static ISuppliterator<Byte> ofArray(byte[] array, int start, int length)
+	public static ISuppliterator<Byte> ofByteArray(byte[] array)
+	{
+		return ofByteArray(array, 0, array.length);
+	}
+
+	public static ISuppliterator<Byte> ofByteArray(byte[] array, int start, int length)
 	{
 		if (start < 0) throw new ArrayIndexOutOfBoundsException("" + start + " < 0");
 		if (start >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " >= " + array.length);
@@ -157,22 +154,29 @@ public interface ISuppliterator<T> extends Iterable<T>
 		};
 	}
 
+	//
+
 	public static ISuppliterator<Character> ofCharacters(char... array)
 	{
-		return ofArray(array);
+		return ofCharArray(array);
 	}
 
 	// TODO on version up
 	/**
-	 * 将来可変長引数から配列に変更されます。
+	 * このメソッドは将来削除されます。
 	 */
 	@Deprecated
 	public static ISuppliterator<Character> ofArray(char... array)
 	{
-		return ofArray(array, 0, array.length);
+		return ofCharArray(array, 0, array.length);
 	}
 
-	public static ISuppliterator<Character> ofArray(char[] array, int start, int length)
+	public static ISuppliterator<Character> ofCharArray(char[] array)
+	{
+		return ofCharArray(array, 0, array.length);
+	}
+
+	public static ISuppliterator<Character> ofCharArray(char[] array, int start, int length)
 	{
 		if (start < 0) throw new ArrayIndexOutOfBoundsException("" + start + " < 0");
 		if (start >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " >= " + array.length);
@@ -195,22 +199,29 @@ public interface ISuppliterator<T> extends Iterable<T>
 		};
 	}
 
+	//
+
 	public static ISuppliterator<Short> ofShorts(short... array)
 	{
-		return ofArray(array);
+		return ofShortArray(array);
 	}
 
 	// TODO on version up
 	/**
-	 * 将来可変長引数から配列に変更されます。
+	 * このメソッドは将来削除されます。
 	 */
 	@Deprecated
 	public static ISuppliterator<Short> ofArray(short... array)
 	{
-		return ofArray(array, 0, array.length);
+		return ofShortArray(array, 0, array.length);
 	}
 
-	public static ISuppliterator<Short> ofArray(short[] array, int start, int length)
+	public static ISuppliterator<Short> ofShortArray(short[] array)
+	{
+		return ofShortArray(array, 0, array.length);
+	}
+
+	public static ISuppliterator<Short> ofShortArray(short[] array, int start, int length)
 	{
 		if (start < 0) throw new ArrayIndexOutOfBoundsException("" + start + " < 0");
 		if (start >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " >= " + array.length);
@@ -233,22 +244,29 @@ public interface ISuppliterator<T> extends Iterable<T>
 		};
 	}
 
+	//
+
 	public static ISuppliterator<Integer> ofIntegers(int... array)
 	{
-		return ofArray(array);
+		return ofIntArray(array);
 	}
 
 	// TODO on version up
 	/**
-	 * 将来可変長引数から配列に変更されます。
+	 * このメソッドは将来削除されます。
 	 */
 	@Deprecated
 	public static ISuppliterator<Integer> ofArray(int... array)
 	{
-		return ofArray(array, 0, array.length);
+		return ofIntArray(array, 0, array.length);
 	}
 
-	public static ISuppliterator<Integer> ofArray(int[] array, int start, int length)
+	public static ISuppliterator<Integer> ofIntArray(int[] array)
+	{
+		return ofIntArray(array, 0, array.length);
+	}
+
+	public static ISuppliterator<Integer> ofIntArray(int[] array, int start, int length)
 	{
 		if (start < 0) throw new ArrayIndexOutOfBoundsException("" + start + " < 0");
 		if (start >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " >= " + array.length);
@@ -271,22 +289,29 @@ public interface ISuppliterator<T> extends Iterable<T>
 		};
 	}
 
+	//
+
 	public static ISuppliterator<Long> ofLongs(long... array)
 	{
-		return ofArray(array);
+		return ofLongArray(array);
 	}
 
 	// TODO on version up
 	/**
-	 * 将来可変長引数から配列に変更されます。
+	 * このメソッドは将来削除されます。
 	 */
 	@Deprecated
 	public static ISuppliterator<Long> ofArray(long... array)
 	{
-		return ofArray(array, 0, array.length);
+		return ofLongArray(array, 0, array.length);
 	}
 
-	public static ISuppliterator<Long> ofArray(long[] array, int start, int length)
+	public static ISuppliterator<Long> ofLongArray(long[] array)
+	{
+		return ofLongArray(array, 0, array.length);
+	}
+
+	public static ISuppliterator<Long> ofLongArray(long[] array, int start, int length)
 	{
 		if (start < 0) throw new ArrayIndexOutOfBoundsException("" + start + " < 0");
 		if (start >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " >= " + array.length);
@@ -309,22 +334,29 @@ public interface ISuppliterator<T> extends Iterable<T>
 		};
 	}
 
+	//
+
 	public static ISuppliterator<Float> ofFloats(float... array)
 	{
-		return ofArray(array);
+		return ofFloatArray(array);
 	}
 
 	// TODO on version up
 	/**
-	 * 将来可変長引数から配列に変更されます。
+	 * このメソッドは将来削除されます。
 	 */
 	@Deprecated
 	public static ISuppliterator<Float> ofArray(float... array)
 	{
-		return ofArray(array, 0, array.length);
+		return ofFloatArray(array, 0, array.length);
 	}
 
-	public static ISuppliterator<Float> ofArray(float[] array, int start, int length)
+	public static ISuppliterator<Float> ofFloatArray(float[] array)
+	{
+		return ofFloatArray(array, 0, array.length);
+	}
+
+	public static ISuppliterator<Float> ofFloatArray(float[] array, int start, int length)
 	{
 		if (start < 0) throw new ArrayIndexOutOfBoundsException("" + start + " < 0");
 		if (start >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " >= " + array.length);
@@ -347,22 +379,29 @@ public interface ISuppliterator<T> extends Iterable<T>
 		};
 	}
 
+	//
+
 	public static ISuppliterator<Double> ofDoubles(double... array)
 	{
-		return ofArray(array);
+		return ofDoubleArray(array);
 	}
 
 	// TODO on version up
 	/**
-	 * 将来可変長引数から配列に変更されます。
+	 * このメソッドは将来削除されます。
 	 */
 	@Deprecated
 	public static ISuppliterator<Double> ofArray(double... array)
 	{
-		return ofArray(array, 0, array.length);
+		return ofDoubleArray(array, 0, array.length);
 	}
 
-	public static ISuppliterator<Double> ofArray(double[] array, int start, int length)
+	public static ISuppliterator<Double> ofDoubleArray(double[] array)
+	{
+		return ofDoubleArray(array, 0, array.length);
+	}
+
+	public static ISuppliterator<Double> ofDoubleArray(double[] array, int start, int length)
 	{
 		if (start < 0) throw new ArrayIndexOutOfBoundsException("" + start + " < 0");
 		if (start >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " >= " + array.length);
@@ -385,22 +424,29 @@ public interface ISuppliterator<T> extends Iterable<T>
 		};
 	}
 
+	//
+
 	public static ISuppliterator<Boolean> ofBooleans(boolean... array)
 	{
-		return ofArray(array);
+		return ofBoolArray(array);
 	}
 
 	// TODO on version up
 	/**
-	 * 将来可変長引数から配列に変更されます。
+	 * このメソッドは将来削除されます。
 	 */
 	@Deprecated
 	public static ISuppliterator<Boolean> ofArray(boolean... array)
 	{
-		return ofArray(array, 0, array.length);
+		return ofBoolArray(array, 0, array.length);
 	}
 
-	public static ISuppliterator<Boolean> ofArray(boolean[] array, int start, int length)
+	public static ISuppliterator<Boolean> ofBoolArray(boolean[] array)
+	{
+		return ofBoolArray(array, 0, array.length);
+	}
+
+	public static ISuppliterator<Boolean> ofBoolArray(boolean[] array, int start, int length)
 	{
 		if (start < 0) throw new ArrayIndexOutOfBoundsException("" + start + " < 0");
 		if (start >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " >= " + array.length);
@@ -423,7 +469,7 @@ public interface ISuppliterator<T> extends Iterable<T>
 		};
 	}
 
-	//
+	//////////////
 
 	/**
 	 * @param iterator
