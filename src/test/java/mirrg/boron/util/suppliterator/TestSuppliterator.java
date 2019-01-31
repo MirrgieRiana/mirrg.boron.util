@@ -88,6 +88,55 @@ public class TestSuppliterator
 	}
 
 	@Test
+	public void test_ofRangedArray()
+	{
+		assertEquals("0123", ofObjArray(new Object[] { 0, 1, 2, 3 }, 0, 4).join());
+		assertEquals("012", ofObjArray(new Object[] { 0, 1, 2, 3 }, 0, 3).join());
+		assertEquals("123", ofObjArray(new Object[] { 0, 1, 2, 3 }, 1, 3).join());
+		assertEquals("12", ofObjArray(new Object[] { 0, 1, 2, 3 }, 1, 2).join());
+
+		assertEquals("0123", ofByteArray(new byte[] { 0, 1, 2, 3 }, 0, 4).join());
+		assertEquals("012", ofByteArray(new byte[] { 0, 1, 2, 3 }, 0, 3).join());
+		assertEquals("123", ofByteArray(new byte[] { 0, 1, 2, 3 }, 1, 3).join());
+		assertEquals("12", ofByteArray(new byte[] { 0, 1, 2, 3 }, 1, 2).join());
+
+		assertEquals("0123", ofCharArray(new char[] { '0', '1', '2', '3' }, 0, 4).join());
+		assertEquals("012", ofCharArray(new char[] { '0', '1', '2', '3' }, 0, 3).join());
+		assertEquals("123", ofCharArray(new char[] { '0', '1', '2', '3' }, 1, 3).join());
+		assertEquals("12", ofCharArray(new char[] { '0', '1', '2', '3' }, 1, 2).join());
+
+		assertEquals("0123", ofShortArray(new short[] { 0, 1, 2, 3 }, 0, 4).join());
+		assertEquals("012", ofShortArray(new short[] { 0, 1, 2, 3 }, 0, 3).join());
+		assertEquals("123", ofShortArray(new short[] { 0, 1, 2, 3 }, 1, 3).join());
+		assertEquals("12", ofShortArray(new short[] { 0, 1, 2, 3 }, 1, 2).join());
+
+		assertEquals("0123", ofIntArray(new int[] { 0, 1, 2, 3 }, 0, 4).join());
+		assertEquals("012", ofIntArray(new int[] { 0, 1, 2, 3 }, 0, 3).join());
+		assertEquals("123", ofIntArray(new int[] { 0, 1, 2, 3 }, 1, 3).join());
+		assertEquals("12", ofIntArray(new int[] { 0, 1, 2, 3 }, 1, 2).join());
+
+		assertEquals("0123", ofLongArray(new long[] { 0, 1, 2, 3 }, 0, 4).join());
+		assertEquals("012", ofLongArray(new long[] { 0, 1, 2, 3 }, 0, 3).join());
+		assertEquals("123", ofLongArray(new long[] { 0, 1, 2, 3 }, 1, 3).join());
+		assertEquals("12", ofLongArray(new long[] { 0, 1, 2, 3 }, 1, 2).join());
+
+		assertEquals("0123", ofFloatArray(new float[] { 0, 1, 2, 3 }, 0, 4).map(f -> String.format("%.0f", f)).join());
+		assertEquals("012", ofFloatArray(new float[] { 0, 1, 2, 3 }, 0, 3).map(f -> String.format("%.0f", f)).join());
+		assertEquals("123", ofFloatArray(new float[] { 0, 1, 2, 3 }, 1, 3).map(f -> String.format("%.0f", f)).join());
+		assertEquals("12", ofFloatArray(new float[] { 0, 1, 2, 3 }, 1, 2).map(f -> String.format("%.0f", f)).join());
+
+		assertEquals("0123", ofDoubleArray(new double[] { 0, 1, 2, 3 }, 0, 4).map(f -> String.format("%.0f", f)).join());
+		assertEquals("012", ofDoubleArray(new double[] { 0, 1, 2, 3 }, 0, 3).map(f -> String.format("%.0f", f)).join());
+		assertEquals("123", ofDoubleArray(new double[] { 0, 1, 2, 3 }, 1, 3).map(f -> String.format("%.0f", f)).join());
+		assertEquals("12", ofDoubleArray(new double[] { 0, 1, 2, 3 }, 1, 2).map(f -> String.format("%.0f", f)).join());
+
+		assertEquals("truefalsefalsetrue", ofBoolArray(new boolean[] { true, false, false, true }, 0, 4).join());
+		assertEquals("truefalsefalse", ofBoolArray(new boolean[] { true, false, false, true }, 0, 3).join());
+		assertEquals("falsefalsetrue", ofBoolArray(new boolean[] { true, false, false, true }, 1, 3).join());
+		assertEquals("falsefalse", ofBoolArray(new boolean[] { true, false, false, true }, 1, 2).join());
+	}
+
+	@Test
 	public void test_cast()
 	{
 		ISuppliterator<Integer> suppliterator1 = ISuppliterator.of(1, 2, 3, 4, 5);
