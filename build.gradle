@@ -6,7 +6,7 @@ apply plugin: 'maven'
 
 project.group = 'mirrg.boron'
 project.archivesBaseName = 'mirrg.boron.util'
-version = '3.3.2'
+version = '3.4.0'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
