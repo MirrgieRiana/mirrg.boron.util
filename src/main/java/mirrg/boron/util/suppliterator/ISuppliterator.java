@@ -177,12 +177,12 @@ public interface ISuppliterator<T> extends Iterable<T>
 		ISuppliteratorLocal.checkRange(array.length, start, length);
 
 		return new SuppliteratorNullableBase<Character>() {
-			private int index = 0;
+			private int index = start;
 
 			@Override
 			public Character nullableNextImpl()
 			{
-				if (index < array.length) {
+				if (index < start + length) {
 					char next = array[index];
 					index++;
 					return next;
@@ -220,12 +220,12 @@ public interface ISuppliterator<T> extends Iterable<T>
 		ISuppliteratorLocal.checkRange(array.length, start, length);
 
 		return new SuppliteratorNullableBase<Short>() {
-			private int index = 0;
+			private int index =start;
 
 			@Override
 			public Short nullableNextImpl()
 			{
-				if (index < array.length) {
+				if (index < start + length) {
 					short next = array[index];
 					index++;
 					return next;
@@ -263,12 +263,12 @@ public interface ISuppliterator<T> extends Iterable<T>
 		ISuppliteratorLocal.checkRange(array.length, start, length);
 
 		return new SuppliteratorNullableBase<Integer>() {
-			private int index = 0;
+			private int index = start;
 
 			@Override
 			public Integer nullableNextImpl()
 			{
-				if (index < array.length) {
+				if (index < start + length) {
 					int next = array[index];
 					index++;
 					return next;
@@ -306,12 +306,12 @@ public interface ISuppliterator<T> extends Iterable<T>
 		ISuppliteratorLocal.checkRange(array.length, start, length);
 
 		return new SuppliteratorNullableBase<Long>() {
-			private int index = 0;
+			private int index = start;
 
 			@Override
 			public Long nullableNextImpl()
 			{
-				if (index < array.length) {
+				if (index < start + length) {
 					long next = array[index];
 					index++;
 					return next;
@@ -349,12 +349,12 @@ public interface ISuppliterator<T> extends Iterable<T>
 		ISuppliteratorLocal.checkRange(array.length, start, length);
 
 		return new SuppliteratorNullableBase<Float>() {
-			private int index = 0;
+			private int index = start;
 
 			@Override
 			public Float nullableNextImpl()
 			{
-				if (index < array.length) {
+				if (index < start + length) {
 					float next = array[index];
 					index++;
 					return next;
@@ -392,12 +392,12 @@ public interface ISuppliterator<T> extends Iterable<T>
 		ISuppliteratorLocal.checkRange(array.length, start, length);
 
 		return new SuppliteratorNullableBase<Double>() {
-			private int index = 0;
+			private int index = start;
 
 			@Override
 			public Double nullableNextImpl()
 			{
-				if (index < array.length) {
+				if (index < start + length) {
 					double next = array[index];
 					index++;
 					return next;
@@ -435,12 +435,12 @@ public interface ISuppliterator<T> extends Iterable<T>
 		ISuppliteratorLocal.checkRange(array.length, start, length);
 
 		return new SuppliteratorNullableBase<Boolean>() {
-			private int index = 0;
+			private int index = start;
 
 			@Override
 			public Boolean nullableNextImpl()
 			{
-				if (index < array.length) {
+				if (index < start + length) {
 					boolean next = array[index];
 					index++;
 					return next;
