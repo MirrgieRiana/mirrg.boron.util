@@ -64,7 +64,7 @@ public interface ISuppliterator<T> extends Iterable<T>
 	// 生成
 
 	/**
-	 * @param ts
+	 * @param array
 	 *            nullを含まないTの配列
 	 */
 	@SafeVarargs
