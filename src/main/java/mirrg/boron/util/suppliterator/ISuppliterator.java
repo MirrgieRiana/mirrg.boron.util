@@ -70,14 +70,46 @@ public interface ISuppliterator<T> extends Iterable<T>
 	@SafeVarargs
 	public static <T> ISuppliterator<T> of(T... ts)
 	{
+		return ofObjects(ts);
+	}
+
+	/**
+	 * @param array
+	 *            nullを含まないTの配列
+	 */
+	@SafeVarargs
+	public static <T> ISuppliterator<T> ofObjects(T... array)
+	{
+		return ofArray(array);
+	}
+
+	/**
+	 * @param array
+	 *            nullを含まないTの配列
+	 */
+	public static <T> ISuppliterator<T> ofArray(T[] array)
+	{
+		return ofArray(array, 0, array.length);
+	}
+
+	/**
+	 * @param array
+	 *            nullを含まないTの配列
+	 */
+	public static <T> ISuppliterator<T> ofArray(T[] array, int start, int length)
+	{
+		if (start < 0) throw new ArrayIndexOutOfBoundsException("" + start + " < 0");
+		if (start >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " >= " + array.length);
+		if (start + length >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " + " + length + " >= " + array.length);
+
 		return new SuppliteratorNullableBase<T>() {
-			private int index = 0;
+			private int index = start;
 
 			@Override
 			public T nullableNextImpl()
 			{
-				if (index < ts.length) {
-					T next = ts[index];
+				if (index < start + length) {
+					T next = array[index];
 					index++;
 					return next;
 				} else {
@@ -87,15 +119,34 @@ public interface ISuppliterator<T> extends Iterable<T>
 		};
 	}
 
+	public static ISuppliterator<Byte> ofBytes(byte... array)
+	{
+		return ofArray(array);
+	}
+
+	// TODO on version up
+	/**
+	 * 将来可変長引数から配列に変更されます。
+	 */
+	@Deprecated
 	public static ISuppliterator<Byte> ofArray(byte... array)
 	{
+		return ofArray(array, 0, array.length);
+	}
+
+	public static ISuppliterator<Byte> ofArray(byte[] array, int start, int length)
+	{
+		if (start < 0) throw new ArrayIndexOutOfBoundsException("" + start + " < 0");
+		if (start >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " >= " + array.length);
+		if (start + length >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " + " + length + " >= " + array.length);
+
 		return new SuppliteratorNullableBase<Byte>() {
-			private int index = 0;
+			private int index = start;
 
 			@Override
 			public Byte nullableNextImpl()
 			{
-				if (index < array.length) {
+				if (index < start + length) {
 					byte next = array[index];
 					index++;
 					return next;
@@ -106,8 +157,27 @@ public interface ISuppliterator<T> extends Iterable<T>
 		};
 	}
 
+	public static ISuppliterator<Character> ofCharacters(char... array)
+	{
+		return ofArray(array);
+	}
+
+	// TODO on version up
+	/**
+	 * 将来可変長引数から配列に変更されます。
+	 */
+	@Deprecated
 	public static ISuppliterator<Character> ofArray(char... array)
 	{
+		return ofArray(array, 0, array.length);
+	}
+
+	public static ISuppliterator<Character> ofArray(char[] array, int start, int length)
+	{
+		if (start < 0) throw new ArrayIndexOutOfBoundsException("" + start + " < 0");
+		if (start >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " >= " + array.length);
+		if (start + length >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " + " + length + " >= " + array.length);
+
 		return new SuppliteratorNullableBase<Character>() {
 			private int index = 0;
 
@@ -125,8 +195,27 @@ public interface ISuppliterator<T> extends Iterable<T>
 		};
 	}
 
+	public static ISuppliterator<Short> ofShorts(short... array)
+	{
+		return ofArray(array);
+	}
+
+	// TODO on version up
+	/**
+	 * 将来可変長引数から配列に変更されます。
+	 */
+	@Deprecated
 	public static ISuppliterator<Short> ofArray(short... array)
 	{
+		return ofArray(array, 0, array.length);
+	}
+
+	public static ISuppliterator<Short> ofArray(short[] array, int start, int length)
+	{
+		if (start < 0) throw new ArrayIndexOutOfBoundsException("" + start + " < 0");
+		if (start >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " >= " + array.length);
+		if (start + length >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " + " + length + " >= " + array.length);
+
 		return new SuppliteratorNullableBase<Short>() {
 			private int index = 0;
 
@@ -144,8 +233,27 @@ public interface ISuppliterator<T> extends Iterable<T>
 		};
 	}
 
+	public static ISuppliterator<Integer> ofIntegers(int... array)
+	{
+		return ofArray(array);
+	}
+
+	// TODO on version up
+	/**
+	 * 将来可変長引数から配列に変更されます。
+	 */
+	@Deprecated
 	public static ISuppliterator<Integer> ofArray(int... array)
 	{
+		return ofArray(array, 0, array.length);
+	}
+
+	public static ISuppliterator<Integer> ofArray(int[] array, int start, int length)
+	{
+		if (start < 0) throw new ArrayIndexOutOfBoundsException("" + start + " < 0");
+		if (start >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " >= " + array.length);
+		if (start + length >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " + " + length + " >= " + array.length);
+
 		return new SuppliteratorNullableBase<Integer>() {
 			private int index = 0;
 
@@ -163,8 +271,27 @@ public interface ISuppliterator<T> extends Iterable<T>
 		};
 	}
 
+	public static ISuppliterator<Long> ofLongs(long... array)
+	{
+		return ofArray(array);
+	}
+
+	// TODO on version up
+	/**
+	 * 将来可変長引数から配列に変更されます。
+	 */
+	@Deprecated
 	public static ISuppliterator<Long> ofArray(long... array)
 	{
+		return ofArray(array, 0, array.length);
+	}
+
+	public static ISuppliterator<Long> ofArray(long[] array, int start, int length)
+	{
+		if (start < 0) throw new ArrayIndexOutOfBoundsException("" + start + " < 0");
+		if (start >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " >= " + array.length);
+		if (start + length >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " + " + length + " >= " + array.length);
+
 		return new SuppliteratorNullableBase<Long>() {
 			private int index = 0;
 
@@ -182,8 +309,27 @@ public interface ISuppliterator<T> extends Iterable<T>
 		};
 	}
 
+	public static ISuppliterator<Float> ofFloats(float... array)
+	{
+		return ofArray(array);
+	}
+
+	// TODO on version up
+	/**
+	 * 将来可変長引数から配列に変更されます。
+	 */
+	@Deprecated
 	public static ISuppliterator<Float> ofArray(float... array)
 	{
+		return ofArray(array, 0, array.length);
+	}
+
+	public static ISuppliterator<Float> ofArray(float[] array, int start, int length)
+	{
+		if (start < 0) throw new ArrayIndexOutOfBoundsException("" + start + " < 0");
+		if (start >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " >= " + array.length);
+		if (start + length >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " + " + length + " >= " + array.length);
+
 		return new SuppliteratorNullableBase<Float>() {
 			private int index = 0;
 
@@ -201,8 +347,27 @@ public interface ISuppliterator<T> extends Iterable<T>
 		};
 	}
 
+	public static ISuppliterator<Double> ofDoubles(double... array)
+	{
+		return ofArray(array);
+	}
+
+	// TODO on version up
+	/**
+	 * 将来可変長引数から配列に変更されます。
+	 */
+	@Deprecated
 	public static ISuppliterator<Double> ofArray(double... array)
 	{
+		return ofArray(array, 0, array.length);
+	}
+
+	public static ISuppliterator<Double> ofArray(double[] array, int start, int length)
+	{
+		if (start < 0) throw new ArrayIndexOutOfBoundsException("" + start + " < 0");
+		if (start >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " >= " + array.length);
+		if (start + length >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " + " + length + " >= " + array.length);
+
 		return new SuppliteratorNullableBase<Double>() {
 			private int index = 0;
 
@@ -220,8 +385,27 @@ public interface ISuppliterator<T> extends Iterable<T>
 		};
 	}
 
+	public static ISuppliterator<Boolean> ofBooleans(boolean... array)
+	{
+		return ofArray(array);
+	}
+
+	// TODO on version up
+	/**
+	 * 将来可変長引数から配列に変更されます。
+	 */
+	@Deprecated
 	public static ISuppliterator<Boolean> ofArray(boolean... array)
 	{
+		return ofArray(array, 0, array.length);
+	}
+
+	public static ISuppliterator<Boolean> ofArray(boolean[] array, int start, int length)
+	{
+		if (start < 0) throw new ArrayIndexOutOfBoundsException("" + start + " < 0");
+		if (start >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " >= " + array.length);
+		if (start + length >= array.length) throw new ArrayIndexOutOfBoundsException("" + start + " + " + length + " >= " + array.length);
+
 		return new SuppliteratorNullableBase<Boolean>() {
 			private int index = 0;
 
@@ -238,6 +422,8 @@ public interface ISuppliterator<T> extends Iterable<T>
 			}
 		};
 	}
+
+	//
 
 	/**
 	 * @param iterator
