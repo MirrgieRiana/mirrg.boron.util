@@ -1157,7 +1157,8 @@ class ISuppliteratorLocal
 	static void checkRange(int lengthOfArray, int start, int length)
 	{
 		if (start < 0) throw new ArrayIndexOutOfBoundsException("" + start + " < 0");
-		if (start >= lengthOfArray) throw new ArrayIndexOutOfBoundsException("" + start + " >= " + lengthOfArray);
+		if (start > lengthOfArray) throw new ArrayIndexOutOfBoundsException("" + start + " > " + lengthOfArray);
+		if (length < 0) throw new ArrayIndexOutOfBoundsException("" + length + " < " + 0);
 		if (start + length > lengthOfArray) throw new ArrayIndexOutOfBoundsException("" + start + " + " + length + " > " + lengthOfArray);
 	}
 
