@@ -220,7 +220,7 @@ public interface ISuppliterator<T> extends Iterable<T>
 		ISuppliteratorLocal.checkRange(array.length, start, length);
 
 		return new SuppliteratorNullableBase<Short>() {
-			private int index =start;
+			private int index = start;
 
 			@Override
 			public Short nullableNextImpl()
