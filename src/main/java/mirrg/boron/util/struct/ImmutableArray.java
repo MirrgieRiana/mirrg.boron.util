@@ -242,6 +242,8 @@ public final class ImmutableArray<T> implements Iterable<T>
 		return Stream.of(array);
 	}
 
+	// TODO 削除：重複メソッド
+	@Deprecated
 	public ISuppliterator<T> toSuppliterator()
 	{
 		return ISuppliterator.ofIterable(this);
