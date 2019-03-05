@@ -813,6 +813,11 @@ public interface ISuppliterator<T> extends Iterable<T>
 		return function.apply(this);
 	}
 
+	public default <O> O apply2(Function<? super ISuppliterator<T>, Function<? super ISuppliterator<T>, ? extends O>> function)
+	{
+		return function.apply(this).apply(this);
+	}
+
 	public static <T> ISuppliterator<T> flatten(ISuppliterator<? extends ISuppliterator<T>> suppliterator)
 	{
 		return new SuppliteratorNullableBase<T>() {

@@ -63,6 +63,19 @@ public class TestSuppliterator
 	}
 
 	@Test
+	public void test_apply2()
+	{
+		assertArrayEquals(new byte[] { 1, 2, 3 }, ISuppliterator.ofBytes(new byte[] { 1, 2, 3 })
+			.apply2(s -> s::toByteArray));
+		assertEquals("{3=4}", ISuppliterator.of(new Tuple<>(3, 4))
+			.apply(ISuppliterator::toMap)
+			.toString());
+		assertEquals("{3=4}", ISuppliterator.of(new Tuple<>(3, 4))
+			.apply2(s -> ISuppliterator::toMap)
+			.toString());
+	}
+
+	@Test
 	public void test2()
 	{
 		aAE(range(5, 11), 5, 6, 7, 8, 9, 10);
