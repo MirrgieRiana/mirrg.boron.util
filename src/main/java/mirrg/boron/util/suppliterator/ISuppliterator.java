@@ -1067,23 +1067,391 @@ public interface ISuppliterator<T> extends Iterable<T>
 		return ImmutableArray.ofList(toList());
 	}
 
+	//
+
+	public default byte[] toByteArray(ToByteFunction<? super T> function)
+	{
+		List<Tuple<byte[], Integer>> list = new ArrayList<>();
+
+		{
+			boolean closed = false;
+			while (!closed) {
+				byte[] array = new byte[4096];
+				int length = 0;
+
+				while (true) {
+					if (length >= array.length) break;
+
+					T t = nullableNext();
+					if (t == null) {
+						closed = true;
+						break;
+					}
+					array[length] = function.applyAsByte(t);
+					length++;
+
+				}
+
+				list.add(new Tuple<>(array, length));
+			}
+		}
+
+		byte[] result = new byte[list.stream().mapToInt(t -> t.y).sum()];
+		int start = 0;
+		for (Tuple<byte[], Integer> tuple : list) {
+			System.arraycopy(tuple.x, 0, result, start, tuple.y);
+			start += tuple.y;
+		}
+
+		return result;
+	}
+
+	public default byte[] toByteArray(ISuppliterator<Byte> suppliterator)
+	{
+		return suppliterator.toByteArray(v -> v);
+	}
+
+	@FunctionalInterface
+	public interface ToByteFunction<T>
+	{
+
+		public byte applyAsByte(T value);
+
+	}
+
+	//
+
+	public default char[] toCharArray(ToCharFunction<? super T> function)
+	{
+		List<Tuple<char[], Integer>> list = new ArrayList<>();
+
+		{
+			boolean closed = false;
+			while (!closed) {
+				char[] array = new char[4096];
+				int length = 0;
+
+				while (true) {
+					if (length >= array.length) break;
+
+					T t = nullableNext();
+					if (t == null) {
+						closed = true;
+						break;
+					}
+					array[length] = function.applyAsChar(t);
+					length++;
+
+				}
+
+				list.add(new Tuple<>(array, length));
+			}
+		}
+
+		char[] result = new char[list.stream().mapToInt(t -> t.y).sum()];
+		int start = 0;
+		for (Tuple<char[], Integer> tuple : list) {
+			System.arraycopy(tuple.x, 0, result, start, tuple.y);
+			start += tuple.y;
+		}
+
+		return result;
+	}
+
+	public default char[] toCharArray(ISuppliterator<Character> suppliterator)
+	{
+		return suppliterator.toCharArray(v -> v);
+	}
+
+	@FunctionalInterface
+	public interface ToCharFunction<T>
+	{
+
+		public char applyAsChar(T value);
+
+	}
+
+	//
+
+	public default short[] toShortArray(ToShortFunction<? super T> function)
+	{
+		List<Tuple<short[], Integer>> list = new ArrayList<>();
+
+		{
+			boolean closed = false;
+			while (!closed) {
+				short[] array = new short[4096];
+				int length = 0;
+
+				while (true) {
+					if (length >= array.length) break;
+
+					T t = nullableNext();
+					if (t == null) {
+						closed = true;
+						break;
+					}
+					array[length] = function.applyAsShort(t);
+					length++;
+
+				}
+
+				list.add(new Tuple<>(array, length));
+			}
+		}
+
+		short[] result = new short[list.stream().mapToInt(t -> t.y).sum()];
+		int start = 0;
+		for (Tuple<short[], Integer> tuple : list) {
+			System.arraycopy(tuple.x, 0, result, start, tuple.y);
+			start += tuple.y;
+		}
+
+		return result;
+	}
+
+	public default short[] toShortArray(ISuppliterator<Short> suppliterator)
+	{
+		return suppliterator.toShortArray(v -> v);
+	}
+
+	@FunctionalInterface
+	public interface ToShortFunction<T>
+	{
+
+		public short applyAsShort(T value);
+
+	}
+
+	//
+
 	public default int[] toIntArray(ToIntFunction<? super T> function)
 	{
-		return streamToInt(function)
-			.toArray();
+		List<Tuple<int[], Integer>> list = new ArrayList<>();
+
+		{
+			boolean closed = false;
+			while (!closed) {
+				int[] array = new int[4096];
+				int length = 0;
+
+				while (true) {
+					if (length >= array.length) break;
+
+					T t = nullableNext();
+					if (t == null) {
+						closed = true;
+						break;
+					}
+					array[length] = function.applyAsInt(t);
+					length++;
+
+				}
+
+				list.add(new Tuple<>(array, length));
+			}
+		}
+
+		int[] result = new int[list.stream().mapToInt(t -> t.y).sum()];
+		int start = 0;
+		for (Tuple<int[], Integer> tuple : list) {
+			System.arraycopy(tuple.x, 0, result, start, tuple.y);
+			start += tuple.y;
+		}
+
+		return result;
 	}
+
+	public default int[] toIntArray(ISuppliterator<Integer> suppliterator)
+	{
+		return suppliterator.toIntArray(v -> v);
+	}
+
+	//
 
 	public default long[] toLongArray(ToLongFunction<? super T> function)
 	{
-		return streamToLong(function)
-			.toArray();
+		List<Tuple<long[], Integer>> list = new ArrayList<>();
+
+		{
+			boolean closed = false;
+			while (!closed) {
+				long[] array = new long[4096];
+				int length = 0;
+
+				while (true) {
+					if (length >= array.length) break;
+
+					T t = nullableNext();
+					if (t == null) {
+						closed = true;
+						break;
+					}
+					array[length] = function.applyAsLong(t);
+					length++;
+
+				}
+
+				list.add(new Tuple<>(array, length));
+			}
+		}
+
+		long[] result = new long[list.stream().mapToInt(t -> t.y).sum()];
+		int start = 0;
+		for (Tuple<long[], Integer> tuple : list) {
+			System.arraycopy(tuple.x, 0, result, start, tuple.y);
+			start += tuple.y;
+		}
+
+		return result;
 	}
+
+	public default long[] toLongArray(ISuppliterator<Long> suppliterator)
+	{
+		return suppliterator.toLongArray(v -> v);
+	}
+
+	//
+
+	public default float[] toFloatArray(ToFloatFunction<? super T> function)
+	{
+		List<Tuple<float[], Integer>> list = new ArrayList<>();
+
+		{
+			boolean closed = false;
+			while (!closed) {
+				float[] array = new float[4096];
+				int length = 0;
+
+				while (true) {
+					if (length >= array.length) break;
+
+					T t = nullableNext();
+					if (t == null) {
+						closed = true;
+						break;
+					}
+					array[length] = function.applyAsFloat(t);
+					length++;
+
+				}
+
+				list.add(new Tuple<>(array, length));
+			}
+		}
+
+		float[] result = new float[list.stream().mapToInt(t -> t.y).sum()];
+		int start = 0;
+		for (Tuple<float[], Integer> tuple : list) {
+			System.arraycopy(tuple.x, 0, result, start, tuple.y);
+			start += tuple.y;
+		}
+
+		return result;
+	}
+
+	public default float[] toFloatArray(ISuppliterator<Float> suppliterator)
+	{
+		return suppliterator.toFloatArray(v -> v);
+	}
+
+	@FunctionalInterface
+	public interface ToFloatFunction<T>
+	{
+
+		public float applyAsFloat(T value);
+
+	}
+
+	//
 
 	public default double[] toDoubleArray(ToDoubleFunction<? super T> function)
 	{
-		return streamToDouble(function)
-			.toArray();
+		List<Tuple<double[], Integer>> list = new ArrayList<>();
+
+		{
+			boolean closed = false;
+			while (!closed) {
+				double[] array = new double[4096];
+				int length = 0;
+
+				while (true) {
+					if (length >= array.length) break;
+
+					T t = nullableNext();
+					if (t == null) {
+						closed = true;
+						break;
+					}
+					array[length] = function.applyAsDouble(t);
+					length++;
+
+				}
+
+				list.add(new Tuple<>(array, length));
+			}
+		}
+
+		double[] result = new double[list.stream().mapToInt(t -> t.y).sum()];
+		int start = 0;
+		for (Tuple<double[], Integer> tuple : list) {
+			System.arraycopy(tuple.x, 0, result, start, tuple.y);
+			start += tuple.y;
+		}
+
+		return result;
 	}
+
+	public default double[] toDoubleArray(ISuppliterator<Double> suppliterator)
+	{
+		return suppliterator.toDoubleArray(v -> v);
+	}
+
+	//
+
+	public default boolean[] toBoolArray(Predicate<? super T> function)
+	{
+		List<Tuple<boolean[], Integer>> list = new ArrayList<>();
+
+		{
+			boolean closed = false;
+			while (!closed) {
+				boolean[] array = new boolean[4096];
+				int length = 0;
+
+				while (true) {
+					if (length >= array.length) break;
+
+					T t = nullableNext();
+					if (t == null) {
+						closed = true;
+						break;
+					}
+					array[length] = function.test(t);
+					length++;
+
+				}
+
+				list.add(new Tuple<>(array, length));
+			}
+		}
+
+		boolean[] result = new boolean[list.stream().mapToInt(t -> t.y).sum()];
+		int start = 0;
+		for (Tuple<boolean[], Integer> tuple : list) {
+			System.arraycopy(tuple.x, 0, result, start, tuple.y);
+			start += tuple.y;
+		}
+
+		return result;
+	}
+
+	public default boolean[] toBoolArray(ISuppliterator<Boolean> suppliterator)
+	{
+		return suppliterator.toBoolArray(v -> v);
+	}
+
+	//
 
 	public default Stream<T> stream()
 	{

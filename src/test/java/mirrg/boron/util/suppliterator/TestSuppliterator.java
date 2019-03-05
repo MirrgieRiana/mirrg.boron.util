@@ -235,4 +235,142 @@ public class TestSuppliterator
 		}.run();
 	}
 
+	/////////////////////////////////////
+
+	@Test
+	public void test_toByteArray()
+	{
+		byte[] a = new byte[50000];
+		byte[] b = new byte[50000];
+
+		for (int i = 0; i < a.length; i++) {
+			a[i] = (byte) i;
+			b[i] = (byte) ((a[i] + 23) ^ 0x73);
+		}
+
+		byte[] c = ISuppliterator.ofByteArray(a).map(v -> v + 23).toByteArray(v -> (byte) (v ^ 0x73));
+
+		assertArrayEquals(b, c);
+		assertArrayEquals(a, ISuppliterator.ofBytes(a).apply2(s -> s::toByteArray));
+	}
+
+	@Test
+	public void test_toCharArray()
+	{
+		char[] a = new char[50000];
+		char[] b = new char[50000];
+
+		for (int i = 0; i < a.length; i++) {
+			a[i] = (char) i;
+			b[i] = (char) ((a[i] + 23) ^ 0x8573);
+		}
+
+		char[] c = ISuppliterator.ofCharArray(a).map(v -> v + 23).toCharArray(v -> (char) (v ^ 0x8573));
+
+		assertArrayEquals(b, c);
+		assertArrayEquals(a, ISuppliterator.ofCharacters(a).apply2(s -> s::toCharArray));
+	}
+
+	@Test
+	public void test_toShortArray()
+	{
+		short[] a = new short[50000];
+		short[] b = new short[50000];
+
+		for (int i = 0; i < a.length; i++) {
+			a[i] = (short) i;
+			b[i] = (short) ((a[i] + 23) ^ 0x8573);
+		}
+
+		short[] c = ISuppliterator.ofShortArray(a).map(v -> v + 23).toShortArray(v -> (short) (v ^ 0x8573));
+
+		assertArrayEquals(b, c);
+		assertArrayEquals(a, ISuppliterator.ofShortArray(a).apply2(s -> s::toShortArray));
+	}
+
+	@Test
+	public void test_toIntArray()
+	{
+		int[] a = new int[50000];
+		int[] b = new int[50000];
+
+		for (int i = 0; i < a.length; i++) {
+			a[i] = (int) i;
+			b[i] = (int) ((a[i] + 23) ^ 0x85948673);
+		}
+
+		int[] c = ISuppliterator.ofIntArray(a).map(v -> v + 23).toIntArray(v -> (int) (v ^ 0x85948673));
+
+		assertArrayEquals(b, c);
+		assertArrayEquals(a, ISuppliterator.ofIntArray(a).apply2(s -> s::toIntArray));
+	}
+
+	@Test
+	public void test_toLongArray()
+	{
+		long[] a = new long[50000];
+		long[] b = new long[50000];
+
+		for (int i = 0; i < a.length; i++) {
+			a[i] = (long) i;
+			b[i] = (long) ((a[i] + 23) ^ 0x8593834584235673L);
+		}
+
+		long[] c = ISuppliterator.ofLongArray(a).map(v -> v + 23).toLongArray(v -> (long) (v ^ 0x8593834584235673L));
+
+		assertArrayEquals(b, c);
+		assertArrayEquals(a, ISuppliterator.ofLongArray(a).apply2(s -> s::toLongArray));
+	}
+
+	@Test
+	public void test_toFloatArray()
+	{
+		float[] a = new float[50000];
+		float[] b = new float[50000];
+
+		for (int i = 0; i < a.length; i++) {
+			a[i] = (float) i;
+			b[i] = (float) ((a[i] + 23) * 23.5325F);
+		}
+
+		float[] c = ISuppliterator.ofFloatArray(a).map(v -> v + 23).toFloatArray(v -> (float) (v * 23.5325F));
+
+		assertArrayEquals(b, c, 0.001F);
+		assertArrayEquals(a, ISuppliterator.ofFloatArray(a).apply2(s -> s::toFloatArray), 0.001F);
+	}
+
+	@Test
+	public void test_toDoubleArray()
+	{
+		double[] a = new double[50000];
+		double[] b = new double[50000];
+
+		for (int i = 0; i < a.length; i++) {
+			a[i] = (double) i;
+			b[i] = (double) ((a[i] + 23) * 23.5325);
+		}
+
+		double[] c = ISuppliterator.ofDoubleArray(a).map(v -> v + 23).toDoubleArray(v -> (double) (v * 23.5325));
+
+		assertArrayEquals(b, c, 0.001F);
+		assertArrayEquals(a, ISuppliterator.ofDoubleArray(a).apply2(s -> s::toDoubleArray), 0.001F);
+	}
+
+	@Test
+	public void test_toBoolArray()
+	{
+		boolean[] a = new boolean[50000];
+		boolean[] b = new boolean[50000];
+
+		for (int i = 0; i < a.length; i++) {
+			a[i] = i % 2 == 0;
+			b[i] = !a[i];
+		}
+
+		boolean[] c = ISuppliterator.ofBoolArray(a).map(v -> v).toBoolArray(v -> !v);
+
+		assertArrayEquals(b, c);
+		assertArrayEquals(a, ISuppliterator.ofBoolArray(a).apply2(s -> s::toBoolArray));
+	}
+
 }
