@@ -6,12 +6,14 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -936,6 +938,38 @@ public interface ISuppliterator<T> extends Iterable<T>
 	public default ISuppliterator<Tuple<Integer, T>> indexed()
 	{
 		return map((t, i) -> new Tuple<>(i, t));
+	}
+
+	/**
+	 * 既に現れたものと等しいものを取り除きます。
+	 */
+	public default ISuppliterator<T> distinct()
+	{
+		Set<T> set = new HashSet<>();
+		return filter(t -> {
+			if (set.contains(t)) {
+				return false;
+			} else {
+				set.add(t);
+				return true;
+			}
+		});
+	}
+
+	/**
+	 * 既に現れたものと、比較オブジェクト同士が等しいものを取り除きます。
+	 */
+	public default <O> ISuppliterator<T> distinct(Function<? super T, ? extends O> function)
+	{
+		Set<O> set = new HashSet<>();
+		return filter(t -> {
+			if (set.contains(function.apply(t))) {
+				return false;
+			} else {
+				set.add(function.apply(t));
+				return true;
+			}
+		});
 	}
 
 	// 終端操作

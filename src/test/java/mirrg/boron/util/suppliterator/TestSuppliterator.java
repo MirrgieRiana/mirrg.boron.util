@@ -235,6 +235,23 @@ public class TestSuppliterator
 		}.run();
 	}
 
+	@Test
+	public void test_distinct()
+	{
+		assertArrayEquals(
+			ISuppliterator.of(5, 9, 4, 8, 6, 2, 1, 7, 3)
+				.apply2(s -> s::toIntArray),
+			ISuppliterator.of(5, 9, 4, 8, 6, 2, 5, 1, 6, 4, 8, 5, 7, 8, 4, 3, 2, 6, 1)
+				.distinct()
+				.apply2(s -> s::toIntArray));
+		assertArrayEquals(
+			ISuppliterator.of(5, 9, 8, 6, 2)
+				.apply2(s -> s::toIntArray),
+			ISuppliterator.of(5, 9, 4, 8, 6, 2, 5, 1, 6, 4, 8, 5, 7, 8, 4, 3, 2, 6, 1)
+				.distinct(i -> i % 5)
+				.apply2(s -> s::toIntArray));
+	}
+
 	/////////////////////////////////////
 
 	@Test
