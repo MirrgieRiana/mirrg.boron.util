@@ -703,6 +703,80 @@ public interface ISuppliterator<T> extends Iterable<T>
 
 	}
 
+	public default <O> ISuppliterator<O> mapIfPresent(Function<? super T, Optional<? extends O>> mapper)
+	{
+		ISuppliterator<T> this2 = this;
+		return new SuppliteratorNullableBase<O>() {
+			@Override
+			public O nullableNextImpl()
+			{
+				while (true) {
+					T next = this2.nullableNext();
+					if (next == null) return null;
+					Optional<? extends O> oO = mapper.apply(next);
+					if (oO.isPresent()) return oO.get();
+				}
+			}
+		};
+	}
+
+	public default <O> ISuppliterator<O> mapIfPresent(ObjIntToObjFunction<? super T, Optional<? extends O>> mapper)
+	{
+		ISuppliterator<T> this2 = this;
+		return new SuppliteratorNullableBase<O>() {
+			private int i = 0;
+
+			@Override
+			public O nullableNextImpl()
+			{
+				while (true) {
+					i++;
+					T next = this2.nullableNext();
+					if (next == null) return null;
+					Optional<? extends O> oO = mapper.apply(next, i);
+					if (oO.isPresent()) return oO.get();
+				}
+			}
+		};
+	}
+
+	public default <O> ISuppliterator<O> mapIfNotNull(Function<? super T, ? extends O> mapper)
+	{
+		ISuppliterator<T> this2 = this;
+		return new SuppliteratorNullableBase<O>() {
+			@Override
+			public O nullableNextImpl()
+			{
+				while (true) {
+					T next = this2.nullableNext();
+					if (next == null) return null;
+					O nO = mapper.apply(next);
+					if (nO != null) return nO;
+				}
+			}
+		};
+	}
+
+	public default <O> ISuppliterator<O> mapIfNotNull(ObjIntToObjFunction<? super T, ? extends O> mapper)
+	{
+		ISuppliterator<T> this2 = this;
+		return new SuppliteratorNullableBase<O>() {
+			private int i = 0;
+
+			@Override
+			public O nullableNextImpl()
+			{
+				while (true) {
+					i++;
+					T next = this2.nullableNext();
+					if (next == null) return null;
+					O nO = mapper.apply(next, i);
+					if (nO != null) return nO;
+				}
+			}
+		};
+	}
+
 	public default <O> ISuppliterator<O> filterInstance(Class<? extends O> clazz)
 	{
 		return filter(clazz::isInstance)

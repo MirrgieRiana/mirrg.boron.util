@@ -4,6 +4,7 @@ import static mirrg.boron.util.suppliterator.ISuppliterator.*;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -249,6 +250,36 @@ public class TestSuppliterator
 				.apply2(s -> s::toIntArray),
 			ISuppliterator.of(5, 9, 4, 8, 6, 2, 5, 1, 6, 4, 8, 5, 7, 8, 4, 3, 2, 6, 1)
 				.distinct(i -> i % 5)
+				.apply2(s -> s::toIntArray));
+	}
+
+	@Test
+	public void test_mapIfPresent()
+	{
+		assertArrayEquals(
+			ISuppliterator.of(4, 1, 4, 7, 4, 1)
+				.apply2(s -> s::toIntArray),
+			ISuppliterator.of(5, 9, 4, 8, 6, 2, 5, 1, 6, 4, 8, 5, 7, 8, 4, 3, 2, 6, 1)
+				.mapIfPresent(i -> i % 3 == 1 ? Optional.of(i) : Optional.empty())
+				.apply2(s -> s::toIntArray));
+		assertArrayEquals(
+			ISuppliterator.of(5, 8, 5, 4, 7, 3, 1)
+				.apply2(s -> s::toIntArray),
+			ISuppliterator.of(5, 9, 4, 8, 6, 2, 5, 1, 6, 4, 8, 5, 7, 8, 4, 3, 2, 6, 1)
+				.mapIfPresent((i, index) -> index % 3 == 1 ? Optional.of(i) : Optional.empty())
+				.apply2(s -> s::toIntArray));
+
+		assertArrayEquals(
+			ISuppliterator.of(4, 1, 4, 7, 4, 1)
+				.apply2(s -> s::toIntArray),
+			ISuppliterator.of(5, 9, 4, 8, 6, 2, 5, 1, 6, 4, 8, 5, 7, 8, 4, 3, 2, 6, 1)
+				.mapIfNotNull(i -> i % 3 == 1 ? i : null)
+				.apply2(s -> s::toIntArray));
+		assertArrayEquals(
+			ISuppliterator.of(5, 8, 5, 4, 7, 3, 1)
+				.apply2(s -> s::toIntArray),
+			ISuppliterator.of(5, 9, 4, 8, 6, 2, 5, 1, 6, 4, 8, 5, 7, 8, 4, 3, 2, 6, 1)
+				.mapIfNotNull((i, index) -> index % 3 == 1 ? i : null)
 				.apply2(s -> s::toIntArray));
 	}
 
