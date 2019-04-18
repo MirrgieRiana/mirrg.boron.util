@@ -542,6 +542,16 @@ public interface ISuppliterator<T> extends Iterable<T>
 	}
 
 	/**
+	 * 0から始まり、1ずつ増大する指定長さの整数列を生成します。
+	 * <p>
+	 * このメソッドは{@code range(0, length)}という呼び出しと等価です。
+	 */
+	public static ISuppliterator<Integer> range(int length)
+	{
+		return range(0, length);
+	}
+
+	/**
 	 * 開始値が終了値より大きい場合はデクリメントします。
 	 */
 	public static ISuppliterator<Integer> range(int startInclusive, int endExclusive)

@@ -311,6 +311,17 @@ public class TestSuppliterator
 		assertEquals("[012][345][67]", ISuppliterator.characters("01234567").slice(3).map(s -> "[" + s.join() + "]").join());
 		assertEquals("[012][345][678]", ISuppliterator.characters("012345678").slice(3).map(s -> "[" + s.join() + "]").join());
 		assertEquals("[012][345][678][9]", ISuppliterator.characters("0123456789").slice(3).map(s -> "[" + s.join() + "]").join());
+
+		assertEquals("" +
+			"000102030405060708\n" +
+			"091011121314151617\n" +
+			"181920212223242526\n" +
+			"272829303132333435\n" +
+			"363738394041424344\n" +
+			"454647484950515253\n" +
+			"545556575859606162\n" +
+			"636465666768697071\n" +
+			"727374757677787980", ISuppliterator.range(9 * 9).slice(9).map(s -> s.map(i -> String.format("%02d", i)).join()).join("\n"));
 	}
 
 	/////////////////////////////////////
