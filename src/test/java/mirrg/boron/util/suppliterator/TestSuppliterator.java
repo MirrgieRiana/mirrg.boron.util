@@ -64,6 +64,20 @@ public class TestSuppliterator
 	}
 
 	@Test
+	public void test_characters()
+	{
+		assertEquals("123456789", ISuppliterator.characters("123456789").join());
+		assertEquals("456", ISuppliterator.characters("123456789", 3, 3).join());
+		assertEquals("789", ISuppliterator.characters("123456789", 6, 3).join());
+		assertEquals("123456789", ISuppliterator.characters("123456789", 0, 9).join());
+		assertEquals("", ISuppliterator.characters("123456789", 0, 0).join());
+		assertEquals("", ISuppliterator.characters("123456789", 3, 0).join());
+		assertEquals("", ISuppliterator.characters("123456789", 9, 0).join());
+		assertEquals("1", ISuppliterator.characters("1", 0, 1).join());
+		assertEquals("", ISuppliterator.characters("", 0, 0).join());
+	}
+
+	@Test
 	public void test_apply2()
 	{
 		assertArrayEquals(new byte[] { 1, 2, 3 }, ISuppliterator.ofBytes(new byte[] { 1, 2, 3 })

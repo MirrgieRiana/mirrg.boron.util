@@ -621,6 +621,30 @@ public interface ISuppliterator<T> extends Iterable<T>
 		}
 	}
 
+	public static ISuppliterator<Character> characters(CharSequence string, int start, int length)
+	{
+		return new SuppliteratorNullableBase<Character>() {
+			private int i = start;
+
+			@Override
+			public Character nullableNextImpl()
+			{
+				if (i < start + length) {
+					Character ch = string.charAt(i);
+					i++;
+					return ch;
+				} else {
+					return null;
+				}
+			}
+		};
+	}
+
+	public static ISuppliterator<Character> characters(CharSequence string)
+	{
+		return characters(string, 0, string.length());
+	}
+
 	// 中間操作
 
 	public default <O> ISuppliterator<O> map(Function<? super T, ? extends O> mapper)
