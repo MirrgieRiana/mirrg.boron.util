@@ -237,6 +237,15 @@ public final class ImmutableArray<T> implements Iterable<T>
 		};
 	}
 
+	/**
+	 * @deprecated 代わりに {@link #items()} を使用してください。
+	 */
+	@Deprecated // TODO delete
+	public Enumeration<T> values()
+	{
+		return items();
+	}
+
 	public Stream<T> stream()
 	{
 		return Stream.of(array);
