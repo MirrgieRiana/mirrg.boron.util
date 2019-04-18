@@ -997,9 +997,9 @@ public interface ISuppliterator<T> extends Iterable<T>
 	 */
 	public default <C extends Comparable<? super C>> ISuppliterator<T> sortedObj(Function<? super T, ? extends C> function)
 	{
-		List<T> list = toList();
-		list.sort((a, b) -> function.apply(a).compareTo(function.apply(b)));
-		return ofIterable(list);
+		List<Tuple<T, C>> list = map(t -> new Tuple<>(t, (C) function.apply(t))).toList();
+		list.sort((a, b) -> a.y.compareTo(b.y));
+		return ofIterable(list).map(t -> t.x);
 	}
 
 	/**
@@ -1007,17 +1007,21 @@ public interface ISuppliterator<T> extends Iterable<T>
 	 */
 	public default ISuppliterator<T> sortedInt(ToIntFunction<? super T> function)
 	{
-		List<T> list = toList();
-		list.sort((a, b) -> {
-			int a2 = function.applyAsInt(a);
-			int b2 = function.applyAsInt(b);
-			return a2 > b2
-				? 1
-				: a2 < b2
-					? -1
-					: 0;
-		});
-		return ofIterable(list);
+		class Tuple
+		{
+			T x;
+			int y;
+
+			Tuple(T x, int y)
+			{
+				this.x = x;
+				this.y = y;
+			}
+		}
+
+		List<Tuple> list = map(t -> new Tuple(t, function.applyAsInt(t))).toList();
+		list.sort((a, b) -> Integer.compare(a.y, b.y));
+		return ofIterable(list).map(t -> t.x);
 	}
 
 	/**
@@ -1025,17 +1029,21 @@ public interface ISuppliterator<T> extends Iterable<T>
 	 */
 	public default ISuppliterator<T> sortedLong(ToLongFunction<? super T> function)
 	{
-		List<T> list = toList();
-		list.sort((a, b) -> {
-			long a2 = function.applyAsLong(a);
-			long b2 = function.applyAsLong(b);
-			return a2 > b2
-				? 1
-				: a2 < b2
-					? -1
-					: 0;
-		});
-		return ofIterable(list);
+		class Tuple
+		{
+			T x;
+			long y;
+
+			Tuple(T x, long y)
+			{
+				this.x = x;
+				this.y = y;
+			}
+		}
+
+		List<Tuple> list = map(t -> new Tuple(t, function.applyAsLong(t))).toList();
+		list.sort((a, b) -> Long.compare(a.y, b.y));
+		return ofIterable(list).map(t -> t.x);
 	}
 
 	/**
@@ -1043,13 +1051,21 @@ public interface ISuppliterator<T> extends Iterable<T>
 	 */
 	public default ISuppliterator<T> sortedDouble(ToDoubleFunction<? super T> function)
 	{
-		List<T> list = toList();
-		list.sort((a, b) -> {
-			double a2 = function.applyAsDouble(a);
-			double b2 = function.applyAsDouble(b);
-			return Double.compare(a2, b2);
-		});
-		return ofIterable(list);
+		class Tuple
+		{
+			T x;
+			double y;
+
+			Tuple(T x, double y)
+			{
+				this.x = x;
+				this.y = y;
+			}
+		}
+
+		List<Tuple> list = map(t -> new Tuple(t, function.applyAsDouble(t))).toList();
+		list.sort((a, b) -> Double.compare(a.y, b.y));
+		return ofIterable(list).map(t -> t.x);
 	}
 
 	@SuppressWarnings("unchecked")
