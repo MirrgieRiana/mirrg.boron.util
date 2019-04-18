@@ -84,7 +84,7 @@ public class TestImmutableArray
 		assertNotEquals(array6, array4);
 		assertNotEquals(array6, array5);
 
-		ArrayList<String> list1 = Collections.list(array6.values());
+		ArrayList<String> list1 = Collections.list(array6.items());
 		assertEquals(array6.length(), list1.size());
 		assertEquals(array6.get(0), list1.get(0));
 		assertEquals(array6.get(1), list1.get(1));
