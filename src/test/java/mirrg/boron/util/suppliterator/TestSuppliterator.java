@@ -297,6 +297,22 @@ public class TestSuppliterator
 				.apply2(s -> s::toIntArray));
 	}
 
+	@Test
+	public void test_slice()
+	{
+		assertEquals("", ISuppliterator.characters("").slice(3).map(s -> "[" + s.join() + "]").join());
+		assertEquals("[0]", ISuppliterator.characters("0").slice(3).map(s -> "[" + s.join() + "]").join());
+		assertEquals("[01]", ISuppliterator.characters("01").slice(3).map(s -> "[" + s.join() + "]").join());
+		assertEquals("[012]", ISuppliterator.characters("012").slice(3).map(s -> "[" + s.join() + "]").join());
+		assertEquals("[012][3]", ISuppliterator.characters("0123").slice(3).map(s -> "[" + s.join() + "]").join());
+		assertEquals("[012][34]", ISuppliterator.characters("01234").slice(3).map(s -> "[" + s.join() + "]").join());
+		assertEquals("[012][345]", ISuppliterator.characters("012345").slice(3).map(s -> "[" + s.join() + "]").join());
+		assertEquals("[012][345][6]", ISuppliterator.characters("0123456").slice(3).map(s -> "[" + s.join() + "]").join());
+		assertEquals("[012][345][67]", ISuppliterator.characters("01234567").slice(3).map(s -> "[" + s.join() + "]").join());
+		assertEquals("[012][345][678]", ISuppliterator.characters("012345678").slice(3).map(s -> "[" + s.join() + "]").join());
+		assertEquals("[012][345][678][9]", ISuppliterator.characters("0123456789").slice(3).map(s -> "[" + s.join() + "]").join());
+	}
+
 	/////////////////////////////////////
 
 	@Test

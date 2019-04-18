@@ -952,6 +952,31 @@ public interface ISuppliterator<T> extends Iterable<T>
 		return flatten(map(mapper));
 	}
 
+	/**
+	 * このSuppliteratorを{@code length}ごとに切り分けた部分Suppliteratorの列を生成します。
+	 * 例えば{@code 1,2,3,4,5,6,7,8,9,10}を3ごとにスライスした場合、{@code (1,2,3),(4,5,6),(7,8,9),(10)}
+	 * のように切り分けられたSuppliteratorのSuppliteratorが返されます。
+	 * <p>
+	 * このメソッドは呼び出し時にSuppliteratorのすべての要素にアクセスし、配列として保持します。
+	 */
+	public default ISuppliterator<ISuppliterator<T>> slice(int length)
+	{
+		ImmutableArray<T> immutableArray = toImmutableArray();
+
+		int fulls = immutableArray.length() / length; // 10 / 3 == 3
+		int mod = immutableArray.length() % length; // 10 % 3 == 1
+
+		if (mod == 0) {
+			return range(0, fulls) // 0,1,2
+				.map(i -> immutableArray.suppliterator(i * length, length)); // (0,1,2),(3,4,5),(6,7,8)
+		} else {
+			return concat(
+				range(0, fulls) // 0,1,2
+					.map(i -> immutableArray.suppliterator(i * length, length)), // (0,1,2),(3,4,5),(6,7,8)
+				of(immutableArray.suppliterator(fulls * length, mod))); // (9)
+		}
+	}
+
 	public default ISuppliterator<T> reverse()
 	{
 		return ofIterator(toCollection(ArrayDeque::new).descendingIterator());
