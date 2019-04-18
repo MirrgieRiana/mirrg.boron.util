@@ -121,6 +121,7 @@ public class TestImmutableArray
 	public void test_suppliterator()
 	{
 		assertEquals("12345", ImmutableArray.of(1, 2, 3, 4, 5).suppliterator().join());
+		assertEquals("34", ImmutableArray.of(1, 2, 3, 4, 5).suppliterator(2, 2).join());
 	}
 
 }

@@ -216,7 +216,22 @@ public final class ImmutableArray<T> implements Iterable<T>
 		};
 	}
 
-	public Enumeration<T> values()
+	public ISuppliterator<T> suppliterator(int start, int length)
+	{
+		return new SuppliteratorNullableBase<T>() {
+			private int i = start;
+
+			@Override
+			public T nullableNextImpl()
+			{
+				int i2 = i;
+				i++;
+				return i2 < start + length ? array[i2] : null;
+			}
+		};
+	}
+
+	public Enumeration<T> items()
 	{
 		return new Enumeration<T>() {
 
