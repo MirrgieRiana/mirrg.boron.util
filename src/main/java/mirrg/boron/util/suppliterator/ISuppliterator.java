@@ -15,6 +15,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.IntFunction;
@@ -1248,11 +1249,16 @@ public interface ISuppliterator<T> extends Iterable<T>
 		return collector.finisher().apply(r);
 	}
 
-	public default <R> R collect(Supplier<R> supplier, BiConsumer<R, ? super T> accumulator, BiConsumer<R, R> combiner)
+	public default <R> R collect(Supplier<R> supplier, BiConsumer<R, ? super T> accumulator)
 	{
 		R r = supplier.get();
 		forEach(t -> accumulator.accept(r, t));
 		return r;
+	}
+
+	public default <R> R collect(Supplier<R> supplier, BiConsumer<R, ? super T> accumulator, BiConsumer<R, R> combiner)
+	{
+		return collect(supplier, accumulator);
 	}
 
 	public default String join(String delimiter)
