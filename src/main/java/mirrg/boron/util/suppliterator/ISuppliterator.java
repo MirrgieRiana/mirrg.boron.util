@@ -1024,6 +1024,9 @@ public interface ISuppliterator<T> extends Iterable<T>
 
 	/**
 	 * 昇順にソートします。
+	 *
+	 * @param function
+	 *            この関数は要素ごとに1度ずつ呼び出されます。
 	 */
 	public default <C extends Comparable<? super C>> ISuppliterator<T> sortedObj(Function<? super T, ? extends C> function)
 	{
@@ -1034,6 +1037,9 @@ public interface ISuppliterator<T> extends Iterable<T>
 
 	/**
 	 * 昇順にソートします。
+	 *
+	 * @param function
+	 *            この関数は要素ごとに1度ずつ呼び出されます。
 	 */
 	public default ISuppliterator<T> sortedInt(ToIntFunction<? super T> function)
 	{
@@ -1056,6 +1062,9 @@ public interface ISuppliterator<T> extends Iterable<T>
 
 	/**
 	 * 昇順にソートします。
+	 *
+	 * @param function
+	 *            この関数は要素ごとに1度ずつ呼び出されます。
 	 */
 	public default ISuppliterator<T> sortedLong(ToLongFunction<? super T> function)
 	{
@@ -1078,6 +1087,9 @@ public interface ISuppliterator<T> extends Iterable<T>
 
 	/**
 	 * 昇順にソートします。
+	 *
+	 * @param function
+	 *            この関数は要素ごとに1度ずつ呼び出されます。
 	 */
 	public default ISuppliterator<T> sortedDouble(ToDoubleFunction<? super T> function)
 	{
