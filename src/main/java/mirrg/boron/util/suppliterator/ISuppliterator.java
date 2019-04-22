@@ -1225,15 +1225,14 @@ public interface ISuppliterator<T> extends Iterable<T>
 	public default void forEach(ObjIntConsumer<? super T> consumer)
 	{
 		int i = 0;
-
 		while (true) {
-			i++;
 			T next = nullableNext();
 			if (next != null) {
-				consumer.accept(next, i - 1);
+				consumer.accept(next, i);
 			} else {
 				break;
 			}
+			i++;
 		}
 	}
 
