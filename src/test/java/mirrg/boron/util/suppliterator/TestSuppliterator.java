@@ -328,8 +328,11 @@ public class TestSuppliterator
 	public void test_find()
 	{
 		assertEquals('a', (char) ISuppliterator.characters("abcdefghijklmnopqrstuvwxyz").find().get());
+		assertEquals('t', (char) ISuppliterator.characters("abcdefghijklmnopqrstuvwxyz").find(c -> c == 't').get());
 		assertEquals(true, ISuppliterator.characters("abcdefghijklmnopqrsuvwxyz").find().isPresent());
+		assertEquals(false, ISuppliterator.characters("abcdefghijklmnopqrsuvwxyz").find(c -> c == 't').isPresent());
 		assertEquals(false, ISuppliterator.characters("").find().isPresent());
+		assertEquals(false, ISuppliterator.characters("").find(c -> c == 't').isPresent());
 	}
 
 	@Test

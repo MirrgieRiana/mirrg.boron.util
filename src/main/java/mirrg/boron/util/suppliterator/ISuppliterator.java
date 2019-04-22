@@ -1156,6 +1156,11 @@ public interface ISuppliterator<T> extends Iterable<T>
 		return next();
 	}
 
+	public default Optional<T> find(Predicate<? super T> predicate)
+	{
+		return filter(predicate).next();
+	}
+
 	public default long count()
 	{
 		long i = 0;
