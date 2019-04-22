@@ -342,6 +342,13 @@ public class TestSuppliterator
 		assertEquals(false, ISuppliterator.characters("").find(c -> c == 't').isPresent());
 		assertEquals(false, ISuppliterator.characters("").findWithIndex(c -> c == 't').isPresent());
 		assertEquals(-1, ISuppliterator.characters("").indexOf('t'));
+
+		{
+			ISuppliterator<Integer> s2 = ISuppliterator.of(2, 3, 5, 7); // 10までの素数
+			s2 = ISuppliterator.rangeClosed(2, 100).applyEach(s2, (s, i) -> s.filter(j -> j == i || j % i != 0)); // 100までの素数
+			s2 = ISuppliterator.rangeClosed(2, 10000).applyEach(s2, (s, i) -> s.filter(j -> j == i || j % i != 0)); // 10000までの素数
+			assertEquals(1198 - 1, s2.findWithIndex(i -> i == 9719).get().index); // 9719は1198番目の素数
+		}
 	}
 
 	@Test
