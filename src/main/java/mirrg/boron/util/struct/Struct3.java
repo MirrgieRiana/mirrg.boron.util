@@ -7,6 +7,11 @@ public final class Struct3<X, Y, Z>
 	public Y y;
 	public Z z;
 
+	public static <X, Y, Z> Struct3<X, Y, Z> of(X x, Y y, Z z)
+	{
+		return new Struct3<>(x, y, z);
+	}
+
 	public Struct3()
 	{
 

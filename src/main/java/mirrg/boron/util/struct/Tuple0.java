@@ -5,6 +5,11 @@ public final class Tuple0
 
 	public final static Tuple0 instance = new Tuple0();
 
+	public static Tuple0 of()
+	{
+		return instance;
+	}
+
 	@Override
 	public String toString()
 	{

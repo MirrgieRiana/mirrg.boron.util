@@ -5,6 +5,11 @@ public final class Struct0
 
 	public final static Struct0 instance = new Struct0();
 
+	public static Struct0 of()
+	{
+		return instance;
+	}
+
 	@Override
 	public String toString()
 	{

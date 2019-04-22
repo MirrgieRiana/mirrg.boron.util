@@ -8,6 +8,11 @@ public final class Tuple4<X, Y, Z, W>
 	public final Z z;
 	public final W w;
 
+	public static <X, Y, Z, W> Tuple4<X, Y, Z, W> of(X x, Y y, Z z, W w)
+	{
+		return new Tuple4<>(x, y, z, w);
+	}
+
 	public Tuple4(X x, Y y, Z z, W w)
 	{
 		this.x = x;

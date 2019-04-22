@@ -8,6 +8,11 @@ public final class Struct4<X, Y, Z, W>
 	public Z z;
 	public W w;
 
+	public static <X, Y, Z, W> Struct4<X, Y, Z, W> of(X x, Y y, Z z, W w)
+	{
+		return new Struct4<>(x, y, z, w);
+	}
+
 	public Struct4()
 	{
 

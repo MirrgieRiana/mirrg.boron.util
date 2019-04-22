@@ -7,6 +7,11 @@ public final class Tuple3<X, Y, Z>
 	public final Y y;
 	public final Z z;
 
+	public static <X, Y, Z> Tuple3<X, Y, Z> of(X x, Y y, Z z)
+	{
+		return new Tuple3<>(x, y, z);
+	}
+
 	public Tuple3(X x, Y y, Z z)
 	{
 		this.x = x;

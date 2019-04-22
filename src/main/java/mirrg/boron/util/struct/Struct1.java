@@ -5,6 +5,11 @@ public final class Struct1<X>
 
 	public X x;
 
+	public static <X> Struct1<X> of(X x)
+	{
+		return new Struct1<>(x);
+	}
+
 	public Struct1()
 	{
 

@@ -5,6 +5,11 @@ public final class Tuple1<X>
 
 	public final X x;
 
+	public static <X> Tuple1<X> of(X x)
+	{
+		return new Tuple1<>(x);
+	}
+
 	public Tuple1(X x)
 	{
 		this.x = x;

@@ -9,6 +9,40 @@ public class TestStruct
 {
 
 	@Test
+	public void test_new()
+	{
+		assertEquals("[]", new Tuple0().toString());
+		assertEquals("[1]", new Tuple1<>(1).toString());
+		assertEquals("[1, 2]", new Tuple<>(1, 2).toString());
+		assertEquals("[1, 2, 3]", new Tuple3<>(1, 2, 3).toString());
+		assertEquals("[1, 2, 3, 4]", new Tuple4<>(1, 2, 3, 4).toString());
+
+		assertEquals("[]", Tuple0.of().toString());
+		assertEquals("[1]", Tuple1.of(1).toString());
+		assertEquals("[1, 2]", Tuple.of(1, 2).toString());
+		assertEquals("[1, 2, 3]", Tuple3.of(1, 2, 3).toString());
+		assertEquals("[1, 2, 3, 4]", Tuple4.of(1, 2, 3, 4).toString());
+
+		assertEquals("[]", new Struct0().toString());
+		assertEquals("[1]", new Struct1<>(1).toString());
+		assertEquals("[1, 2]", new Struct2<>(1, 2).toString());
+		assertEquals("[1, 2, 3]", new Struct3<>(1, 2, 3).toString());
+		assertEquals("[1, 2, 3, 4]", new Struct4<>(1, 2, 3, 4).toString());
+
+		assertEquals("[]", Struct0.of().toString());
+		assertEquals("[1]", Struct1.of(1).toString());
+		assertEquals("[1, 2]", Struct2.of(1, 2).toString());
+		assertEquals("[1, 2, 3]", Struct3.of(1, 2, 3).toString());
+		assertEquals("[1, 2, 3, 4]", Struct4.of(1, 2, 3, 4).toString());
+
+		assertEquals("[]", new Struct0().toString());
+		assertEquals("[null]", new Struct1<>().toString());
+		assertEquals("[null, null]", new Struct2<>().toString());
+		assertEquals("[null, null, null]", new Struct3<>().toString());
+		assertEquals("[null, null, null, null]", new Struct4<>().toString());
+	}
+
+	@Test
 	public void test_conversion()
 	{
 		assertEquals(tuple(1, 2, 3, 4), tuple().addLast(1).addLast(2).addLast(3).addLast(4));

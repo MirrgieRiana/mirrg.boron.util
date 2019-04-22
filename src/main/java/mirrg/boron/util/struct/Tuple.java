@@ -8,6 +8,11 @@ public final class Tuple<X, Y> implements Entry<X, Y>
 	public final X x;
 	public final Y y;
 
+	public static <X, Y> Tuple<X, Y> of(X x, Y y)
+	{
+		return new Tuple<>(x, y);
+	}
+
 	public Tuple(X x, Y y)
 	{
 		this.x = x;

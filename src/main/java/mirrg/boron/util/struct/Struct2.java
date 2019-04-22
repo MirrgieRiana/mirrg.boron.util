@@ -6,6 +6,11 @@ public final class Struct2<X, Y>
 	public X x;
 	public Y y;
 
+	public static <X, Y> Struct2<X, Y> of(X x, Y y)
+	{
+		return new Struct2<>(x, y);
+	}
+
 	public Struct2()
 	{
 
