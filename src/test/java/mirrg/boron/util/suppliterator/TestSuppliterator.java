@@ -325,6 +325,13 @@ public class TestSuppliterator
 	}
 
 	@Test
+	public void test_applyIf()
+	{
+		assertEquals("1234567889", ISuppliterator.characters("9846153287").applyIf(true, ISuppliterator::sorted).join());
+		assertEquals("9846153287", ISuppliterator.characters("9846153287").applyIf(false, ISuppliterator::sorted).join());
+	}
+
+	@Test
 	public void test_find()
 	{
 		assertEquals('a', (char) ISuppliterator.characters("abcdefghijklmnopqrstuvwxyz").find().get());

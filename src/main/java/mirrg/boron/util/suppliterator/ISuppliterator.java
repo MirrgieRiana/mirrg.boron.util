@@ -1098,6 +1098,16 @@ public interface ISuppliterator<T> extends Iterable<T>
 		return ofIterable(list).map(t -> t.x);
 	}
 
+	/**
+	 * 昇順にソートします。
+	 */
+	public static <T extends Comparable<? super T>> ISuppliterator<T> sorted(ISuppliterator<T> suppliterator)
+	{
+		List<T> list = suppliterator.toList();
+		list.sort(T::compareTo);
+		return ofIterable(list);
+	}
+
 	@SuppressWarnings("unchecked")
 	public static <I extends O, O> ISuppliterator<O> cast(ISuppliterator<I> suppliterator)
 	{
