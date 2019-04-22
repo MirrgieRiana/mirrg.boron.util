@@ -324,6 +324,34 @@ public class TestSuppliterator
 			"727374757677787980", ISuppliterator.range(9 * 9).slice(9).map(s -> s.map(i -> String.format("%02d", i)).join()).join("\n"));
 	}
 
+	@Test
+	public void test_min_max()
+	{
+		assertEquals('9', (char) ISuppliterator.characters("8462981397826819736").apply(ISuppliterator::max).get());
+		assertEquals(4, ISuppliterator.characters("8462981397826819736").apply(ISuppliterator::maxWithIndex).get().index);
+		assertEquals('9', (char) ISuppliterator.characters("8462981397826819736").apply(ISuppliterator::maxWithIndex).get().value);
+		assertEquals('1', (char) ISuppliterator.characters("8462981397826819736").apply(ISuppliterator::min).get());
+		assertEquals(6, ISuppliterator.characters("8462981397826819736").apply(ISuppliterator::minWithIndex).get().index);
+		assertEquals('1', (char) ISuppliterator.characters("8462981397826819736").apply(ISuppliterator::minWithIndex).get().value);
+
+		assertEquals('9', (char) ISuppliterator.characters("8462981397826819736").max(Character::compare).get());
+		assertEquals(4, ISuppliterator.characters("8462981397826819736").maxWithIndex(Character::compare).get().index);
+		assertEquals('9', (char) ISuppliterator.characters("8462981397826819736").maxWithIndex(Character::compare).get().value);
+		assertEquals('1', (char) ISuppliterator.characters("8462981397826819736").min(Character::compare).get());
+		assertEquals(6, ISuppliterator.characters("8462981397826819736").minWithIndex(Character::compare).get().index);
+		assertEquals('1', (char) ISuppliterator.characters("8462981397826819736").minWithIndex(Character::compare).get().value);
+
+		assertEquals(false, ISuppliterator.characters("").apply(ISuppliterator::max).isPresent());
+		assertEquals(false, ISuppliterator.characters("").apply(ISuppliterator::maxWithIndex).isPresent());
+		assertEquals(false, ISuppliterator.characters("").apply(ISuppliterator::min).isPresent());
+		assertEquals(false, ISuppliterator.characters("").apply(ISuppliterator::minWithIndex).isPresent());
+
+		assertEquals(false, ISuppliterator.characters("").max(Character::compare).isPresent());
+		assertEquals(false, ISuppliterator.characters("").maxWithIndex(Character::compare).isPresent());
+		assertEquals(false, ISuppliterator.characters("").min(Character::compare).isPresent());
+		assertEquals(false, ISuppliterator.characters("").minWithIndex(Character::compare).isPresent());
+	}
+
 	/////////////////////////////////////
 
 	@Test
