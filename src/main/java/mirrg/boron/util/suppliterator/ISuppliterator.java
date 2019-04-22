@@ -929,6 +929,16 @@ public interface ISuppliterator<T> extends Iterable<T>
 		return function.apply(this).apply(this);
 	}
 
+	public default <I> ISuppliterator<T> applyIf(boolean condition, Function<? super ISuppliterator<T>, ? extends ISuppliterator<T>> function)
+	{
+		return condition ? function.apply(this) : this;
+	}
+
+	public default <I> ISuppliterator<T> applyIf(Predicate<? super ISuppliterator<T>> pCondition, Function<? super ISuppliterator<T>, ? extends ISuppliterator<T>> function)
+	{
+		return applyIf(pCondition.test(this), function);
+	}
+
 	public default <I> ISuppliterator<T> applyEach(Iterable<? extends I> list, BiFunction<? super ISuppliterator<T>, ? super I, ? extends ISuppliterator<T>> function)
 	{
 		ISuppliterator<T> now = this;
