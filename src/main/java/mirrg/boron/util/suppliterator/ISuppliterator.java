@@ -1161,6 +1161,21 @@ public interface ISuppliterator<T> extends Iterable<T>
 		return filter(predicate).next();
 	}
 
+	/**
+	 * 指定されたオブジェクトに等しいオブジェクトのインデックスを返します。
+	 * オブジェクトが見つからない場合には-1を返します。
+	 */
+	public default int indexOf(T t)
+	{
+		int i = 0;
+		while (true) {
+			T next = nullableNext();
+			if (next == null) return -1;
+			if (next.equals(t)) return i;
+			i++;
+		}
+	}
+
 	public default long count()
 	{
 		long i = 0;

@@ -329,10 +329,13 @@ public class TestSuppliterator
 	{
 		assertEquals('a', (char) ISuppliterator.characters("abcdefghijklmnopqrstuvwxyz").find().get());
 		assertEquals('t', (char) ISuppliterator.characters("abcdefghijklmnopqrstuvwxyz").find(c -> c == 't').get());
+		assertEquals(19, ISuppliterator.characters("abcdefghijklmnopqrstuvwxyz").indexOf('t'));
 		assertEquals(true, ISuppliterator.characters("abcdefghijklmnopqrsuvwxyz").find().isPresent());
 		assertEquals(false, ISuppliterator.characters("abcdefghijklmnopqrsuvwxyz").find(c -> c == 't').isPresent());
+		assertEquals(-1, ISuppliterator.characters("abcdefghijklmnopqrsuvwxyz").indexOf('t'));
 		assertEquals(false, ISuppliterator.characters("").find().isPresent());
 		assertEquals(false, ISuppliterator.characters("").find(c -> c == 't').isPresent());
+		assertEquals(-1, ISuppliterator.characters("").indexOf('t'));
 	}
 
 	@Test
