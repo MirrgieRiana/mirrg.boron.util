@@ -929,6 +929,15 @@ public interface ISuppliterator<T> extends Iterable<T>
 		return function.apply(this).apply(this);
 	}
 
+	public default <I> ISuppliterator<T> applyEach(Iterable<? extends I> list, BiFunction<? super ISuppliterator<T>, ? super I, ? extends ISuppliterator<T>> function)
+	{
+		ISuppliterator<T> now = this;
+		for (I i : list) {
+			now = function.apply(now, i);
+		}
+		return now;
+	}
+
 	public static <T> ISuppliterator<T> flatten(ISuppliterator<? extends ISuppliterator<T>> suppliterator)
 	{
 		return new SuppliteratorNullableBase<T>() {
