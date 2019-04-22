@@ -14,6 +14,8 @@ import java.util.stream.Stream;
 import org.junit.Test;
 
 import mirrg.boron.util.struct.Tuple;
+import mirrg.boron.util.struct.Tuple1;
+import mirrg.boron.util.struct.Tuple3;
 import mirrg.boron.util.struct.Tuple4;
 import mirrg.boron.util.suppliterator.ISuppliterator.IndexedObject;
 
@@ -473,6 +475,42 @@ public class TestSuppliterator
 		assertEquals("9,8,4,6,1,5,3,2,8,7", ISuppliterator.characters("9846153287").map(ch -> Character.toString(ch)).collect(Collectors.joining(",")));
 		assertEquals(10, (long) ISuppliterator.characters("9846153287").map(ch -> Character.toString(ch)).collect(Collectors.counting()));
 		assertEquals("9,8,4,6,1,5,3,2,8,7", ISuppliterator.ofIterable(ISuppliterator.characters("9846153287").map(ch -> Character.toString(ch)).collect(Collectors.toList())).join(","));
+
+		assertEquals(Optional.of("1"), ISuppliterator.characters("9846153287")
+			.map(ch -> Character.toString(ch))
+			.collect(ISuppliteratorCollector.min()));
+
+		assertEquals(new Tuple1<>(Optional.of(new IndexedObject<>("1", 4))), ISuppliterator.characters("9846153287")
+			.map(ch -> Character.toString(ch))
+			.collects(
+				ISuppliteratorCollector.minWithIndex()));
+
+		assertEquals(new Tuple<>("9,8,4,6,1,5,3,2,8,7", Optional.of(new IndexedObject<>("1", 4))), ISuppliterator.characters("9846153287")
+			.map(ch -> Character.toString(ch))
+			.collects(
+				ISuppliteratorCollector.ofCollector(Collectors.joining(",")),
+				ISuppliteratorCollector.minWithIndex()));
+
+		assertEquals(new Tuple3<>("9,8,4,6,1,5,3,2,8,7", 53, Optional.of(new IndexedObject<>("1", 4))), ISuppliterator.characters("9846153287")
+			.map(ch -> Character.toString(ch))
+			.collects(
+				ISuppliteratorCollector.ofCollector(Collectors.joining(",")),
+				new ISuppliteratorCollector<String, Integer>() {
+					private int count = 0;
+
+					@Override
+					public void accept(String t, int index)
+					{
+						count += t.charAt(0) - '0';
+					}
+
+					@Override
+					public Integer get()
+					{
+						return count;
+					}
+				},
+				ISuppliteratorCollector.minWithIndex()));
 
 		assertEquals(new Tuple4<>("9,8,4,6,1,5,3,2,8,7", 10L, 53, Optional.of(new IndexedObject<>("1", 4))), ISuppliterator.characters("9846153287")
 			.map(ch -> Character.toString(ch))
