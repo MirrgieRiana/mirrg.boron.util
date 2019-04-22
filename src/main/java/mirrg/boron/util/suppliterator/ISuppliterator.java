@@ -35,6 +35,9 @@ import java.util.stream.Stream;
 import mirrg.boron.util.UtilsLambda;
 import mirrg.boron.util.struct.ImmutableArray;
 import mirrg.boron.util.struct.Tuple;
+import mirrg.boron.util.struct.Tuple1;
+import mirrg.boron.util.struct.Tuple3;
+import mirrg.boron.util.struct.Tuple4;
 
 /**
  * {@link Enumeration} や {@link Iterator} がもつメソッドを1個にまとめたものです。
@@ -1279,6 +1282,97 @@ public interface ISuppliterator<T> extends Iterable<T>
 			i++;
 		}
 		return i;
+	}
+
+	public default <O> O collect(ISuppliteratorCollector<? super T, ? extends O> suppliteratorCollector)
+	{
+		int i = 0;
+		while (true) {
+			T next = nullableNext();
+			if (next != null) {
+				suppliteratorCollector.accept(next, i);
+			} else {
+				break;
+			}
+			i++;
+		}
+		return suppliteratorCollector.get();
+	}
+
+	public default <O1> Tuple1<O1> collects(
+		ISuppliteratorCollector<? super T, ? extends O1> sc1)
+	{
+		int i = 0;
+		while (true) {
+			T next = nullableNext();
+			if (next != null) {
+				sc1.accept(next, i);
+			} else {
+				break;
+			}
+			i++;
+		}
+		return new Tuple1<>(sc1.get());
+	}
+
+	public default <O1, O2> Tuple<O1, O2> collects(
+		ISuppliteratorCollector<? super T, ? extends O1> sc1,
+		ISuppliteratorCollector<? super T, ? extends O2> sc2)
+	{
+		int i = 0;
+		while (true) {
+			T next = nullableNext();
+			if (next != null) {
+				sc1.accept(next, i);
+				sc2.accept(next, i);
+			} else {
+				break;
+			}
+			i++;
+		}
+		return new Tuple<>(sc1.get(), sc2.get());
+	}
+
+	public default <O1, O2, O3> Tuple3<O1, O2, O3> collects(
+		ISuppliteratorCollector<? super T, ? extends O1> sc1,
+		ISuppliteratorCollector<? super T, ? extends O2> sc2,
+		ISuppliteratorCollector<? super T, ? extends O3> sc3)
+	{
+		int i = 0;
+		while (true) {
+			T next = nullableNext();
+			if (next != null) {
+				sc1.accept(next, i);
+				sc2.accept(next, i);
+				sc3.accept(next, i);
+			} else {
+				break;
+			}
+			i++;
+		}
+		return new Tuple3<>(sc1.get(), sc2.get(), sc3.get());
+	}
+
+	public default <O1, O2, O3, O4> Tuple4<O1, O2, O3, O4> collects(
+		ISuppliteratorCollector<? super T, ? extends O1> sc1,
+		ISuppliteratorCollector<? super T, ? extends O2> sc2,
+		ISuppliteratorCollector<? super T, ? extends O3> sc3,
+		ISuppliteratorCollector<? super T, ? extends O4> sc4)
+	{
+		int i = 0;
+		while (true) {
+			T next = nullableNext();
+			if (next != null) {
+				sc1.accept(next, i);
+				sc2.accept(next, i);
+				sc3.accept(next, i);
+				sc4.accept(next, i);
+			} else {
+				break;
+			}
+			i++;
+		}
+		return new Tuple4<>(sc1.get(), sc2.get(), sc3.get(), sc4.get());
 	}
 
 	public default <R, A> R collect(Collector<? super T, A, R> collector)
