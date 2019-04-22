@@ -325,6 +325,14 @@ public class TestSuppliterator
 	}
 
 	@Test
+	public void test_find()
+	{
+		assertEquals('a', (char) ISuppliterator.characters("abcdefghijklmnopqrstuvwxyz").find().get());
+		assertEquals(true, ISuppliterator.characters("abcdefghijklmnopqrsuvwxyz").find().isPresent());
+		assertEquals(false, ISuppliterator.characters("").find().isPresent());
+	}
+
+	@Test
 	public void test_min_max()
 	{
 		assertEquals('9', (char) ISuppliterator.characters("8462981397826819736").apply(ISuppliterator::max).get());
