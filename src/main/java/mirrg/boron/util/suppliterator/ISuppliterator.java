@@ -1329,106 +1329,42 @@ public interface ISuppliterator<T> extends Iterable<T>
 
 	public default Optional<T> max(Comparator<? super T> comparator)
 	{
-		T valueMax = null;
-
-		while (true) {
-			T value = nullableNext();
-			if (value == null) return valueMax != null ? Optional.of(valueMax) : Optional.empty();
-
-			if (valueMax == null) {
-				valueMax = value;
-			} else {
-				if (comparator.compare(value, valueMax) > 0) {
-					valueMax = value;
-				}
-			}
-		}
+		return collect(ISuppliteratorCollector.max(comparator));
 	}
 
 	public default Optional<IndexedObject<T>> maxWithIndex(Comparator<? super T> comparator)
 	{
-		int indexMax = -1;
-		T valueMax = null;
-
-		int index = 0;
-		while (true) {
-			T value = nullableNext();
-			if (value == null) return valueMax != null ? Optional.of(new IndexedObject<>(valueMax, indexMax)) : Optional.empty();
-
-			if (valueMax == null) {
-				indexMax = index;
-				valueMax = value;
-			} else {
-				if (comparator.compare(value, valueMax) > 0) {
-					indexMax = index;
-					valueMax = value;
-				}
-			}
-
-			index++;
-		}
+		return collect(ISuppliteratorCollector.maxWithIndex(comparator));
 	}
 
 	public default Optional<T> min(Comparator<? super T> comparator)
 	{
-		T valueMin = null;
-
-		while (true) {
-			T value = nullableNext();
-			if (value == null) return valueMin != null ? Optional.of(valueMin) : Optional.empty();
-
-			if (valueMin == null) {
-				valueMin = value;
-			} else {
-				if (comparator.compare(value, valueMin) < 0) {
-					valueMin = value;
-				}
-			}
-		}
+		return collect(ISuppliteratorCollector.min(comparator));
 	}
 
 	public default Optional<IndexedObject<T>> minWithIndex(Comparator<? super T> comparator)
 	{
-		int indexMin = -1;
-		T valueMin = null;
-
-		int index = 0;
-		while (true) {
-			T value = nullableNext();
-			if (value == null) return valueMin != null ? Optional.of(new IndexedObject<>(valueMin, indexMin)) : Optional.empty();
-
-			if (valueMin == null) {
-				indexMin = index;
-				valueMin = value;
-			} else {
-				if (comparator.compare(value, valueMin) < 0) {
-					indexMin = index;
-					valueMin = value;
-				}
-			}
-
-			index++;
-		}
+		return collect(ISuppliteratorCollector.minWithIndex(comparator));
 	}
 
 	public static <T extends Comparable<? super T>> Optional<T> max(ISuppliterator<T> suppliterator)
 	{
-		return suppliterator.max((a, b) -> a.compareTo(b));
+		return suppliterator.collect(ISuppliteratorCollector.max());
 	}
 
 	public static <T extends Comparable<? super T>> Optional<IndexedObject<T>> maxWithIndex(ISuppliterator<T> suppliterator)
 	{
-		return suppliterator.maxWithIndex((a, b) -> a.compareTo(b));
+		return suppliterator.collect(ISuppliteratorCollector.maxWithIndex());
 	}
 
 	public static <T extends Comparable<? super T>> Optional<T> min(ISuppliterator<T> suppliterator)
 	{
-		return suppliterator.min((a, b) -> a.compareTo(b));
+		return suppliterator.collect(ISuppliteratorCollector.min());
 	}
 
 	public static <T extends Comparable<? super T>> Optional<IndexedObject<T>> minWithIndex(ISuppliterator<T> suppliterator)
 	{
-		return suppliterator.minWithIndex((a, b) -> a.compareTo(b));
+		return suppliterator.collect(ISuppliteratorCollector.minWithIndex());
 	}
 
 	// 変換
