@@ -43,6 +43,7 @@ import mirrg.boron.util.struct.Tuple4;
  * {@link Enumeration} や {@link Iterator} がもつメソッドを1個にまとめたものです。
  * ただし、このインターフェースは非nullの値のみが流れます。
  * 並列処理はサポートしまていせん。
+ * なので、速度は期待してはいけない。
  */
 public interface ISuppliterator<T> extends Iterable<T>
 {
