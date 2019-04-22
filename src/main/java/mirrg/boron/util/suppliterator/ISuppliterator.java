@@ -1123,6 +1123,50 @@ public interface ISuppliterator<T> extends Iterable<T>
 
 	// 終端操作
 
+	public static class IndexedObject<T>
+	{
+
+		public final T value;
+		public final int index;
+
+		public IndexedObject(T value, int index)
+		{
+			this.value = value;
+			this.index = index;
+		}
+
+		@Override
+		public String toString()
+		{
+			return "[" + value + ", " + index + "]";
+		}
+
+		@Override
+		public int hashCode()
+		{
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + index;
+			result = prime * result + ((value == null) ? 0 : value.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj)
+		{
+			if (this == obj) return true;
+			if (obj == null) return false;
+			if (getClass() != obj.getClass()) return false;
+			IndexedObject<?> other = (IndexedObject<?>) obj;
+			if (index != other.index) return false;
+			if (value == null) {
+				if (other.value != null) return false;
+			} else if (!value.equals(other.value)) return false;
+			return true;
+		}
+
+	}
+
 	@Override
 	public default void forEach(Consumer<? super T> consumer)
 	{
@@ -1159,6 +1203,17 @@ public interface ISuppliterator<T> extends Iterable<T>
 	public default Optional<T> find(Predicate<? super T> predicate)
 	{
 		return filter(predicate).next();
+	}
+
+	public default Optional<IndexedObject<T>> findWithIndex(Predicate<? super T> predicate)
+	{
+		int i = 0;
+		while (true) {
+			T next = nullableNext();
+			if (next == null) return Optional.empty();
+			if (predicate.test(next)) return Optional.of(new IndexedObject<>(next, i));
+			i++;
+		}
 	}
 
 	/**
