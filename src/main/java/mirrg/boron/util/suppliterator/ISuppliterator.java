@@ -1421,46 +1421,6 @@ public interface ISuppliterator<T> extends Iterable<T>
 		return sb.toString();
 	}
 
-	public default Optional<T> max(Comparator<? super T> comparator)
-	{
-		return collect(ISuppliteratorCollector.max(comparator));
-	}
-
-	public default Optional<IndexedObject<T>> maxWithIndex(Comparator<? super T> comparator)
-	{
-		return collect(ISuppliteratorCollector.maxWithIndex(comparator));
-	}
-
-	public default Optional<T> min(Comparator<? super T> comparator)
-	{
-		return collect(ISuppliteratorCollector.min(comparator));
-	}
-
-	public default Optional<IndexedObject<T>> minWithIndex(Comparator<? super T> comparator)
-	{
-		return collect(ISuppliteratorCollector.minWithIndex(comparator));
-	}
-
-	public static <T extends Comparable<? super T>> Optional<T> max(ISuppliterator<T> suppliterator)
-	{
-		return suppliterator.collect(ISuppliteratorCollector.max());
-	}
-
-	public static <T extends Comparable<? super T>> Optional<IndexedObject<T>> maxWithIndex(ISuppliterator<T> suppliterator)
-	{
-		return suppliterator.collect(ISuppliteratorCollector.maxWithIndex());
-	}
-
-	public static <T extends Comparable<? super T>> Optional<T> min(ISuppliterator<T> suppliterator)
-	{
-		return suppliterator.collect(ISuppliteratorCollector.min());
-	}
-
-	public static <T extends Comparable<? super T>> Optional<IndexedObject<T>> minWithIndex(ISuppliterator<T> suppliterator)
-	{
-		return suppliterator.collect(ISuppliteratorCollector.minWithIndex());
-	}
-
 	// 変換
 
 	public default <C extends Collection<? super T>> C toCollection(Supplier<? extends C> sCollection)
@@ -1958,6 +1918,48 @@ public interface ISuppliterator<T> extends Iterable<T>
 				return iterator.hasNext();
 			}
 		};
+	}
+
+	// collector redirections
+
+	public default Optional<T> max(Comparator<? super T> comparator)
+	{
+		return collect(SuppliteratorCollectors.max(comparator));
+	}
+
+	public default Optional<T> min(Comparator<? super T> comparator)
+	{
+		return collect(SuppliteratorCollectors.min(comparator));
+	}
+
+	public default <C> Optional<T> max(Function<? super T, ? extends C> function, Comparator<? super C> comparator)
+	{
+		return collect(SuppliteratorCollectors.max(function, comparator));
+	}
+
+	public default <C> Optional<T> min(Function<? super T, ? extends C> function, Comparator<? super C> comparator)
+	{
+		return collect(SuppliteratorCollectors.min(function, comparator));
+	}
+
+	public default Optional<IndexedObject<T>> maxWithIndex(Comparator<? super T> comparator)
+	{
+		return collect(SuppliteratorCollectors.maxWithIndex(comparator));
+	}
+
+	public default Optional<IndexedObject<T>> minWithIndex(Comparator<? super T> comparator)
+	{
+		return collect(SuppliteratorCollectors.minWithIndex(comparator));
+	}
+
+	public default <C> Optional<IndexedObject<T>> maxWithIndex(Function<? super T, ? extends C> function, Comparator<? super C> comparator)
+	{
+		return collect(SuppliteratorCollectors.maxWithIndex(function, comparator));
+	}
+
+	public default <C> Optional<IndexedObject<T>> minWithIndex(Function<? super T, ? extends C> function, Comparator<? super C> comparator)
+	{
+		return collect(SuppliteratorCollectors.minWithIndex(function, comparator));
 	}
 
 }

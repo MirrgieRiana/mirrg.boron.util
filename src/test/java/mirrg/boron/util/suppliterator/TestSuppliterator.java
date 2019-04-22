@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -364,110 +363,99 @@ public class TestSuppliterator
 		}
 	}
 
+	//
+
 	@Test
 	public void test_min_max()
 	{
-		Comparator<? super Character> comparator = (a1, b1) -> {
+		Function<? super Character, ? extends Integer> f = c -> (int) (char) "1000101021".charAt(c - '0');
+		Comparator<? super Character> c = (a1, b1) -> {
 			int a = a1 - '0';
 			int b = b1 - '0';
-
-			// 大まかには小さいほうが強い
-			if (Integer.compare(a / 5, b / 5) != 0) return -Integer.compare(a / 5, b / 5);
-
-			// 細かく見ると大きい方が強い
-			return Integer.compare(a % 5, b % 5);
-
+			if (Integer.compare(a / 5, b / 5) != 0) return -Integer.compare(a / 5, b / 5); // 大まかには小さいほうが強い
+			return Integer.compare(a % 5, b % 5); // 細かく見ると大きい方が強い
+		};
+		Comparator<? super Integer> c2 = (a, b) -> {
+			return b - a;
 		};
 
-		// 存在する場合
 		{
-			Supplier<ISuppliterator<Character>> s = () -> ISuppliterator.characters("640629813978026819736");
+			String s = "780268164062981399736";
+			a('9', characters(s).collect(SuppliteratorCollectors.max()));
+			a('0', characters(s).collect(SuppliteratorCollectors.min()));
+			a('4', characters(s).collect(SuppliteratorCollectors.max(c)));
+			a('6', characters(s).collect(SuppliteratorCollectors.min(c)));
+			a('8', characters(s).collect(SuppliteratorCollectors.max(f)));
+			a('7', characters(s).collect(SuppliteratorCollectors.min(f)));
+			a('7', characters(s).collect(SuppliteratorCollectors.max(f, c2)));
+			a('8', characters(s).collect(SuppliteratorCollectors.min(f, c2)));
+			a('9', 12, characters(s).collect(SuppliteratorCollectors.maxWithIndex()));
+			a('0', 2, characters(s).collect(SuppliteratorCollectors.minWithIndex()));
+			a('4', 8, characters(s).collect(SuppliteratorCollectors.maxWithIndex(c)));
+			a('6', 4, characters(s).collect(SuppliteratorCollectors.minWithIndex(c)));
+			a('8', 1, characters(s).collect(SuppliteratorCollectors.maxWithIndex(f)));
+			a('7', 0, characters(s).collect(SuppliteratorCollectors.minWithIndex(f)));
+			a('7', 0, characters(s).collect(SuppliteratorCollectors.maxWithIndex(f, c2)));
+			a('8', 1, characters(s).collect(SuppliteratorCollectors.minWithIndex(f, c2)));
 
-			// collector使用
-			{
-
-				// 自然順序付け
-				assertEquals('9', (char) s.get().collect(ISuppliteratorCollector.max()).get());
-				assertEquals(5, s.get().collect(ISuppliteratorCollector.maxWithIndex()).get().index);
-				assertEquals('9', (char) s.get().collect(ISuppliteratorCollector.maxWithIndex()).get().value);
-				assertEquals('0', (char) s.get().collect(ISuppliteratorCollector.min()).get());
-				assertEquals(2, s.get().collect(ISuppliteratorCollector.minWithIndex()).get().index);
-				assertEquals('0', (char) s.get().collect(ISuppliteratorCollector.minWithIndex()).get().value);
-
-				// コンパレータ指定
-				assertEquals('4', (char) s.get().collect(ISuppliteratorCollector.max(comparator)).get());
-				assertEquals(1, s.get().collect(ISuppliteratorCollector.maxWithIndex(comparator)).get().index);
-				assertEquals('4', (char) s.get().collect(ISuppliteratorCollector.maxWithIndex(comparator)).get().value);
-				assertEquals('6', (char) s.get().collect(ISuppliteratorCollector.min(comparator)).get());
-				assertEquals(0, s.get().collect(ISuppliteratorCollector.minWithIndex(comparator)).get().index);
-				assertEquals('6', (char) s.get().collect(ISuppliteratorCollector.minWithIndex(comparator)).get().value);
-
-			}
-
-			// collector不使用
-			{
-
-				// 自然順序付け
-				assertEquals('9', (char) s.get().apply(ISuppliterator::max).get());
-				assertEquals(5, s.get().apply(ISuppliterator::maxWithIndex).get().index);
-				assertEquals('9', (char) s.get().apply(ISuppliterator::maxWithIndex).get().value);
-				assertEquals('0', (char) s.get().apply(ISuppliterator::min).get());
-				assertEquals(2, s.get().apply(ISuppliterator::minWithIndex).get().index);
-				assertEquals('0', (char) s.get().apply(ISuppliterator::minWithIndex).get().value);
-
-				// コンパレータ指定
-				assertEquals('4', (char) s.get().max(comparator).get());
-				assertEquals(1, s.get().maxWithIndex(comparator).get().index);
-				assertEquals('4', (char) s.get().maxWithIndex(comparator).get().value);
-				assertEquals('6', (char) s.get().min(comparator).get());
-				assertEquals(0, s.get().minWithIndex(comparator).get().index);
-				assertEquals('6', (char) s.get().minWithIndex(comparator).get().value);
-
-			}
-
+			a('4', characters(s).max(c));
+			a('6', characters(s).min(c));
+			a('7', characters(s).max(f, c2));
+			a('8', characters(s).min(f, c2));
+			a('4', 8, characters(s).maxWithIndex(c));
+			a('6', 4, characters(s).minWithIndex(c));
+			a('7', 0, characters(s).maxWithIndex(f, c2));
+			a('8', 1, characters(s).minWithIndex(f, c2));
 		}
 
-		// 空配列の場合
 		{
-			Supplier<ISuppliterator<Character>> s = () -> ISuppliterator.characters("");
+			String s = "";
+			aE(characters(s).collect(SuppliteratorCollectors.max()));
+			aE(characters(s).collect(SuppliteratorCollectors.min()));
+			aE(characters(s).collect(SuppliteratorCollectors.max(c)));
+			aE(characters(s).collect(SuppliteratorCollectors.min(c)));
+			aE(characters(s).collect(SuppliteratorCollectors.max(f)));
+			aE(characters(s).collect(SuppliteratorCollectors.min(f)));
+			aE(characters(s).collect(SuppliteratorCollectors.max(f, c2)));
+			aE(characters(s).collect(SuppliteratorCollectors.min(f, c2)));
+			aE(characters(s).collect(SuppliteratorCollectors.maxWithIndex()));
+			aE(characters(s).collect(SuppliteratorCollectors.minWithIndex()));
+			aE(characters(s).collect(SuppliteratorCollectors.maxWithIndex(c)));
+			aE(characters(s).collect(SuppliteratorCollectors.minWithIndex(c)));
+			aE(characters(s).collect(SuppliteratorCollectors.maxWithIndex(f)));
+			aE(characters(s).collect(SuppliteratorCollectors.minWithIndex(f)));
+			aE(characters(s).collect(SuppliteratorCollectors.maxWithIndex(f, c2)));
+			aE(characters(s).collect(SuppliteratorCollectors.minWithIndex(f, c2)));
 
-			// collector使用
-			{
-
-				// 自然順序付け
-				assertEquals(false, s.get().collect(ISuppliteratorCollector.max()).isPresent());
-				assertEquals(false, s.get().collect(ISuppliteratorCollector.maxWithIndex()).isPresent());
-				assertEquals(false, s.get().collect(ISuppliteratorCollector.min()).isPresent());
-				assertEquals(false, s.get().collect(ISuppliteratorCollector.minWithIndex()).isPresent());
-
-				// コンパレータ指定
-				assertEquals(false, s.get().collect(ISuppliteratorCollector.max(comparator)).isPresent());
-				assertEquals(false, s.get().collect(ISuppliteratorCollector.maxWithIndex(comparator)).isPresent());
-				assertEquals(false, s.get().collect(ISuppliteratorCollector.min(comparator)).isPresent());
-				assertEquals(false, s.get().collect(ISuppliteratorCollector.minWithIndex(comparator)).isPresent());
-
-			}
-
-			// collector不使用
-			{
-
-				// 自然順序付け
-				assertEquals(false, s.get().apply(ISuppliterator::max).isPresent());
-				assertEquals(false, s.get().apply(ISuppliterator::maxWithIndex).isPresent());
-				assertEquals(false, s.get().apply(ISuppliterator::min).isPresent());
-				assertEquals(false, s.get().apply(ISuppliterator::minWithIndex).isPresent());
-
-				// コンパレータ指定
-				assertEquals(false, s.get().max(comparator).isPresent());
-				assertEquals(false, s.get().maxWithIndex(comparator).isPresent());
-				assertEquals(false, s.get().min(comparator).isPresent());
-				assertEquals(false, s.get().minWithIndex(comparator).isPresent());
-
-			}
-
+			aE(characters(s).max(c));
+			aE(characters(s).min(c));
+			aE(characters(s).max(f, c2));
+			aE(characters(s).min(f, c2));
+			aE(characters(s).maxWithIndex(c));
+			aE(characters(s).minWithIndex(c));
+			aE(characters(s).maxWithIndex(f, c2));
+			aE(characters(s).minWithIndex(f, c2));
 		}
 
 	}
+
+	private void a(char expected, Optional<Character> actual)
+	{
+		assertEquals(expected, (char) actual.get());
+	}
+
+	private void a(char expected, int indexExpected, Optional<IndexedObject<Character>> actual)
+	{
+		assertEquals(expected, (char) actual.get().value);
+		assertEquals(indexExpected, actual.get().index);
+	}
+
+	private void aE(Optional<?> actual)
+	{
+		assertEquals(false, actual.isPresent());
+	}
+
+	//
 
 	@Test
 	public void test_collect()
@@ -478,18 +466,18 @@ public class TestSuppliterator
 
 		assertEquals(Optional.of("1"), ISuppliterator.characters("9846153287")
 			.map(ch -> Character.toString(ch))
-			.collect(ISuppliteratorCollector.min()));
+			.collect(SuppliteratorCollectors.min()));
 
 		assertEquals(new Tuple1<>(Optional.of(new IndexedObject<>("1", 4))), ISuppliterator.characters("9846153287")
 			.map(ch -> Character.toString(ch))
 			.collects(
-				ISuppliteratorCollector.minWithIndex()));
+				SuppliteratorCollectors.minWithIndex()));
 
 		assertEquals(new Tuple<>("9,8,4,6,1,5,3,2,8,7", Optional.of(new IndexedObject<>("1", 4))), ISuppliterator.characters("9846153287")
 			.map(ch -> Character.toString(ch))
 			.collects(
 				ISuppliteratorCollector.ofCollector(Collectors.joining(",")),
-				ISuppliteratorCollector.minWithIndex()));
+				SuppliteratorCollectors.minWithIndex()));
 
 		assertEquals(new Tuple3<>("9,8,4,6,1,5,3,2,8,7", 53, Optional.of(new IndexedObject<>("1", 4))), ISuppliterator.characters("9846153287")
 			.map(ch -> Character.toString(ch))
@@ -510,7 +498,7 @@ public class TestSuppliterator
 						return count;
 					}
 				},
-				ISuppliteratorCollector.minWithIndex()));
+				SuppliteratorCollectors.minWithIndex()));
 
 		assertEquals(new Tuple4<>("9,8,4,6,1,5,3,2,8,7", 10L, 53, Optional.of(new IndexedObject<>("1", 4))), ISuppliterator.characters("9846153287")
 			.map(ch -> Character.toString(ch))
@@ -532,7 +520,7 @@ public class TestSuppliterator
 						return count;
 					}
 				},
-				ISuppliteratorCollector.minWithIndex()));
+				SuppliteratorCollectors.minWithIndex()));
 	}
 
 	/////////////////////////////////////
