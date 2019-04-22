@@ -16,6 +16,26 @@ public interface ISuppliteratorCollector<T, O>
 
 	//
 
+	public static <T, A, R> ISuppliteratorCollector<T, R> ofCollector(Collector<T, A, R> collector)
+	{
+		return new ISuppliteratorCollector<T, R>() {
+			private A a = collector.supplier().get();
+			private BiConsumer<A, ? super T> accumulator = collector.accumulator();
+
+			@Override
+			public void accept(T t, int index)
+			{
+				accumulator.accept(a, t);
+			}
+
+			@Override
+			public R get()
+			{
+				return collector.finisher().apply(a);
+			}
+		};
+	}
+
 	public static <T> ISuppliteratorCollector<T, Optional<T>> max(Comparator<? super T> comparator)
 	{
 		return new ISuppliteratorCollector<T, Optional<T>>() {
