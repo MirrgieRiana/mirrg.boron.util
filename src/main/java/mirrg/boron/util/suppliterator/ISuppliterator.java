@@ -1284,10 +1284,10 @@ public interface ISuppliterator<T> extends Iterable<T>
 
 	public default <R, A> R collect(Collector<? super T, A, R> collector)
 	{
-		A r = collector.supplier().get();
+		A a = collector.supplier().get();
 		BiConsumer<A, ? super T> accumulator = collector.accumulator();
-		forEach(t -> accumulator.accept(r, t));
-		return collector.finisher().apply(r);
+		forEach(t -> accumulator.accept(a, t));
+		return collector.finisher().apply(a);
 	}
 
 	public default <R> R collect(Supplier<R> supplier, BiConsumer<R, ? super T> accumulator)
