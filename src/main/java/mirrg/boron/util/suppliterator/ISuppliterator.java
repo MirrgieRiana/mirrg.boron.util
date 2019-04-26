@@ -1951,7 +1951,7 @@ public interface ISuppliterator<T> extends Iterable<T>
 		return sb.toString();
 	}
 
-	public default String join(String delimiter)
+	public default String join(CharSequence delimiter)
 	{
 		StringBuilder sb = new StringBuilder();
 		T next;
