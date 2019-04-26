@@ -10,6 +10,7 @@ import java.util.function.Supplier;
 
 import org.junit.Test;
 
+import mirrg.boron.util.struct.ImmutableArray;
 import mirrg.boron.util.struct.Tuple;
 import mirrg.boron.util.struct.Tuple1;
 import mirrg.boron.util.struct.Tuple3;
@@ -105,6 +106,34 @@ public class TestSuppliteratorCollector
 			assertEquals(9, (long) t.w.x);
 			assertEquals("739184562", t.w.y);
 			assertEquals("7|3|9|1|8|4|5|6|2", t.w.z);
+		}
+		{
+			ImmutableArray<String> t = characters("12345")
+				.collect(teeingOf(
+
+					joining(),
+
+					joining("|"),
+
+					joining(","),
+
+					joining("\n"),
+
+					joining("\r\n"),
+
+					joining(";"),
+
+					joining("-")
+
+				));
+			assertEquals(7, t.length());
+			assertEquals("12345", t.get(0));
+			assertEquals("1|2|3|4|5", t.get(1));
+			assertEquals("1,2,3,4,5", t.get(2));
+			assertEquals("1\n2\n3\n4\n5", t.get(3));
+			assertEquals("1\r\n2\r\n3\r\n4\r\n5", t.get(4));
+			assertEquals("1;2;3;4;5", t.get(5));
+			assertEquals("1-2-3-4-5", t.get(6));
 		}
 	}
 
