@@ -142,7 +142,7 @@ public class SuppliteratorCollectors
 			public ImmutableArray<O> get()
 			{
 				return ISuppliterator.ofObjArray(scs)
-					.map(sc -> sc.get())
+					.map(sc -> (O) sc.get())
 					.toImmutableArray();
 			}
 		};
