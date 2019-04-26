@@ -126,6 +126,12 @@ public class SuppliteratorCollectors
 		};
 	}
 
+	@SuppressWarnings("unchecked")
+	public static <TI, OI extends OO, TO extends TI, OO> ISuppliteratorCollector<TO, OO> cast(ISuppliteratorCollector<TI, OI> suppliteratorCollector)
+	{
+		return (ISuppliteratorCollector<TO, OO>) suppliteratorCollector;
+	}
+
 	//
 
 	private static class SuppliteratorCollectorCompareBase<T, C> implements ISuppliteratorCollector<T, Optional<IndexedObject<T>>>

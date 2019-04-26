@@ -2,9 +2,11 @@ package mirrg.boron.util.suppliterator;
 
 import static mirrg.boron.util.suppliterator.ISuppliterator.*;
 import static mirrg.boron.util.suppliterator.SuppliteratorCollectors.*;
+import static mirrg.boron.util.suppliterator.SuppliteratorCollectors.cast;
 import static org.junit.Assert.*;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import org.junit.Test;
 
@@ -104,6 +106,17 @@ public class TestSuppliteratorCollector
 			assertEquals("739184562", t.w.y);
 			assertEquals("7|3|9|1|8|4|5|6|2", t.w.z);
 		}
+	}
+
+	@Test
+	public void test_cast()
+	{
+		Supplier<ISuppliteratorCollector<Object, String>> a = () -> joining(",");
+		Supplier<ISuppliteratorCollector<Object, CharSequence>> b = () -> cast(a.get());
+		@SuppressWarnings("unused")
+		Supplier<ISuppliteratorCollector<Character, CharSequence>> c = () -> cast(a.get());
+		assertEquals("1,2,3,4,5", characters("12345").collect(a.get()));
+		assertEquals("1,2,3,4,5", characters("12345").collect(b.get()));
 	}
 
 }
