@@ -7,6 +7,11 @@ import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.stream.Collector;
 
+import mirrg.boron.util.struct.ImmutableArray;
+import mirrg.boron.util.struct.Tuple;
+import mirrg.boron.util.struct.Tuple1;
+import mirrg.boron.util.struct.Tuple3;
+import mirrg.boron.util.struct.Tuple4;
 import mirrg.boron.util.suppliterator.ISuppliterator.IndexedObject;
 
 public class SuppliteratorCollectors
@@ -28,6 +33,90 @@ public class SuppliteratorCollectors
 			public R get()
 			{
 				return collector.finisher().apply(a);
+			}
+		};
+	}
+
+	public static <T, O1> ISuppliteratorCollector<T, Tuple1<O1>> teeing(
+		ISuppliteratorCollector<? super T, ? extends O1> sc1)
+	{
+		return new ISuppliteratorCollector<T, Tuple1<O1>>() {
+			@Override
+			public void accept(T t, int index)
+			{
+				sc1.accept(t, index);
+			}
+
+			@Override
+			public Tuple1<O1> get()
+			{
+				return new Tuple1<>(sc1.get());
+			}
+		};
+	}
+
+	public static <T, O1, O2> ISuppliteratorCollector<T, Tuple<O1, O2>> teeing(
+		ISuppliteratorCollector<? super T, ? extends O1> sc1,
+		ISuppliteratorCollector<? super T, ? extends O2> sc2)
+	{
+		return new ISuppliteratorCollector<T, Tuple<O1, O2>>() {
+			@Override
+			public void accept(T t, int index)
+			{
+				sc1.accept(t, index);
+				sc2.accept(t, index);
+			}
+
+			@Override
+			public Tuple<O1, O2> get()
+			{
+				return new Tuple<>(sc1.get(), sc2.get());
+			}
+		};
+	}
+
+	public static <T, O1, O2, O3> ISuppliteratorCollector<T, Tuple3<O1, O2, O3>> teeing(
+		ISuppliteratorCollector<? super T, ? extends O1> sc1,
+		ISuppliteratorCollector<? super T, ? extends O2> sc2,
+		ISuppliteratorCollector<? super T, ? extends O3> sc3)
+	{
+		return new ISuppliteratorCollector<T, Tuple3<O1, O2, O3>>() {
+			@Override
+			public void accept(T t, int index)
+			{
+				sc1.accept(t, index);
+				sc2.accept(t, index);
+				sc3.accept(t, index);
+			}
+
+			@Override
+			public Tuple3<O1, O2, O3> get()
+			{
+				return new Tuple3<>(sc1.get(), sc2.get(), sc3.get());
+			}
+		};
+	}
+
+	public static <T, O1, O2, O3, O4> ISuppliteratorCollector<T, Tuple4<O1, O2, O3, O4>> teeing(
+		ISuppliteratorCollector<? super T, ? extends O1> sc1,
+		ISuppliteratorCollector<? super T, ? extends O2> sc2,
+		ISuppliteratorCollector<? super T, ? extends O3> sc3,
+		ISuppliteratorCollector<? super T, ? extends O4> sc4)
+	{
+		return new ISuppliteratorCollector<T, Tuple4<O1, O2, O3, O4>>() {
+			@Override
+			public void accept(T t, int index)
+			{
+				sc1.accept(t, index);
+				sc2.accept(t, index);
+				sc3.accept(t, index);
+				sc4.accept(t, index);
+			}
+
+			@Override
+			public Tuple4<O1, O2, O3, O4> get()
+			{
+				return new Tuple4<>(sc1.get(), sc2.get(), sc3.get(), sc4.get());
 			}
 		};
 	}
