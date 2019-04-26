@@ -14,6 +14,11 @@ import mirrg.boron.util.struct.Tuple3;
 import mirrg.boron.util.struct.Tuple4;
 import mirrg.boron.util.suppliterator.ISuppliterator.IndexedObject;
 
+/**
+ * {@link Collectors}で与えられるものとは異なり、返されるコレクタは内部状態を持ちます。
+ *
+ * @see ISuppliteratorCollector
+ */
 public class SuppliteratorCollectors
 {
 

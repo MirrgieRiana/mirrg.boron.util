@@ -1,7 +1,12 @@
 package mirrg.boron.util.suppliterator;
 
 import java.util.function.Function;
+import java.util.stream.Collector;
 
+/**
+ * {@link Collector}と異なり、<b>コレクタは内部状態を持ちます</b>。
+ * すなわち、一つのコレクタインスタンスを使いまわした場合、一つながりのイテレーションであるかのように振る舞います。
+ */
 public interface ISuppliteratorCollector<T, O>
 {
 
