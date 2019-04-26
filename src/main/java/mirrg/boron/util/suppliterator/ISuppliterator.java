@@ -1278,6 +1278,7 @@ public interface ISuppliterator<T> extends Iterable<T>
 
 	public default <O> O collect(ISuppliteratorCollector<? super T, ? extends O> suppliteratorCollector)
 	{
+		suppliteratorCollector.init();
 		int i = 0;
 		while (true) {
 			T next = nullableNext();
@@ -1294,6 +1295,7 @@ public interface ISuppliterator<T> extends Iterable<T>
 	public default <O1> Tuple1<O1> collects(
 		ISuppliteratorCollector<? super T, ? extends O1> sc1)
 	{
+		sc1.init();
 		int i = 0;
 		while (true) {
 			T next = nullableNext();
@@ -1311,6 +1313,8 @@ public interface ISuppliterator<T> extends Iterable<T>
 		ISuppliteratorCollector<? super T, ? extends O1> sc1,
 		ISuppliteratorCollector<? super T, ? extends O2> sc2)
 	{
+		sc1.init();
+		sc2.init();
 		int i = 0;
 		while (true) {
 			T next = nullableNext();
@@ -1330,6 +1334,9 @@ public interface ISuppliterator<T> extends Iterable<T>
 		ISuppliteratorCollector<? super T, ? extends O2> sc2,
 		ISuppliteratorCollector<? super T, ? extends O3> sc3)
 	{
+		sc1.init();
+		sc2.init();
+		sc3.init();
 		int i = 0;
 		while (true) {
 			T next = nullableNext();
@@ -1351,6 +1358,10 @@ public interface ISuppliterator<T> extends Iterable<T>
 		ISuppliteratorCollector<? super T, ? extends O3> sc3,
 		ISuppliteratorCollector<? super T, ? extends O4> sc4)
 	{
+		sc1.init();
+		sc2.init();
+		sc3.init();
+		sc4.init();
 		int i = 0;
 		while (true) {
 			T next = nullableNext();

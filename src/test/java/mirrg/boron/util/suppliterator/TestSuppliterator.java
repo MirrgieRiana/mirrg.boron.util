@@ -484,7 +484,13 @@ public class TestSuppliterator
 			.collects(
 				SuppliteratorCollectors.ofCollector(Collectors.joining(",")),
 				new ISuppliteratorCollector<String, Integer>() {
-					private int count = 0;
+					private int count;
+
+					@Override
+					public void init()
+					{
+						count = 0;
+					}
 
 					@Override
 					public void accept(String t, int index)
@@ -506,7 +512,13 @@ public class TestSuppliterator
 				SuppliteratorCollectors.ofCollector(Collectors.joining(",")),
 				SuppliteratorCollectors.ofCollector(Collectors.counting()),
 				new ISuppliteratorCollector<String, Integer>() {
-					private int count = 0;
+					private int count;
+
+					@Override
+					public void init()
+					{
+						count = 0;
+					}
 
 					@Override
 					public void accept(String t, int index)

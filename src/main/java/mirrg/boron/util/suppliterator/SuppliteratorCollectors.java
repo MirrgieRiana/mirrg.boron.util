@@ -26,8 +26,15 @@ public class SuppliteratorCollectors
 	public static <T, A, R> ISuppliteratorCollector<T, R> ofCollector(Collector<? super T, A, ? extends R> collector)
 	{
 		return new ISuppliteratorCollector<T, R>() {
-			private A a = collector.supplier().get();
-			private BiConsumer<A, ? super T> accumulator = collector.accumulator();
+			private A a;
+			private BiConsumer<A, ? super T> accumulator;
+
+			@Override
+			public void init()
+			{
+				a = collector.supplier().get();
+				accumulator = collector.accumulator();
+			}
 
 			@Override
 			public void accept(T t, int index)
@@ -54,6 +61,12 @@ public class SuppliteratorCollectors
 	{
 		return new ISuppliteratorCollector<T, Tuple1<O1>>() {
 			@Override
+			public void init()
+			{
+				sc1.init();
+			}
+
+			@Override
 			public void accept(T t, int index)
 			{
 				sc1.accept(t, index);
@@ -72,6 +85,13 @@ public class SuppliteratorCollectors
 		ISuppliteratorCollector<? super T, ? extends O2> sc2)
 	{
 		return new ISuppliteratorCollector<T, Tuple<O1, O2>>() {
+			@Override
+			public void init()
+			{
+				sc1.init();
+				sc2.init();
+			}
+
 			@Override
 			public void accept(T t, int index)
 			{
@@ -93,6 +113,14 @@ public class SuppliteratorCollectors
 		ISuppliteratorCollector<? super T, ? extends O3> sc3)
 	{
 		return new ISuppliteratorCollector<T, Tuple3<O1, O2, O3>>() {
+			@Override
+			public void init()
+			{
+				sc1.init();
+				sc2.init();
+				sc3.init();
+			}
+
 			@Override
 			public void accept(T t, int index)
 			{
@@ -117,6 +145,15 @@ public class SuppliteratorCollectors
 	{
 		return new ISuppliteratorCollector<T, Tuple4<O1, O2, O3, O4>>() {
 			@Override
+			public void init()
+			{
+				sc1.init();
+				sc2.init();
+				sc3.init();
+				sc4.init();
+			}
+
+			@Override
 			public void accept(T t, int index)
 			{
 				sc1.accept(t, index);
@@ -137,6 +174,14 @@ public class SuppliteratorCollectors
 	public static <T, O> ISuppliteratorCollector<T, ImmutableArray<O>> teeingOf(ISuppliteratorCollector<? super T, ? extends O>... scs)
 	{
 		return new ISuppliteratorCollector<T, ImmutableArray<O>>() {
+			@Override
+			public void init()
+			{
+				for (ISuppliteratorCollector<? super T, ? extends O> sc : scs) {
+					sc.init();
+				}
+			}
+
 			@Override
 			public void accept(T t, int index)
 			{
@@ -173,9 +218,17 @@ public class SuppliteratorCollectors
 			this.pIsGreater = pIsGreater;
 		}
 
-		private T valueMax = null;
-		private C specMax = null;
-		private int indexMax = -1;
+		private T valueMax;
+		private C specMax;
+		private int indexMax;
+
+		@Override
+		public void init()
+		{
+			valueMax = null;
+			specMax = null;
+			indexMax = -1;
+		}
 
 		@SuppressWarnings("unchecked")
 		@Override
@@ -285,6 +338,12 @@ public class SuppliteratorCollectors
 		private long count = 0;
 
 		@Override
+		public void init()
+		{
+			count = 0;
+		}
+
+		@Override
 		public void accept(T t, int index)
 		{
 			count++;
@@ -317,6 +376,13 @@ public class SuppliteratorCollectors
 
 		private StringBuilder sb = new StringBuilder();
 		private boolean isFirst = true;
+
+		@Override
+		public void init()
+		{
+			sb.setLength(0);
+			isFirst = true;
+		}
 
 		@Override
 		public void accept(Object t, int index)
