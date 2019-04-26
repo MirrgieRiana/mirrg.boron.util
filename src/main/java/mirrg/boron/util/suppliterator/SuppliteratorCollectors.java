@@ -127,13 +127,13 @@ public class SuppliteratorCollectors
 	}
 
 	@SafeVarargs
-	public static <T, O> ISuppliteratorCollector<T, ImmutableArray<O>> teeingOf(ISuppliteratorCollector<T, O>... scs)
+	public static <T, O> ISuppliteratorCollector<T, ImmutableArray<O>> teeingOf(ISuppliteratorCollector<? super T, ? extends O>... scs)
 	{
 		return new ISuppliteratorCollector<T, ImmutableArray<O>>() {
 			@Override
 			public void accept(T t, int index)
 			{
-				for (ISuppliteratorCollector<T, O> sc : scs) {
+				for (ISuppliteratorCollector<? super T, ? extends O> sc : scs) {
 					sc.accept(t, index);
 				}
 			}
