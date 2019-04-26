@@ -126,16 +126,16 @@ public class SuppliteratorCollectors
 	private static class SuppliteratorCollectorCompareBase<T, C> implements ISuppliteratorCollector<T, Optional<IndexedObject<T>>>
 	{
 
-		private final Function<? super T, ? extends C> function;
+		private final Function<? super T, ? extends C> nFunction;
 		private final BiPredicate<? super C, ? super C> pIsGreater;
 
 		/**
-		 * @param function
+		 * @param nFunction
 		 *            nullにした場合、無検査キャストによりソートキーが抽出されます。
 		 */
-		public SuppliteratorCollectorCompareBase(Function<? super T, ? extends C> function, BiPredicate<? super C, ? super C> pIsGreater)
+		public SuppliteratorCollectorCompareBase(Function<? super T, ? extends C> nFunction, BiPredicate<? super C, ? super C> pIsGreater)
 		{
-			this.function = function;
+			this.nFunction = nFunction;
 			this.pIsGreater = pIsGreater;
 		}
 
@@ -147,7 +147,7 @@ public class SuppliteratorCollectors
 		@Override
 		public void accept(T t, int index)
 		{
-			C spec = function != null ? function.apply(t) : (C) t;
+			C spec = nFunction != null ? nFunction.apply(t) : (C) t;
 			if (valueMax == null || pIsGreater.test(spec, specMax)) {
 				valueMax = t;
 				specMax = spec;
