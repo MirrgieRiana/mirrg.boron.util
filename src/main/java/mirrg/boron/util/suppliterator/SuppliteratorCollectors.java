@@ -269,4 +269,50 @@ public class SuppliteratorCollectors
 		return new SuppliteratorCollectorCountingBase<>();
 	}
 
+	//
+
+	private static class SuppliteratorCollectorJoiningBase implements ISuppliteratorCollector<Object, String>
+	{
+
+		private final String nDelimiter;
+
+		public SuppliteratorCollectorJoiningBase(String nDelimiter)
+		{
+			this.nDelimiter = nDelimiter;
+		}
+
+		private StringBuilder sb = new StringBuilder();
+		private boolean isFirst = true;
+
+		@Override
+		public void accept(Object t, int index)
+		{
+			if (nDelimiter != null) {
+				if (isFirst) {
+					isFirst = false;
+				} else {
+					sb.append(nDelimiter);
+				}
+			}
+			sb.append(t);
+		}
+
+		@Override
+		public String get()
+		{
+			return sb.toString();
+		}
+
+	}
+
+	public static <T> ISuppliteratorCollector<Object, String> joining()
+	{
+		return new SuppliteratorCollectorJoiningBase(null);
+	}
+
+	public static <T> ISuppliteratorCollector<Object, String> joining(String delimiter)
+	{
+		return new SuppliteratorCollectorJoiningBase(delimiter);
+	}
+
 }

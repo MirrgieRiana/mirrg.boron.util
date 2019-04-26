@@ -1387,32 +1387,6 @@ public interface ISuppliterator<T> extends Iterable<T>
 		return collect(supplier, accumulator);
 	}
 
-	public default String join(String delimiter)
-	{
-		StringBuilder sb = new StringBuilder();
-		T next;
-		boolean isFirst = true;
-		while ((next = nullableNext()) != null) {
-			if (isFirst) {
-				isFirst = false;
-			} else {
-				sb.append(delimiter);
-			}
-			sb.append(next);
-		}
-		return sb.toString();
-	}
-
-	public default String join()
-	{
-		StringBuilder sb = new StringBuilder();
-		T next;
-		while ((next = nullableNext()) != null) {
-			sb.append(next);
-		}
-		return sb.toString();
-	}
-
 	// 変換
 
 	public default <C extends Collection<? super T>> C toCollection(Supplier<? extends C> sCollection)
@@ -1963,6 +1937,34 @@ public interface ISuppliterator<T> extends Iterable<T>
 			i++;
 		}
 		return i;
+	}
+
+	//
+
+	public default String join()
+	{
+		StringBuilder sb = new StringBuilder();
+		T next;
+		while ((next = nullableNext()) != null) {
+			sb.append(next);
+		}
+		return sb.toString();
+	}
+
+	public default String join(String delimiter)
+	{
+		StringBuilder sb = new StringBuilder();
+		T next;
+		boolean isFirst = true;
+		while ((next = nullableNext()) != null) {
+			if (isFirst) {
+				isFirst = false;
+			} else {
+				sb.append(delimiter);
+			}
+			sb.append(next);
+		}
+		return sb.toString();
 	}
 
 }
