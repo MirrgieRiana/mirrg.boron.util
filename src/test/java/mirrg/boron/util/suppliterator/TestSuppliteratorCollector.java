@@ -1,6 +1,109 @@
 package mirrg.boron.util.suppliterator;
 
+import static mirrg.boron.util.suppliterator.ISuppliterator.*;
+import static mirrg.boron.util.suppliterator.SuppliteratorCollectors.*;
+import static org.junit.Assert.*;
+
+import java.util.Optional;
+
+import org.junit.Test;
+
+import mirrg.boron.util.struct.Tuple;
+import mirrg.boron.util.struct.Tuple1;
+import mirrg.boron.util.struct.Tuple3;
+import mirrg.boron.util.struct.Tuple4;
+
 public class TestSuppliteratorCollector
 {
+
+	@Test
+	public void test_1()
+	{
+		{
+			assertEquals('9', (char) characters("739184562")
+				.collect(teeing(
+
+					max()
+
+				)).x.get());
+		}
+		{
+			Tuple<Optional<Character>, Optional<Character>> t = characters("739184562")
+				.collect(teeing(
+
+					SuppliteratorCollectors.<Character> max(),
+
+					SuppliteratorCollectors.<Character> min()
+
+				));
+			assertEquals('9', (char) t.x.get());
+			assertEquals('1', (char) t.y.get());
+		}
+		{
+			Tuple3<Optional<Character>, Optional<Character>, Long> t = characters("739184562")
+				.collect(teeing(
+
+					SuppliteratorCollectors.<Character> max(),
+
+					SuppliteratorCollectors.<Character> min(),
+
+					counting()
+
+				));
+			assertEquals('9', (char) t.x.get());
+			assertEquals('1', (char) t.y.get());
+			assertEquals(9, (long) t.z);
+		}
+		{
+			Tuple4<Optional<Character>, Optional<Character>, Long, Tuple1<Long>> t = characters("739184562")
+				.collect(teeing(
+
+					SuppliteratorCollectors.<Character> max(),
+
+					SuppliteratorCollectors.<Character> min(),
+
+					counting(),
+
+					teeing(
+
+						counting()
+
+					)
+
+				));
+			assertEquals('9', (char) t.x.get());
+			assertEquals('1', (char) t.y.get());
+			assertEquals(9, (long) t.z);
+			assertEquals(9, (long) t.w.x);
+		}
+		{
+			Tuple4<Optional<Character>, Optional<Character>, Long, Tuple3<Long, String, String>> t = characters("739184562")
+				.collect(teeing(
+
+					SuppliteratorCollectors.<Character> max(),
+
+					SuppliteratorCollectors.<Character> min(),
+
+					counting(),
+
+					teeing(
+
+						counting(),
+
+						joining(),
+
+						joining("|")
+
+					)
+
+				));
+			assertEquals('9', (char) t.x.get());
+			assertEquals('1', (char) t.y.get());
+			assertEquals(9, (long) t.z);
+			assertEquals(9, (long) t.w.x);
+			assertEquals("739184562", t.w.y);
+			assertEquals("7|3|9|1|8|4|5|6|2", t.w.z);
+		}
+	}
 
 }
