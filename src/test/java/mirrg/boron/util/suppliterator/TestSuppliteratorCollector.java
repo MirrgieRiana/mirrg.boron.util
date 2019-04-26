@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import org.junit.Test;
 
+import mirrg.boron.util.UtilsString;
 import mirrg.boron.util.struct.ImmutableArray;
 import mirrg.boron.util.struct.Tuple;
 import mirrg.boron.util.struct.Tuple1;
@@ -135,6 +136,22 @@ public class TestSuppliteratorCollector
 			assertEquals(5, (long) t.get(4));
 			assertEquals("1;2;3;4;5", t.get(5));
 			assertEquals("1-2-3-4-5", t.get(6));
+		}
+		{
+			ImmutableArray<Object> t = characters("12345")
+				.collect(teeing(
+
+					ISuppliterator.rangeClosed(0, 4)
+						.map(i -> joining(UtilsString.repeat("-", i)))
+						.toImmutableArray()
+
+				));
+			assertEquals(5, t.length());
+			assertEquals("12345", t.get(0));
+			assertEquals("1-2-3-4-5", t.get(1));
+			assertEquals("1--2--3--4--5", t.get(2));
+			assertEquals("1---2---3---4---5", t.get(3));
+			assertEquals("1----2----3----4----5", t.get(4));
 		}
 	}
 

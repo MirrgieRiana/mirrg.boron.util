@@ -200,6 +200,35 @@ public class SuppliteratorCollectors
 		};
 	}
 
+	public static <T, O> ISuppliteratorCollector<T, ImmutableArray<O>> teeing(Iterable<? extends ISuppliteratorCollector<? super T, ? extends O>> scs)
+	{
+		return new ISuppliteratorCollector<T, ImmutableArray<O>>() {
+			@Override
+			public void init()
+			{
+				for (ISuppliteratorCollector<? super T, ? extends O> sc : scs) {
+					sc.init();
+				}
+			}
+
+			@Override
+			public void accept(T t, int index)
+			{
+				for (ISuppliteratorCollector<? super T, ? extends O> sc : scs) {
+					sc.accept(t, index);
+				}
+			}
+
+			@Override
+			public ImmutableArray<O> get()
+			{
+				return ISuppliterator.ofIterable(scs)
+					.map(sc -> (O) sc.get())
+					.toImmutableArray();
+			}
+		};
+	}
+
 	//
 
 	private static class SuppliteratorCollectorCompareBase<T, C> implements ISuppliteratorCollector<T, Optional<IndexedObject<T>>>
