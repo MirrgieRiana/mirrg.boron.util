@@ -42,6 +42,12 @@ public class SuppliteratorCollectors
 		};
 	}
 
+	@SuppressWarnings("unchecked")
+	public static <TI, OI extends OO, TO extends TI, OO> ISuppliteratorCollector<TO, OO> cast(ISuppliteratorCollector<TI, OI> suppliteratorCollector)
+	{
+		return (ISuppliteratorCollector<TO, OO>) suppliteratorCollector;
+	}
+
 	public static <T, O1> ISuppliteratorCollector<T, Tuple1<O1>> teeing(
 		ISuppliteratorCollector<? super T, ? extends O1> sc1)
 	{
@@ -146,12 +152,6 @@ public class SuppliteratorCollectors
 					.toImmutableArray();
 			}
 		};
-	}
-
-	@SuppressWarnings("unchecked")
-	public static <TI, OI extends OO, TO extends TI, OO> ISuppliteratorCollector<TO, OO> cast(ISuppliteratorCollector<TI, OI> suppliteratorCollector)
-	{
-		return (ISuppliteratorCollector<TO, OO>) suppliteratorCollector;
 	}
 
 	//
