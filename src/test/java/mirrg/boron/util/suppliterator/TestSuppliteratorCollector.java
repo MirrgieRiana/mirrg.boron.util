@@ -7,6 +7,8 @@ import static org.junit.Assert.*;
 
 import java.util.Optional;
 import java.util.function.Supplier;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.junit.Test;
 
@@ -135,6 +137,16 @@ public class TestSuppliteratorCollector
 			assertEquals("1;2;3;4;5", t.get(5));
 			assertEquals("1-2-3-4-5", t.get(6));
 		}
+	}
+
+	@Test
+	public void test_ofCollector()
+	{
+		Collector<CharSequence, ?, String> a = Collectors.joining(",");
+		ISuppliteratorCollector<String, String> b = ofCollector(a);
+		assertEquals("1,2,3,4,5", characters("12345")
+			.map(c -> Character.toString(c))
+			.collect(b));
 	}
 
 	@Test

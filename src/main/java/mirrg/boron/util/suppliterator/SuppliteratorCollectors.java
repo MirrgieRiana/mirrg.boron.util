@@ -22,7 +22,7 @@ import mirrg.boron.util.suppliterator.ISuppliterator.IndexedObject;
 public class SuppliteratorCollectors
 {
 
-	public static <T, A, R> ISuppliteratorCollector<T, R> ofCollector(Collector<T, A, R> collector)
+	public static <T, A, R> ISuppliteratorCollector<T, R> ofCollector(Collector<? super T, A, ? extends R> collector)
 	{
 		return new ISuppliteratorCollector<T, R>() {
 			private A a = collector.supplier().get();
