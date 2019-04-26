@@ -307,9 +307,9 @@ public class SuppliteratorCollectors
 	private static class SuppliteratorCollectorJoiningBase implements ISuppliteratorCollector<Object, String>
 	{
 
-		private final String nDelimiter;
+		private final CharSequence nDelimiter;
 
-		public SuppliteratorCollectorJoiningBase(String nDelimiter)
+		public SuppliteratorCollectorJoiningBase(CharSequence nDelimiter)
 		{
 			this.nDelimiter = nDelimiter;
 		}
@@ -343,7 +343,7 @@ public class SuppliteratorCollectors
 		return new SuppliteratorCollectorJoiningBase(null);
 	}
 
-	public static <T> ISuppliteratorCollector<Object, String> joining(String delimiter)
+	public static <T> ISuppliteratorCollector<Object, String> joining(CharSequence delimiter)
 	{
 		return new SuppliteratorCollectorJoiningBase(delimiter);
 	}
