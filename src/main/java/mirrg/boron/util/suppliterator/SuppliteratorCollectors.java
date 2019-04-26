@@ -243,4 +243,30 @@ public class SuppliteratorCollectors
 		return new SuppliteratorCollectorCompareBase<>(function, (a, b) -> comparator.compare(a, b) < 0);
 	}
 
+	//
+
+	private static class SuppliteratorCollectorCountingBase<T> implements ISuppliteratorCollector<T, Long>
+	{
+
+		private long count = 0;
+
+		@Override
+		public void accept(T t, int index)
+		{
+			count++;
+		}
+
+		@Override
+		public Long get()
+		{
+			return count;
+		}
+
+	}
+
+	public static <T> ISuppliteratorCollector<T, Long> counting()
+	{
+		return new SuppliteratorCollectorCountingBase<>();
+	}
+
 }

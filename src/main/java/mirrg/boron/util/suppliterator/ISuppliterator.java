@@ -1276,15 +1276,6 @@ public interface ISuppliterator<T> extends Iterable<T>
 		}
 	}
 
-	public default long count()
-	{
-		long i = 0;
-		while (nullableNext() != null) {
-			i++;
-		}
-		return i;
-	}
-
 	public default <O> O collect(ISuppliteratorCollector<? super T, ? extends O> suppliteratorCollector)
 	{
 		int i = 0;
@@ -1961,6 +1952,17 @@ public interface ISuppliterator<T> extends Iterable<T>
 	public default <C> Optional<IndexedObject<T>> minWithIndex(Function<? super T, ? extends C> function, Comparator<? super C> comparator)
 	{
 		return collect(SuppliteratorCollectors.minWithIndex(function, comparator));
+	}
+
+	//
+
+	public default long count()
+	{
+		long i = 0;
+		while (nullableNext() != null) {
+			i++;
+		}
+		return i;
 	}
 
 }
