@@ -5,8 +5,8 @@ import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import mirrg.boron.util.struct.ImmutableArray;
 import mirrg.boron.util.struct.Tuple;
@@ -15,26 +15,17 @@ import mirrg.boron.util.struct.Tuple3;
 import mirrg.boron.util.struct.Tuple4;
 import mirrg.boron.util.suppliterator.ISuppliterator.IndexedObject;
 
-/**
- * {@link Collectors}で与えられるものとは異なり、返されるコレクタは内部状態を持ちます。
- *
- * @see ISuppliteratorCollector
- */
 public class SuppliteratorCollectors
 {
 
-	public static <T, A, R> ISuppliteratorCollector<T, R> ofCollector(Collector<? super T, A, ? extends R> collector)
+	public static <T, A, R> ICollectorFactory<T, R> ofStreamCollector(Collector<T, A, R> streamCollector)
 	{
-		return new ISuppliteratorCollector<T, R>() {
-			private A a;
-			private BiConsumer<A, ? super T> accumulator;
+		Supplier<A> supplier = streamCollector.supplier();
+		BiConsumer<A, ? super T> accumulator = streamCollector.accumulator();
+		Function<A, R> finisher = streamCollector.finisher();
 
-			@Override
-			public void init()
-			{
-				a = collector.supplier().get();
-				accumulator = collector.accumulator();
-			}
+		return () -> new ICollector<T, R>() {
+			private A a = supplier.get();
 
 			@Override
 			public void accept(T t, int index)
@@ -45,185 +36,161 @@ public class SuppliteratorCollectors
 			@Override
 			public R get()
 			{
-				return collector.finisher().apply(a);
+				return finisher.apply(a);
 			}
 		};
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <TI, OI extends OO, TO extends TI, OO> ISuppliteratorCollector<TO, OO> cast(ISuppliteratorCollector<TI, OI> suppliteratorCollector)
+	public static <TI, OI extends OO, TO extends TI, OO> ICollectorFactory<TO, OO> cast(ICollectorFactory<TI, OI> collectorFactory)
 	{
-		return (ISuppliteratorCollector<TO, OO>) suppliteratorCollector;
+		return (ICollectorFactory<TO, OO>) collectorFactory;
 	}
 
-	public static <T, O1> ISuppliteratorCollector<T, Tuple1<O1>> teeing(
-		ISuppliteratorCollector<? super T, ? extends O1> sc1)
+	public static <T, O1> ICollectorFactory<T, Tuple1<O1>> teeing(
+		ICollectorFactory<? super T, ? extends O1> cf1)
 	{
-		return new ISuppliteratorCollector<T, Tuple1<O1>>() {
-			@Override
-			public void init()
-			{
-				sc1.init();
-			}
+		return () -> new ICollector<T, Tuple1<O1>>() {
+			ICollector<? super T, ? extends O1> c1 = cf1.create();
 
 			@Override
 			public void accept(T t, int index)
 			{
-				sc1.accept(t, index);
+				c1.accept(t, index);
 			}
 
 			@Override
 			public Tuple1<O1> get()
 			{
-				return new Tuple1<>(sc1.get());
+				return new Tuple1<>(c1.get());
 			}
 		};
 	}
 
-	public static <T, O1, O2> ISuppliteratorCollector<T, Tuple<O1, O2>> teeing(
-		ISuppliteratorCollector<? super T, ? extends O1> sc1,
-		ISuppliteratorCollector<? super T, ? extends O2> sc2)
+	public static <T, O1, O2> ICollectorFactory<T, Tuple<O1, O2>> teeing(
+		ICollectorFactory<? super T, ? extends O1> cf1,
+		ICollectorFactory<? super T, ? extends O2> cf2)
 	{
-		return new ISuppliteratorCollector<T, Tuple<O1, O2>>() {
-			@Override
-			public void init()
-			{
-				sc1.init();
-				sc2.init();
-			}
+		return () -> new ICollector<T, Tuple<O1, O2>>() {
+			ICollector<? super T, ? extends O1> c1 = cf1.create();
+			ICollector<? super T, ? extends O2> c2 = cf2.create();
 
 			@Override
 			public void accept(T t, int index)
 			{
-				sc1.accept(t, index);
-				sc2.accept(t, index);
+				c1.accept(t, index);
+				c2.accept(t, index);
 			}
 
 			@Override
 			public Tuple<O1, O2> get()
 			{
-				return new Tuple<>(sc1.get(), sc2.get());
+				return new Tuple<>(c1.get(), c2.get());
 			}
 		};
 	}
 
-	public static <T, O1, O2, O3> ISuppliteratorCollector<T, Tuple3<O1, O2, O3>> teeing(
-		ISuppliteratorCollector<? super T, ? extends O1> sc1,
-		ISuppliteratorCollector<? super T, ? extends O2> sc2,
-		ISuppliteratorCollector<? super T, ? extends O3> sc3)
+	public static <T, O1, O2, O3> ICollectorFactory<T, Tuple3<O1, O2, O3>> teeing(
+		ICollectorFactory<? super T, ? extends O1> cf1,
+		ICollectorFactory<? super T, ? extends O2> cf2,
+		ICollectorFactory<? super T, ? extends O3> cf3)
 	{
-		return new ISuppliteratorCollector<T, Tuple3<O1, O2, O3>>() {
-			@Override
-			public void init()
-			{
-				sc1.init();
-				sc2.init();
-				sc3.init();
-			}
+		return () -> new ICollector<T, Tuple3<O1, O2, O3>>() {
+			ICollector<? super T, ? extends O1> c1 = cf1.create();
+			ICollector<? super T, ? extends O2> c2 = cf2.create();
+			ICollector<? super T, ? extends O3> c3 = cf3.create();
 
 			@Override
 			public void accept(T t, int index)
 			{
-				sc1.accept(t, index);
-				sc2.accept(t, index);
-				sc3.accept(t, index);
+				c1.accept(t, index);
+				c2.accept(t, index);
+				c3.accept(t, index);
 			}
 
 			@Override
 			public Tuple3<O1, O2, O3> get()
 			{
-				return new Tuple3<>(sc1.get(), sc2.get(), sc3.get());
+				return new Tuple3<>(c1.get(), c2.get(), c3.get());
 			}
 		};
 	}
 
-	public static <T, O1, O2, O3, O4> ISuppliteratorCollector<T, Tuple4<O1, O2, O3, O4>> teeing(
-		ISuppliteratorCollector<? super T, ? extends O1> sc1,
-		ISuppliteratorCollector<? super T, ? extends O2> sc2,
-		ISuppliteratorCollector<? super T, ? extends O3> sc3,
-		ISuppliteratorCollector<? super T, ? extends O4> sc4)
+	public static <T, O1, O2, O3, O4> ICollectorFactory<T, Tuple4<O1, O2, O3, O4>> teeing(
+		ICollectorFactory<? super T, ? extends O1> cf1,
+		ICollectorFactory<? super T, ? extends O2> cf2,
+		ICollectorFactory<? super T, ? extends O3> cf3,
+		ICollectorFactory<? super T, ? extends O4> cf4)
 	{
-		return new ISuppliteratorCollector<T, Tuple4<O1, O2, O3, O4>>() {
-			@Override
-			public void init()
-			{
-				sc1.init();
-				sc2.init();
-				sc3.init();
-				sc4.init();
-			}
+		return () -> new ICollector<T, Tuple4<O1, O2, O3, O4>>() {
+			ICollector<? super T, ? extends O1> c1 = cf1.create();
+			ICollector<? super T, ? extends O2> c2 = cf2.create();
+			ICollector<? super T, ? extends O3> c3 = cf3.create();
+			ICollector<? super T, ? extends O4> c4 = cf4.create();
 
 			@Override
 			public void accept(T t, int index)
 			{
-				sc1.accept(t, index);
-				sc2.accept(t, index);
-				sc3.accept(t, index);
-				sc4.accept(t, index);
+				c1.accept(t, index);
+				c2.accept(t, index);
+				c3.accept(t, index);
+				c4.accept(t, index);
 			}
 
 			@Override
 			public Tuple4<O1, O2, O3, O4> get()
 			{
-				return new Tuple4<>(sc1.get(), sc2.get(), sc3.get(), sc4.get());
+				return new Tuple4<>(c1.get(), c2.get(), c3.get(), c4.get());
 			}
 		};
 	}
 
 	@SafeVarargs
-	public static <T, O> ISuppliteratorCollector<T, ImmutableArray<O>> teeingOf(ISuppliteratorCollector<? super T, ? extends O>... scs)
+	public static <T, O> ICollectorFactory<T, ImmutableArray<O>> teeingOf(ICollectorFactory<? super T, ? extends O>... cfs)
 	{
-		return new ISuppliteratorCollector<T, ImmutableArray<O>>() {
-			@Override
-			public void init()
-			{
-				for (ISuppliteratorCollector<? super T, ? extends O> sc : scs) {
-					sc.init();
-				}
-			}
+		return () -> new ICollector<T, ImmutableArray<O>>() {
+			private ImmutableArray<ICollector<? super T, ? extends O>> cs = ISuppliterator.ofObjArray(cfs)
+				.<ICollector<? super T, ? extends O>> map(cf -> cf.create())
+				.toImmutableArray();
 
 			@Override
 			public void accept(T t, int index)
 			{
-				for (ISuppliteratorCollector<? super T, ? extends O> sc : scs) {
-					sc.accept(t, index);
+				for (ICollector<? super T, ? extends O> c : cs) {
+					c.accept(t, index);
 				}
 			}
 
 			@Override
 			public ImmutableArray<O> get()
 			{
-				return ISuppliterator.ofObjArray(scs)
-					.map(sc -> (O) sc.get())
+				return ISuppliterator.ofIterable(cs)
+					.map(c -> (O) c.get())
 					.toImmutableArray();
 			}
 		};
 	}
 
-	public static <T, O> ISuppliteratorCollector<T, ImmutableArray<O>> teeing(Iterable<? extends ISuppliteratorCollector<? super T, ? extends O>> scs)
+	public static <T, O> ICollectorFactory<T, ImmutableArray<O>> teeing(Iterable<? extends ICollectorFactory<? super T, ? extends O>> cfs)
 	{
-		return new ISuppliteratorCollector<T, ImmutableArray<O>>() {
-			@Override
-			public void init()
-			{
-				for (ISuppliteratorCollector<? super T, ? extends O> sc : scs) {
-					sc.init();
-				}
-			}
+		return () -> new ICollector<T, ImmutableArray<O>>() {
+			private ImmutableArray<ICollector<? super T, ? extends O>> cs = ISuppliterator.ofIterable(cfs)
+				.<ICollector<? super T, ? extends O>> map(cf -> cf.create())
+				.toImmutableArray();
 
 			@Override
 			public void accept(T t, int index)
 			{
-				for (ISuppliteratorCollector<? super T, ? extends O> sc : scs) {
-					sc.accept(t, index);
+				for (ICollector<? super T, ? extends O> c : cs) {
+					c.accept(t, index);
 				}
 			}
 
 			@Override
 			public ImmutableArray<O> get()
 			{
-				return ISuppliterator.ofIterable(scs)
-					.map(sc -> (O) sc.get())
+				return ISuppliterator.ofIterable(cs)
+					.map(c -> (O) c.get())
 					.toImmutableArray();
 			}
 		};
@@ -231,7 +198,7 @@ public class SuppliteratorCollectors
 
 	//
 
-	private static class SuppliteratorCollectorCompareBase<T, C> implements ISuppliteratorCollector<T, Optional<IndexedObject<T>>>
+	private static class SuppliteratorCollectorCompareBase<T, C> implements ICollector<T, Optional<IndexedObject<T>>>
 	{
 
 		private final Function<? super T, ? extends C> nFunction;
@@ -247,17 +214,9 @@ public class SuppliteratorCollectors
 			this.pIsGreater = pIsGreater;
 		}
 
-		private T valueMax;
-		private C specMax;
-		private int indexMax;
-
-		@Override
-		public void init()
-		{
-			valueMax = null;
-			specMax = null;
-			indexMax = -1;
-		}
+		private T valueMax = null;
+		private C specMax = null;
+		private int indexMax = -1;
 
 		@SuppressWarnings("unchecked")
 		@Override
@@ -279,98 +238,92 @@ public class SuppliteratorCollectors
 
 	}
 
-	public static <T extends Comparable<? super T>> ISuppliteratorCollector<T, Optional<T>> max()
+	public static <T extends Comparable<? super T>> ICollectorFactory<T, Optional<T>> max()
 	{
 		return SuppliteratorCollectors.<T> maxWithIndex().andThen(o -> o.map(io -> io.value));
 	}
 
-	public static <T extends Comparable<? super T>> ISuppliteratorCollector<T, Optional<T>> min()
+	public static <T extends Comparable<? super T>> ICollectorFactory<T, Optional<T>> min()
 	{
 		return SuppliteratorCollectors.<T> minWithIndex().andThen(o -> o.map(io -> io.value));
 	}
 
-	public static <T> ISuppliteratorCollector<T, Optional<T>> max(Comparator<? super T> comparator)
+	public static <T> ICollectorFactory<T, Optional<T>> max(Comparator<? super T> comparator)
 	{
 		return SuppliteratorCollectors.<T> maxWithIndex(comparator).andThen(o -> o.map(io -> io.value));
 	}
 
-	public static <T> ISuppliteratorCollector<T, Optional<T>> min(Comparator<? super T> comparator)
+	public static <T> ICollectorFactory<T, Optional<T>> min(Comparator<? super T> comparator)
 	{
 		return SuppliteratorCollectors.<T> minWithIndex(comparator).andThen(o -> o.map(io -> io.value));
 	}
 
-	public static <T, C extends Comparable<? super C>> ISuppliteratorCollector<T, Optional<T>> max(Function<? super T, ? extends C> function)
+	public static <T, C extends Comparable<? super C>> ICollectorFactory<T, Optional<T>> max(Function<? super T, ? extends C> function)
 	{
 		return SuppliteratorCollectors.<T, C> maxWithIndex(function).andThen(o -> o.map(io -> io.value));
 	}
 
-	public static <T, C extends Comparable<? super C>> ISuppliteratorCollector<T, Optional<T>> min(Function<? super T, ? extends C> function)
+	public static <T, C extends Comparable<? super C>> ICollectorFactory<T, Optional<T>> min(Function<? super T, ? extends C> function)
 	{
 		return SuppliteratorCollectors.<T, C> minWithIndex(function).andThen(o -> o.map(io -> io.value));
 	}
 
-	public static <T, C> ISuppliteratorCollector<T, Optional<T>> max(Function<? super T, ? extends C> function, Comparator<? super C> comparator)
+	public static <T, C> ICollectorFactory<T, Optional<T>> max(Function<? super T, ? extends C> function, Comparator<? super C> comparator)
 	{
 		return SuppliteratorCollectors.<T, C> maxWithIndex(function, comparator).andThen(o -> o.map(io -> io.value));
 	}
 
-	public static <T, C> ISuppliteratorCollector<T, Optional<T>> min(Function<? super T, ? extends C> function, Comparator<? super C> comparator)
+	public static <T, C> ICollectorFactory<T, Optional<T>> min(Function<? super T, ? extends C> function, Comparator<? super C> comparator)
 	{
 		return SuppliteratorCollectors.<T, C> minWithIndex(function, comparator).andThen(o -> o.map(io -> io.value));
 	}
 
-	public static <T extends Comparable<? super T>> ISuppliteratorCollector<T, Optional<IndexedObject<T>>> maxWithIndex()
+	public static <T extends Comparable<? super T>> ICollectorFactory<T, Optional<IndexedObject<T>>> maxWithIndex()
 	{
-		return new SuppliteratorCollectorCompareBase<T, T>(null, (a, b) -> a.compareTo(b) > 0);
+		return () -> new SuppliteratorCollectorCompareBase<T, T>(null, (a, b) -> a.compareTo(b) > 0);
 	}
 
-	public static <T extends Comparable<? super T>> ISuppliteratorCollector<T, Optional<IndexedObject<T>>> minWithIndex()
+	public static <T extends Comparable<? super T>> ICollectorFactory<T, Optional<IndexedObject<T>>> minWithIndex()
 	{
-		return new SuppliteratorCollectorCompareBase<T, T>(null, (a, b) -> a.compareTo(b) < 0);
+		return () -> new SuppliteratorCollectorCompareBase<T, T>(null, (a, b) -> a.compareTo(b) < 0);
 	}
 
-	public static <T> ISuppliteratorCollector<T, Optional<IndexedObject<T>>> maxWithIndex(Comparator<? super T> comparator)
+	public static <T> ICollectorFactory<T, Optional<IndexedObject<T>>> maxWithIndex(Comparator<? super T> comparator)
 	{
-		return new SuppliteratorCollectorCompareBase<T, T>(null, (a, b) -> comparator.compare(a, b) > 0);
+		return () -> new SuppliteratorCollectorCompareBase<T, T>(null, (a, b) -> comparator.compare(a, b) > 0);
 	}
 
-	public static <T> ISuppliteratorCollector<T, Optional<IndexedObject<T>>> minWithIndex(Comparator<? super T> comparator)
+	public static <T> ICollectorFactory<T, Optional<IndexedObject<T>>> minWithIndex(Comparator<? super T> comparator)
 	{
-		return new SuppliteratorCollectorCompareBase<T, T>(null, (a, b) -> comparator.compare(a, b) < 0);
+		return () -> new SuppliteratorCollectorCompareBase<T, T>(null, (a, b) -> comparator.compare(a, b) < 0);
 	}
 
-	public static <T, C extends Comparable<? super C>> ISuppliteratorCollector<T, Optional<IndexedObject<T>>> maxWithIndex(Function<? super T, ? extends C> function)
+	public static <T, C extends Comparable<? super C>> ICollectorFactory<T, Optional<IndexedObject<T>>> maxWithIndex(Function<? super T, ? extends C> function)
 	{
-		return new SuppliteratorCollectorCompareBase<>(function, (a, b) -> a.compareTo(b) > 0);
+		return () -> new SuppliteratorCollectorCompareBase<>(function, (a, b) -> a.compareTo(b) > 0);
 	}
 
-	public static <T, C extends Comparable<? super C>> ISuppliteratorCollector<T, Optional<IndexedObject<T>>> minWithIndex(Function<? super T, ? extends C> function)
+	public static <T, C extends Comparable<? super C>> ICollectorFactory<T, Optional<IndexedObject<T>>> minWithIndex(Function<? super T, ? extends C> function)
 	{
-		return new SuppliteratorCollectorCompareBase<>(function, (a, b) -> a.compareTo(b) < 0);
+		return () -> new SuppliteratorCollectorCompareBase<>(function, (a, b) -> a.compareTo(b) < 0);
 	}
 
-	public static <T, C> ISuppliteratorCollector<T, Optional<IndexedObject<T>>> maxWithIndex(Function<? super T, ? extends C> function, Comparator<? super C> comparator)
+	public static <T, C> ICollectorFactory<T, Optional<IndexedObject<T>>> maxWithIndex(Function<? super T, ? extends C> function, Comparator<? super C> comparator)
 	{
-		return new SuppliteratorCollectorCompareBase<>(function, (a, b) -> comparator.compare(a, b) > 0);
+		return () -> new SuppliteratorCollectorCompareBase<>(function, (a, b) -> comparator.compare(a, b) > 0);
 	}
 
-	public static <T, C> ISuppliteratorCollector<T, Optional<IndexedObject<T>>> minWithIndex(Function<? super T, ? extends C> function, Comparator<? super C> comparator)
+	public static <T, C> ICollectorFactory<T, Optional<IndexedObject<T>>> minWithIndex(Function<? super T, ? extends C> function, Comparator<? super C> comparator)
 	{
-		return new SuppliteratorCollectorCompareBase<>(function, (a, b) -> comparator.compare(a, b) < 0);
+		return () -> new SuppliteratorCollectorCompareBase<>(function, (a, b) -> comparator.compare(a, b) < 0);
 	}
 
 	//
 
-	private static class SuppliteratorCollectorCountingBase<T> implements ISuppliteratorCollector<T, Long>
+	private static class SuppliteratorCollectorCountingBase<T> implements ICollector<T, Long>
 	{
 
 		private long count = 0;
-
-		@Override
-		public void init()
-		{
-			count = 0;
-		}
 
 		@Override
 		public void accept(T t, int index)
@@ -386,14 +339,14 @@ public class SuppliteratorCollectors
 
 	}
 
-	public static <T> ISuppliteratorCollector<T, Long> counting()
+	public static <T> ICollectorFactory<T, Long> counting()
 	{
-		return new SuppliteratorCollectorCountingBase<>();
+		return () -> new SuppliteratorCollectorCountingBase<>();
 	}
 
 	//
 
-	private static class SuppliteratorCollectorJoiningBase implements ISuppliteratorCollector<Object, String>
+	private static class SuppliteratorCollectorJoiningBase implements ICollector<Object, String>
 	{
 
 		private final CharSequence nDelimiter;
@@ -405,13 +358,6 @@ public class SuppliteratorCollectors
 
 		private StringBuilder sb = new StringBuilder();
 		private boolean isFirst = true;
-
-		@Override
-		public void init()
-		{
-			sb.setLength(0);
-			isFirst = true;
-		}
 
 		@Override
 		public void accept(Object t, int index)
@@ -434,14 +380,14 @@ public class SuppliteratorCollectors
 
 	}
 
-	public static <T> ISuppliteratorCollector<Object, String> joining()
+	public static <T> ICollectorFactory<Object, String> joining()
 	{
-		return new SuppliteratorCollectorJoiningBase(null);
+		return () -> new SuppliteratorCollectorJoiningBase(null);
 	}
 
-	public static <T> ISuppliteratorCollector<Object, String> joining(CharSequence delimiter)
+	public static <T> ICollectorFactory<Object, String> joining(CharSequence delimiter)
 	{
-		return new SuppliteratorCollectorJoiningBase(delimiter);
+		return () -> new SuppliteratorCollectorJoiningBase(delimiter);
 	}
 
 }

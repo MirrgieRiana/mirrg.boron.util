@@ -159,7 +159,7 @@ public class TestSuppliteratorCollector
 	public void test_ofCollector()
 	{
 		Collector<CharSequence, ?, String> a = Collectors.joining(",");
-		ISuppliteratorCollector<String, String> b = ofCollector(a);
+		ICollectorFactory<CharSequence, String> b = ofStreamCollector(a);
 		assertEquals("1,2,3,4,5", characters("12345")
 			.map(c -> Character.toString(c))
 			.collect(b));
@@ -168,10 +168,10 @@ public class TestSuppliteratorCollector
 	@Test
 	public void test_cast()
 	{
-		ISuppliteratorCollector<Object, String> a = joining(",");
-		ISuppliteratorCollector<Object, CharSequence> b = cast(a);
+		ICollectorFactory<Object, String> a = joining(",");
+		ICollectorFactory<Object, CharSequence> b = cast(a);
 		@SuppressWarnings("unused")
-		ISuppliteratorCollector<Character, CharSequence> c = cast(a);
+		ICollectorFactory<Character, CharSequence> c = cast(a);
 		assertEquals("1,2,3,4,5", characters("12345").collect(a));
 		assertEquals("1,2,3,4,5", characters("12345").collect(b));
 	}

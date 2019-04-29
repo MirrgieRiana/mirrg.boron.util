@@ -476,21 +476,15 @@ public class TestSuppliterator
 		assertEquals(new Tuple<>("9,8,4,6,1,5,3,2,8,7", Optional.of(new IndexedObject<>("1", 4))), ISuppliterator.characters("9846153287")
 			.map(ch -> Character.toString(ch))
 			.collects(
-				SuppliteratorCollectors.ofCollector(Collectors.joining(",")),
+				SuppliteratorCollectors.ofStreamCollector(Collectors.joining(",")),
 				SuppliteratorCollectors.minWithIndex()));
 
 		assertEquals(new Tuple3<>("9,8,4,6,1,5,3,2,8,7", 53, Optional.of(new IndexedObject<>("1", 4))), ISuppliterator.characters("9846153287")
 			.map(ch -> Character.toString(ch))
 			.collects(
-				SuppliteratorCollectors.ofCollector(Collectors.joining(",")),
-				new ISuppliteratorCollector<String, Integer>() {
-					private int count;
-
-					@Override
-					public void init()
-					{
-						count = 0;
-					}
+				SuppliteratorCollectors.ofStreamCollector(Collectors.joining(",")),
+				() -> new ICollector<String, Integer>() {
+					private int count = 0;
 
 					@Override
 					public void accept(String t, int index)
@@ -509,16 +503,10 @@ public class TestSuppliterator
 		assertEquals(new Tuple4<>("9,8,4,6,1,5,3,2,8,7", 10L, 53, Optional.of(new IndexedObject<>("1", 4))), ISuppliterator.characters("9846153287")
 			.map(ch -> Character.toString(ch))
 			.collects(
-				SuppliteratorCollectors.ofCollector(Collectors.joining(",")),
-				SuppliteratorCollectors.ofCollector(Collectors.counting()),
-				new ISuppliteratorCollector<String, Integer>() {
-					private int count;
-
-					@Override
-					public void init()
-					{
-						count = 0;
-					}
+				SuppliteratorCollectors.ofStreamCollector(Collectors.joining(",")),
+				SuppliteratorCollectors.ofStreamCollector(Collectors.counting()),
+				() -> new ICollector<String, Integer>() {
+					private int count = 0;
 
 					@Override
 					public void accept(String t, int index)
