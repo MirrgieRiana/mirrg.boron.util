@@ -17,6 +17,8 @@ public class TestI18n
 	public void test() throws IOException
 	{
 
+		// 翻訳ファイルはUTF8で記述できる
+		// クラスパス上の任意のパッケージを指定できる
 		// エンジンが解決できないものはそのまま表示される
 		{
 			I18n i18n = new I18n();
@@ -35,6 +37,22 @@ public class TestI18n
 
 			i18n.registerLocalizer(LocalizerResourceBundle.create(TestI18n.class.getPackage().getName() + ".test", Locale.forLanguageTag("en-US")));
 			i18n.registerLocalizer(LocalizerResourceBundle.create(TestI18n.class.getPackage().getName() + ".test", Locale.forLanguageTag("ja-JP")));
+
+			assertEquals("あ", i18n.localize("a"));
+			assertEquals("い", i18n.localize("b"));
+			assertEquals("う", i18n.localize("c"));
+			assertEquals("D", i18n.localize("d"));
+			assertEquals("E", i18n.localize("e"));
+			assertEquals("f", i18n.localize("f"));
+		}
+
+		// 不正なエンジンを登録しても無視される
+		{
+			I18n i18n = new I18n();
+
+			i18n.registerLocalizer(LocalizerResourceBundle.create(TestI18n.class.getPackage().getName() + ".test", Locale.forLanguageTag("en-US")));
+			i18n.registerLocalizer(LocalizerResourceBundle.create(TestI18n.class.getPackage().getName() + ".test", Locale.forLanguageTag("ja-JP")));
+			i18n.registerLocalizer(LocalizerResourceBundle.create(TestI18n.class.getPackage().getName() + ".test", Locale.forLanguageTag("gr-XQ")));
 
 			assertEquals("あ", i18n.localize("a"));
 			assertEquals("い", i18n.localize("b"));
