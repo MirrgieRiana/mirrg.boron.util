@@ -1276,9 +1276,10 @@ public interface ISuppliterator<T> extends Iterable<T>
 		}
 	}
 
-	public default <O> O collect(ISuppliteratorCollector<? super T, ? extends O> suppliteratorCollector)
+	public default <O> O collect(ICollectorFactory<? super T, ? extends O> collectorFactory)
 	{
-		suppliteratorCollector.init();
+		ICollector<? super T, ? extends O> suppliteratorCollector = collectorFactory.create();
+
 		int i = 0;
 		while (true) {
 			T next = nullableNext();
@@ -1293,89 +1294,93 @@ public interface ISuppliterator<T> extends Iterable<T>
 	}
 
 	public default <O1> Tuple1<O1> collects(
-		ISuppliteratorCollector<? super T, ? extends O1> sc1)
+		ICollectorFactory<? super T, ? extends O1> cf1)
 	{
-		sc1.init();
+		ICollector<? super T, ? extends O1> c1 = cf1.create();
+
 		int i = 0;
 		while (true) {
 			T next = nullableNext();
 			if (next != null) {
-				sc1.accept(next, i);
+				c1.accept(next, i);
 			} else {
 				break;
 			}
 			i++;
 		}
-		return new Tuple1<>(sc1.get());
+		return new Tuple1<>(c1.get());
 	}
 
 	public default <O1, O2> Tuple<O1, O2> collects(
-		ISuppliteratorCollector<? super T, ? extends O1> sc1,
-		ISuppliteratorCollector<? super T, ? extends O2> sc2)
+		ICollectorFactory<? super T, ? extends O1> cf1,
+		ICollectorFactory<? super T, ? extends O2> cf2)
 	{
-		sc1.init();
-		sc2.init();
+		ICollector<? super T, ? extends O1> c1 = cf1.create();
+		ICollector<? super T, ? extends O2> c2 = cf2.create();
+
 		int i = 0;
 		while (true) {
 			T next = nullableNext();
 			if (next != null) {
-				sc1.accept(next, i);
-				sc2.accept(next, i);
+				c1.accept(next, i);
+				c2.accept(next, i);
 			} else {
 				break;
 			}
 			i++;
 		}
-		return new Tuple<>(sc1.get(), sc2.get());
+		return new Tuple<>(c1.get(), c2.get());
 	}
 
 	public default <O1, O2, O3> Tuple3<O1, O2, O3> collects(
-		ISuppliteratorCollector<? super T, ? extends O1> sc1,
-		ISuppliteratorCollector<? super T, ? extends O2> sc2,
-		ISuppliteratorCollector<? super T, ? extends O3> sc3)
+		ICollectorFactory<? super T, ? extends O1> cf1,
+		ICollectorFactory<? super T, ? extends O2> cf2,
+		ICollectorFactory<? super T, ? extends O3> cf3)
 	{
-		sc1.init();
-		sc2.init();
-		sc3.init();
+		ICollector<? super T, ? extends O1> c1 = cf1.create();
+		ICollector<? super T, ? extends O2> c2 = cf2.create();
+		ICollector<? super T, ? extends O3> c3 = cf3.create();
+
 		int i = 0;
 		while (true) {
 			T next = nullableNext();
 			if (next != null) {
-				sc1.accept(next, i);
-				sc2.accept(next, i);
-				sc3.accept(next, i);
+				c1.accept(next, i);
+				c2.accept(next, i);
+				c3.accept(next, i);
 			} else {
 				break;
 			}
 			i++;
 		}
-		return new Tuple3<>(sc1.get(), sc2.get(), sc3.get());
+		return new Tuple3<>(c1.get(), c2.get(), c3.get());
 	}
 
 	public default <O1, O2, O3, O4> Tuple4<O1, O2, O3, O4> collects(
-		ISuppliteratorCollector<? super T, ? extends O1> sc1,
-		ISuppliteratorCollector<? super T, ? extends O2> sc2,
-		ISuppliteratorCollector<? super T, ? extends O3> sc3,
-		ISuppliteratorCollector<? super T, ? extends O4> sc4)
+		ICollectorFactory<? super T, ? extends O1> cf1,
+		ICollectorFactory<? super T, ? extends O2> cf2,
+		ICollectorFactory<? super T, ? extends O3> cf3,
+		ICollectorFactory<? super T, ? extends O4> cf4)
 	{
-		sc1.init();
-		sc2.init();
-		sc3.init();
-		sc4.init();
+		ICollector<? super T, ? extends O1> c1 = cf1.create();
+		ICollector<? super T, ? extends O2> c2 = cf2.create();
+		ICollector<? super T, ? extends O3> c3 = cf3.create();
+		ICollector<? super T, ? extends O4> c4 = cf4.create();
+
 		int i = 0;
 		while (true) {
 			T next = nullableNext();
 			if (next != null) {
-				sc1.accept(next, i);
-				sc2.accept(next, i);
-				sc3.accept(next, i);
-				sc4.accept(next, i);
+				c1.accept(next, i);
+				c2.accept(next, i);
+				c3.accept(next, i);
+				c4.accept(next, i);
 			} else {
 				break;
 			}
 			i++;
 		}
-		return new Tuple4<>(sc1.get(), sc2.get(), sc3.get(), sc4.get());
+		return new Tuple4<>(c1.get(), c2.get(), c3.get(), c4.get());
 	}
 
 	public default <R, A> R collect(Collector<? super T, A, R> collector)
