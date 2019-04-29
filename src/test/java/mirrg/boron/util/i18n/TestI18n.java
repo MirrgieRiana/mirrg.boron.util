@@ -3,7 +3,6 @@ package mirrg.boron.util.i18n;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
-import java.util.Locale;
 
 import org.junit.Test;
 
@@ -23,7 +22,8 @@ public class TestI18n
 		{
 			I18n i18n = new I18n();
 
-			i18n.registerLocalizer(LocalizerResourceBundle.create(TestI18n.class.getPackage().getName() + ".test", Locale.forLanguageTag("ja-JP")));
+			i18n.registerLocalizer(LocalizerResourceBundle.create(TestI18n.class, "test", "ja-JP"));
+			// "mirrg/boron/util/i18n"に"test_ja.properties"を置けばよい
 
 			assertEquals("あ", i18n.localize("a"));
 			assertEquals("い", i18n.localize("b"));
@@ -35,8 +35,8 @@ public class TestI18n
 		{
 			I18n i18n = new I18n();
 
-			i18n.registerLocalizer(LocalizerResourceBundle.create(TestI18n.class.getPackage().getName() + ".test", Locale.forLanguageTag("en-US")));
-			i18n.registerLocalizer(LocalizerResourceBundle.create(TestI18n.class.getPackage().getName() + ".test", Locale.forLanguageTag("ja-JP")));
+			i18n.registerLocalizer(LocalizerResourceBundle.create(TestI18n.class, "test", "en-US"));
+			i18n.registerLocalizer(LocalizerResourceBundle.create(TestI18n.class, "test", "ja-JP"));
 
 			assertEquals("あ", i18n.localize("a"));
 			assertEquals("い", i18n.localize("b"));
@@ -50,9 +50,9 @@ public class TestI18n
 		{
 			I18n i18n = new I18n();
 
-			i18n.registerLocalizer(LocalizerResourceBundle.create(TestI18n.class.getPackage().getName() + ".test", Locale.forLanguageTag("en-US")));
-			i18n.registerLocalizer(LocalizerResourceBundle.create(TestI18n.class.getPackage().getName() + ".test", Locale.forLanguageTag("ja-JP")));
-			i18n.registerLocalizer(LocalizerResourceBundle.create(TestI18n.class.getPackage().getName() + ".test", Locale.forLanguageTag("gr-XQ")));
+			i18n.registerLocalizer(LocalizerResourceBundle.create(TestI18n.class, "test", "en-US"));
+			i18n.registerLocalizer(LocalizerResourceBundle.create(TestI18n.class, "test", "ja-JP"));
+			i18n.registerLocalizer(LocalizerResourceBundle.create(TestI18n.class, "test", "gr-XQ"));
 
 			assertEquals("あ", i18n.localize("a"));
 			assertEquals("い", i18n.localize("b"));
@@ -67,7 +67,7 @@ public class TestI18n
 		{
 			I18n i18n = new I18n();
 
-			i18n.registerLocalizer(LocalizerResourceBundle.create(TestI18n.class.getPackage().getName() + ".test", Locale.forLanguageTag("en-US")));
+			i18n.registerLocalizer(LocalizerResourceBundle.create(TestI18n.class, "test", "en-US"));
 			LocalizerEngine localizerEngine = new LocalizerEngine();
 			i18n.registerLocalizerEngine(localizerEngine);
 
@@ -81,7 +81,7 @@ public class TestI18n
 			assertEquals("E", i18n.localize("e"));
 
 			assertEquals("", sb.toString());
-			localizerEngine.setLocalizer(LocalizerResourceBundle.create(TestI18n.class.getPackage().getName() + ".test", Locale.forLanguageTag("ja-JP")));
+			localizerEngine.setLocalizer(LocalizerResourceBundle.create(TestI18n.class, "test", "ja-JP"));
 			assertEquals("1", sb.toString());
 
 			assertEquals("あ", i18n.localize("a"));

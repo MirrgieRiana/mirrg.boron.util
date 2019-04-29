@@ -48,6 +48,11 @@ public class LocalizerResourceBundle implements ILocalizer
 		}
 	}
 
+	public static LocalizerResourceBundle create(Class<?> clazz, String name, String languageTag) throws IOException
+	{
+		return create(clazz.getPackage().getName() + "." + name, Locale.forLanguageTag(languageTag));
+	}
+
 	/**
 	 * UTF-8で読み込むためのControlです。
 	 */
