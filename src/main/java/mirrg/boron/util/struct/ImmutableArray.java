@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 import mirrg.boron.util.suppliterator.ISuppliterator;
 import mirrg.boron.util.suppliterator.SuppliteratorNullableBase;
 
-public final class ImmutableArray<T> implements Iterable<T>
+public final class ImmutableArray<T> implements Iterable<T>, IntFunction<T>
 {
 
 	private final T[] array;
@@ -156,6 +156,12 @@ public final class ImmutableArray<T> implements Iterable<T>
 	public int length()
 	{
 		return array.length;
+	}
+
+	@Override
+	public T apply(int index)
+	{
+		return array[index];
 	}
 
 	public T get(int index)
