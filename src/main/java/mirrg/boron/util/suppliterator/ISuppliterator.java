@@ -2003,6 +2003,32 @@ public interface ISuppliterator<T> extends Iterable<T>
 		return sb.toString();
 	}
 
+	public default String join(Function<? super T, ? extends CharSequence> function)
+	{
+		StringBuilder sb = new StringBuilder();
+		T next;
+		while ((next = nullableNext()) != null) {
+			sb.append(function.apply(next));
+		}
+		return sb.toString();
+	}
+
+	public default String join(Function<? super T, ? extends CharSequence> function, CharSequence delimiter)
+	{
+		StringBuilder sb = new StringBuilder();
+		T next;
+		boolean isFirst = true;
+		while ((next = nullableNext()) != null) {
+			if (isFirst) {
+				isFirst = false;
+			} else {
+				sb.append(delimiter);
+			}
+			sb.append(function.apply(next));
+		}
+		return sb.toString();
+	}
+
 }
 
 class ISuppliteratorLocal

@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 
 import org.junit.Test;
 
+import mirrg.boron.util.UtilsString;
 import mirrg.boron.util.struct.Tuple;
 import mirrg.boron.util.struct.Tuple1;
 import mirrg.boron.util.struct.Tuple3;
@@ -327,6 +328,25 @@ public class TestSuppliterator
 			"545556575859606162\n" +
 			"636465666768697071\n" +
 			"727374757677787980", ISuppliterator.range(9 * 9).slice(9).map(s -> s.map(i -> String.format("%02d", i)).join()).join("\n"));
+	}
+
+	@Test
+	public void test_join()
+	{
+		assertEquals("", ISuppliterator.ofIntegers().join(i -> UtilsString.repeat("" + i, i), ","));
+		assertEquals("", ISuppliterator.ofIntegers().join(i -> UtilsString.repeat("" + i, i)));
+		assertEquals("", ISuppliterator.ofIntegers().join(","));
+		assertEquals("", ISuppliterator.ofIntegers().join());
+
+		assertEquals("333", ISuppliterator.ofIntegers(3).join(i -> UtilsString.repeat("" + i, i), ","));
+		assertEquals("333", ISuppliterator.ofIntegers(3).join(i -> UtilsString.repeat("" + i, i)));
+		assertEquals("3", ISuppliterator.ofIntegers(3).join(","));
+		assertEquals("3", ISuppliterator.ofIntegers(3).join());
+
+		assertEquals("1,22,333", ISuppliterator.ofIntegers(1, 2, 3).join(i -> UtilsString.repeat("" + i, i), ","));
+		assertEquals("122333", ISuppliterator.ofIntegers(1, 2, 3).join(i -> UtilsString.repeat("" + i, i)));
+		assertEquals("1,2,3", ISuppliterator.ofIntegers(1, 2, 3).join(","));
+		assertEquals("123", ISuppliterator.ofIntegers(1, 2, 3).join());
 	}
 
 	@Test
