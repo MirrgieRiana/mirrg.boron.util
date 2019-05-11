@@ -33,8 +33,9 @@ public final class ImmutableArray<T> implements Iterable<T>, IntFunction<T>
 		T[] array2 = (T[]) new Object[array.length];
 		Class<?> clazz = array.getClass().getComponentType();
 		for (int i = 0; i < array.length; i++) {
-			if (!clazz.isInstance(array[i])) throw new ClassCastException();
-			array2[i] = array[i];
+			T t = array[i];
+			if (t == null || !clazz.isInstance(t)) throw new ClassCastException();
+			array2[i] = t;
 		}
 		return new ImmutableArray<>(array2);
 	}
