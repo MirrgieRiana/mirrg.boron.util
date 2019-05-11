@@ -128,6 +128,8 @@ public class TestImmutableArray
 	public void test_of()
 	{
 
+		assertEquals("[null]", String.join("", ImmutableArray.of("[", null, "]").toArray(String[]::new)));
+
 		{
 			String[] array = new String[] { "a", "b", "c" };
 

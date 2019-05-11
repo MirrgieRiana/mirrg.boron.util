@@ -18,10 +18,18 @@ public final class ImmutableArray<T> implements Iterable<T>, IntFunction<T>
 {
 
 	private final T[] array;
+	private boolean hasNull;
 
 	private ImmutableArray(T[] array)
 	{
 		this.array = array;
+		this.hasNull = false;
+	}
+
+	private ImmutableArray(T[] array, boolean hasNull)
+	{
+		this.array = array;
+		this.hasNull = hasNull;
 	}
 
 	//
@@ -43,13 +51,20 @@ public final class ImmutableArray<T> implements Iterable<T>, IntFunction<T>
 		checkRange(array.length, start, length);
 
 		T[] array2 = (T[]) new Object[length];
+		boolean hasNull = false;
 		Class<?> clazz = array.getClass().getComponentType();
 		for (int i = 0; i < length; i++) {
 			T t = array[i + start];
-			if (t == null || !clazz.isInstance(t)) throw new ClassCastException();
+			if (t != null) {
+				if (!clazz.isInstance(t)) {
+					throw new ClassCastException();
+				}
+			} else {
+				hasNull = true;
+			}
 			array2[i] = t;
 		}
-		return new ImmutableArray<>(array2);
+		return new ImmutableArray<>(array2, hasNull);
 	}
 
 	@Deprecated// TODO 削除
@@ -385,8 +400,13 @@ public final class ImmutableArray<T> implements Iterable<T>, IntFunction<T>
 		};
 	}
 
+	/**
+	 * @throws NullPointerException
+	 *             この配列がnull要素を持つ場合
+	 */
 	public ISuppliterator<T> suppliterator(int start, int length)
 	{
+		if (hasNull) throw new NullPointerException();
 		return new SuppliteratorNullableBase<T>() {
 			private int i = start;
 
