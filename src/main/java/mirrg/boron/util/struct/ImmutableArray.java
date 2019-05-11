@@ -26,92 +26,254 @@ public final class ImmutableArray<T> implements Iterable<T>, IntFunction<T>
 
 	//
 
-	@SuppressWarnings("unchecked")
 	@SafeVarargs
 	public static <T> ImmutableArray<T> of(T... array)
 	{
-		T[] array2 = (T[]) new Object[array.length];
+		return ofObjArray(array);
+	}
+
+	public static <T> ImmutableArray<T> ofObjArray(T[] array)
+	{
+		return ofObjArray(array, 0, array.length);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> ImmutableArray<T> ofObjArray(T[] array, int start, int length)
+	{
+		checkRange(array.length, start, length);
+
+		T[] array2 = (T[]) new Object[length];
 		Class<?> clazz = array.getClass().getComponentType();
-		for (int i = 0; i < array.length; i++) {
-			T t = array[i];
+		for (int i = 0; i < length; i++) {
+			T t = array[i + start];
 			if (t == null || !clazz.isInstance(t)) throw new ClassCastException();
 			array2[i] = t;
 		}
 		return new ImmutableArray<>(array2);
 	}
 
-	//
-
+	@Deprecated// TODO 削除
 	public static ImmutableArray<Byte> ofArray(byte... array)
 	{
-		Byte[] array2 = new Byte[array.length];
-		for (int i = 0; i < array.length; i++) {
-			array2[i] = array[i];
+		return ofByteArray(array);
+	}
+
+	public static ImmutableArray<Byte> ofBytes(byte... array)
+	{
+		return ofByteArray(array);
+	}
+
+	public static ImmutableArray<Byte> ofByteArray(byte[] array)
+	{
+		return ofByteArray(array, 0, array.length);
+	}
+
+	public static ImmutableArray<Byte> ofByteArray(byte[] array, int start, int length)
+	{
+		checkRange(array.length, start, length);
+
+		Byte[] array2 = new Byte[length];
+		for (int i = 0; i < length; i++) {
+			array2[i] = array[i + start];
 		}
 		return new ImmutableArray<>(array2);
 	}
 
+	@Deprecated// TODO 削除
 	public static ImmutableArray<Character> ofArray(char... array)
 	{
-		Character[] array2 = new Character[array.length];
-		for (int i = 0; i < array.length; i++) {
-			array2[i] = array[i];
+		return ofCharArray(array);
+	}
+
+	public static ImmutableArray<Character> ofCharacters(char... array)
+	{
+		return ofCharArray(array);
+	}
+
+	public static ImmutableArray<Character> ofCharArray(char[] array)
+	{
+		return ofCharArray(array, 0, array.length);
+	}
+
+	public static ImmutableArray<Character> ofCharArray(char[] array, int start, int length)
+	{
+		checkRange(array.length, start, length);
+
+		Character[] array2 = new Character[length];
+		for (int i = 0; i < length; i++) {
+			array2[i] = array[i + start];
 		}
 		return new ImmutableArray<>(array2);
 	}
 
+	@Deprecated// TODO 削除
 	public static ImmutableArray<Short> ofArray(short... array)
 	{
-		Short[] array2 = new Short[array.length];
-		for (int i = 0; i < array.length; i++) {
-			array2[i] = array[i];
+		return ofShortArray(array);
+	}
+
+	public static ImmutableArray<Short> ofShorts(short... array)
+	{
+		return ofShortArray(array);
+	}
+
+	public static ImmutableArray<Short> ofShortArray(short[] array)
+	{
+		return ofShortArray(array, 0, array.length);
+	}
+
+	public static ImmutableArray<Short> ofShortArray(short[] array, int start, int length)
+	{
+		checkRange(array.length, start, length);
+
+		Short[] array2 = new Short[length];
+		for (int i = 0; i < length; i++) {
+			array2[i] = array[i + start];
 		}
 		return new ImmutableArray<>(array2);
 	}
 
+	@Deprecated// TODO 削除
 	public static ImmutableArray<Integer> ofArray(int... array)
 	{
-		Integer[] array2 = new Integer[array.length];
-		for (int i = 0; i < array.length; i++) {
-			array2[i] = array[i];
+		return ofIntArray(array);
+	}
+
+	public static ImmutableArray<Integer> ofIntegers(int... array)
+	{
+		return ofIntArray(array);
+	}
+
+	public static ImmutableArray<Integer> ofIntArray(int[] array)
+	{
+		return ofIntArray(array, 0, array.length);
+	}
+
+	public static ImmutableArray<Integer> ofIntArray(int[] array, int start, int length)
+	{
+		checkRange(array.length, start, length);
+
+		Integer[] array2 = new Integer[length];
+		for (int i = 0; i < length; i++) {
+			array2[i] = array[i + start];
 		}
 		return new ImmutableArray<>(array2);
 	}
 
+	@Deprecated// TODO 削除
 	public static ImmutableArray<Long> ofArray(long... array)
 	{
-		Long[] array2 = new Long[array.length];
-		for (int i = 0; i < array.length; i++) {
-			array2[i] = array[i];
+		return ofLongArray(array);
+	}
+
+	public static ImmutableArray<Long> ofLongs(long... array)
+	{
+		return ofLongArray(array);
+	}
+
+	public static ImmutableArray<Long> ofLongArray(long[] array)
+	{
+		return ofLongArray(array, 0, array.length);
+	}
+
+	public static ImmutableArray<Long> ofLongArray(long[] array, int start, int length)
+	{
+		checkRange(array.length, start, length);
+
+		Long[] array2 = new Long[length];
+		for (int i = 0; i < length; i++) {
+			array2[i] = array[i + start];
 		}
 		return new ImmutableArray<>(array2);
 	}
 
+	@Deprecated// TODO 削除
 	public static ImmutableArray<Float> ofArray(float... array)
 	{
-		Float[] array2 = new Float[array.length];
-		for (int i = 0; i < array.length; i++) {
-			array2[i] = array[i];
+		return ofFloatArray(array);
+	}
+
+	public static ImmutableArray<Float> ofFloats(float... array)
+	{
+		return ofFloatArray(array);
+	}
+
+	public static ImmutableArray<Float> ofFloatArray(float[] array)
+	{
+		return ofFloatArray(array, 0, array.length);
+	}
+
+	public static ImmutableArray<Float> ofFloatArray(float[] array, int start, int length)
+	{
+		checkRange(array.length, start, length);
+
+		Float[] array2 = new Float[length];
+		for (int i = 0; i < length; i++) {
+			array2[i] = array[i + start];
 		}
 		return new ImmutableArray<>(array2);
 	}
 
+	@Deprecated// TODO 削除
 	public static ImmutableArray<Double> ofArray(double... array)
 	{
-		Double[] array2 = new Double[array.length];
-		for (int i = 0; i < array.length; i++) {
-			array2[i] = array[i];
+		return ofDoubleArray(array);
+	}
+
+	public static ImmutableArray<Double> ofDoubles(double... array)
+	{
+		return ofDoubleArray(array);
+	}
+
+	public static ImmutableArray<Double> ofDoubleArray(double[] array)
+	{
+		return ofDoubleArray(array, 0, array.length);
+	}
+
+	public static ImmutableArray<Double> ofDoubleArray(double[] array, int start, int length)
+	{
+		checkRange(array.length, start, length);
+
+		Double[] array2 = new Double[length];
+		for (int i = 0; i < length; i++) {
+			array2[i] = array[i + start];
 		}
 		return new ImmutableArray<>(array2);
 	}
 
+	@Deprecated// TODO 削除
 	public static ImmutableArray<Boolean> ofArray(boolean... array)
 	{
-		Boolean[] array2 = new Boolean[array.length];
-		for (int i = 0; i < array.length; i++) {
-			array2[i] = array[i];
+		return ofBoolArray(array);
+	}
+
+	public static ImmutableArray<Boolean> ofBooleans(boolean... array)
+	{
+		return ofBoolArray(array);
+	}
+
+	public static ImmutableArray<Boolean> ofBoolArray(boolean[] array)
+	{
+		return ofBoolArray(array, 0, array.length);
+	}
+
+	public static ImmutableArray<Boolean> ofBoolArray(boolean[] array, int start, int length)
+	{
+		checkRange(array.length, start, length);
+
+		Boolean[] array2 = new Boolean[length];
+		for (int i = 0; i < length; i++) {
+			array2[i] = array[i + start];
 		}
 		return new ImmutableArray<>(array2);
+	}
+
+	static void checkRange(int lengthOfArray, int start, int length)
+	{
+		if (start < 0) throw new ArrayIndexOutOfBoundsException("" + start + " < 0");
+		if (start > lengthOfArray) throw new ArrayIndexOutOfBoundsException("" + start + " > " + lengthOfArray);
+		if (length < 0) throw new ArrayIndexOutOfBoundsException("" + length + " < " + 0);
+		if (start + length > lengthOfArray) throw new ArrayIndexOutOfBoundsException("" + start + " + " + length + " > " + lengthOfArray);
 	}
 
 	//
