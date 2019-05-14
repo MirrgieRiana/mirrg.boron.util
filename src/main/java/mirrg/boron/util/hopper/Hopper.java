@@ -96,7 +96,12 @@ public final class Hopper
 					}
 				} finally {
 					synchronized (lock) {
+
 						processingCount -= nBucket.size();
+
+						// 処理中の個数が変動したので通知
+						lock.notifyAll();
+
 					}
 				}
 
