@@ -12,8 +12,14 @@ import mirrg.boron.util.suppliterator.ISuppliterator;
 public interface IIntArrayView extends Iterable<Integer>
 {
 
+	/**
+	 * 配列の長さが変わることは原則としてありません。
+	 */
 	public int length();
 
+	/**
+	 * 単一の {@link IIntArrayView} が有効である間、その各要素は変更されないことを前提とします。
+	 */
 	public int get(int index);
 
 	public void copyTo(int startSrc, int[] dest, int startDest, int length);
