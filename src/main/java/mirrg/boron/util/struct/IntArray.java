@@ -5,6 +5,9 @@ import java.util.stream.IntStream;
 
 import mirrg.boron.util.suppliterator.ISuppliterator;
 
+/**
+ * 内部にint配列の実体への参照を持つint配列ビューです。
+ */
 public final class IntArray extends IntArrayBase
 {
 
