@@ -18,7 +18,7 @@ public interface IIntArrayView extends Iterable<Integer>
 	public int length();
 
 	/**
-	 * 単一の {@link IIntArrayView} が有効である間、その各要素は変更されないことを前提とします。
+	 * 要素の値が変わるかどうかは、実装クラスに依存します。
 	 */
 	public int get(int index);
 
