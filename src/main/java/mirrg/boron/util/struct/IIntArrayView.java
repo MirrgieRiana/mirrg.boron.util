@@ -175,4 +175,14 @@ public interface IIntArrayView extends Iterable<Integer>
 			.map(i -> get(i));
 	}
 
+	/**
+	 * この配列ビューのコピーを作ります。
+	 * このメソッドは、この配列ビューのすべての要素を評価します。
+	 */
+	@Deprecated // 実験的。 TODO test
+	public default IntArray copy()
+	{
+		return new IntArray(toArray());
+	}
+
 }
