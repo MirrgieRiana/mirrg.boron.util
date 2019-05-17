@@ -28,9 +28,16 @@ public interface IIntArrayView extends Iterable<Integer>
 
 	// ■■■■■■■■ 中間操作
 
+	/**
+	 * このメソッドは遅延評価かつメモ化されるビューを返します。
+	 * このメソッドによって返された配列の要素が一度評価されるまでは、もとの配列の要素は参照されません。
+	 * このメソッドによって返された配列の要素に一度アクセスすると、配列内に値を保持し、二度目以降のアクセス時にはそれを返します。
+	 */
 	@Deprecated // 実験的。 TODO test
 	public default IIntArrayView map(IntUnaryOperator function)
 	{
+		boolean[] initialized = new boolean[length()];
+		int[] array = new int[length()];
 		IIntArrayView parent = this;
 		return new IIntArrayView() {
 			@Override
@@ -42,7 +49,11 @@ public interface IIntArrayView extends Iterable<Integer>
 			@Override
 			public int get(int index)
 			{
-				return function.applyAsInt(parent.get(index));
+				if (!initialized[index]) {
+					initialized[index] = true;
+					array[index] = function.applyAsInt(parent.get(index));
+				}
+				return array[index];
 			}
 
 			@Override
