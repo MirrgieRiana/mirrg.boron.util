@@ -3,6 +3,7 @@ package mirrg.boron.util.suppliterator;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -1121,6 +1122,13 @@ public interface ISuppliterator<T> extends Iterable<T>
 	{
 		List<T> list = suppliterator.toList();
 		list.sort(T::compareTo);
+		return ofIterable(list);
+	}
+
+	public default ISuppliterator<T> shuffle()
+	{
+		List<T> list = toList();
+		Collections.shuffle(list);
 		return ofIterable(list);
 	}
 
