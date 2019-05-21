@@ -16,7 +16,7 @@ public final class Hopper
 
 	public Hopper()
 	{
-		this(1000, 100);
+		this(100, 100);
 	}
 
 	/**
