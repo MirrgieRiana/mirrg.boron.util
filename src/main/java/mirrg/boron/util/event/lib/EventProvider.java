@@ -21,6 +21,12 @@ public abstract class EventProvider<L> implements IEventProvider<L>
 		return () -> listeners.remove(index2);
 	}
 
+	@Override
+	public boolean hasListener()
+	{
+		return !listeners.isEmpty();
+	}
+
 	protected void fire(Consumer<L> acceptor)
 	{
 		for (L listener : listeners.values()) {

@@ -29,6 +29,8 @@ public interface IEventProvider<L>
 
 	public L trigger();
 
+	public boolean hasListener();
+
 	//
 
 	public static IEventProvider<Runnable> runnable()
