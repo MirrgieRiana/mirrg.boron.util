@@ -3,6 +3,7 @@ package mirrg.boron.util.hopper;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+import mirrg.boron.util.event.lib.EventProviderConsumer;
 import mirrg.boron.util.struct.Struct1;
 
 /**
@@ -11,8 +12,20 @@ import mirrg.boron.util.struct.Struct1;
 public final class Hopper
 {
 
-	private final int capacity;
-	private final int bucketSize;
+	/**
+	 * スレッドがアイテムを掬ったときに通知されるイベントです。
+	 */
+	public final EventProviderConsumer<HopperEvent.Bucket> onBucket = new EventProviderConsumer<>();
+
+	/**
+	 * スレッドがアイテムを掬えず終了したときに通知されるイベントです。
+	 */
+	public final EventProviderConsumer<HopperEvent.ThreadStop> onThreadStop = new EventProviderConsumer<>();
+
+	//
+
+	public final int capacity;
+	public final int bucketSize;
 
 	public Hopper()
 	{
@@ -48,6 +61,10 @@ public final class Hopper
 	{
 		while (true) {
 
+			int itemCountOld;
+			int itemCountRemoved;
+			int itemCountNew;
+
 			// 掬う処理
 			Deque<Runnable> nBucket;
 			synchronized (lock) {
@@ -59,22 +76,48 @@ public final class Hopper
 
 				// 掬う
 				if (nQueue == null) {
-					nBucket = null;
-				} else {
-					if (nQueue.size() > bucketSize) {
-						// 一度には掬えない
+					// キューが閉じた
 
-						nBucket = new ArrayDeque<>();
-						for (int i = 0; i < bucketSize; i++) {
-							nBucket.addLast(nQueue.removeFirst());
-						}
-					} else {
-						// 一度に掬える
+					itemCountOld = 0;
+					{
 
-						nBucket = nQueue;
-						nQueue = new ArrayDeque<>();
+						itemCountRemoved = 0;
+
+						nBucket = null;
+
 					}
-					processingCount += nBucket.size();
+					itemCountNew = 0;
+
+				} else {
+					// キューはまだ開いている
+
+					itemCountOld = nQueue.size();
+					{
+
+						if (nQueue.size() > bucketSize) {
+							// 一度には掬えない
+
+							itemCountRemoved = bucketSize;
+
+							nBucket = new ArrayDeque<>();
+							for (int i = 0; i < bucketSize; i++) {
+								nBucket.addLast(nQueue.removeFirst());
+							}
+
+						} else {
+							// 一度に掬える
+
+							itemCountRemoved = nQueue.size();
+
+							nBucket = nQueue;
+							nQueue = new ArrayDeque<>();
+
+						}
+						processingCount += nBucket.size();
+
+					}
+					itemCountNew = nQueue.size();
+
 				}
 
 				// 空きが増えたので通知
@@ -86,9 +129,17 @@ public final class Hopper
 			if (nBucket == null) {
 				// 無を掬った場合は終了
 
+				if (onBucket.hasListener()) {
+					onThreadStop.trigger().accept(new HopperEvent.ThreadStop(this));
+				}
+
 				break;
 			} else {
 				// 掬ったものがあったので処理する
+
+				if (onBucket.hasListener()) {
+					onBucket.trigger().accept(new HopperEvent.Bucket(this, itemCountOld, itemCountRemoved, itemCountNew));
+				}
 
 				try {
 					for (Runnable runnable : nBucket) {
