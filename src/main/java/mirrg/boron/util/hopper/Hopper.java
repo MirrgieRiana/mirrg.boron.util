@@ -9,6 +9,7 @@ import mirrg.boron.util.struct.Struct1;
 /**
  * ホッパーはイベントスレッドに処理を自動的に行わせるためのクラスです。
  */
+@Deprecated // TODO 削除
 public final class Hopper
 {
 

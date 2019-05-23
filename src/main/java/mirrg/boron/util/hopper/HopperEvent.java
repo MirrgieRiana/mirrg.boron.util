@@ -1,5 +1,6 @@
 package mirrg.boron.util.hopper;
 
+@Deprecated // TODO 削除
 public class HopperEvent
 {
 

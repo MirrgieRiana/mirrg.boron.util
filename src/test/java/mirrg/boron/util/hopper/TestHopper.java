@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import mirrg.boron.util.suppliterator.ISuppliterator;
 
+@Deprecated // TODO 削除
 public class TestHopper
 {
 
