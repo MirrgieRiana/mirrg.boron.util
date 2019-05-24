@@ -2,6 +2,10 @@ package mirrg.boron.util.hopper.lib;
 
 import java.util.Optional;
 
+/**
+ * 制限付きホッパーです。
+ * キューが満杯のときにアイテムを追加しようとすると、キューに空きが生まれるまでブロッキングします。
+ */
 public class HopperRestricted<I> extends Hopper<I>
 {
 
