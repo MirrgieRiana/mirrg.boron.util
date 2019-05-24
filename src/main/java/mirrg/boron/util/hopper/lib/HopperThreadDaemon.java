@@ -46,6 +46,7 @@ public abstract class HopperThreadDaemon<I> extends HopperThread<I>
 		} catch (InterruptedException e) {
 			thread2.interrupt();
 			thread2.join();
+			throw e;
 		}
 	}
 
