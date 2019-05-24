@@ -19,6 +19,7 @@ public class SampleHopperThreadDaemon
 			@Override
 			protected void processImpl(Deque<String> bucket) throws InterruptedException
 			{
+				System.out.println("Start");
 				for (String item : bucket) {
 					System.out.println("Start " + item);
 					try {
@@ -28,10 +29,11 @@ public class SampleHopperThreadDaemon
 					}
 					System.out.println("Finish " + item);
 				}
+				System.out.println("Finish");
 			}
 		}.start();
 
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 30; i++) {
 			hopper.push("" + i);
 		}
 
