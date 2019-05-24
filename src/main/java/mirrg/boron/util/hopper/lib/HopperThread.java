@@ -4,14 +4,10 @@ import java.util.Deque;
 
 import mirrg.boron.util.hopper.HopperEntry;
 import mirrg.boron.util.hopper.IHopper;
+import mirrg.boron.util.hopper.IHopperThread;
 import mirrg.boron.util.struct.Struct1;
 
-/**
- * ホッパーを処理するためのスレッドです。
- * ホッパーには複数のホッパースレッドを適用することができます。
- * ホッパースレッドを使用した場合、アイテムがキューの順番に処理されることが保証されます。
- */
-public abstract class HopperThread<I>
+public abstract class HopperThread<I> implements IHopperThread<I>
 {
 
 	protected final IHopper<I> hopper;
@@ -58,13 +54,7 @@ public abstract class HopperThread<I>
 
 	protected Thread thread = null;
 
-	/**
-	 * 新しくスレッドを生成し、ホッパーを継続的に処理させます。
-	 * このメソッドは一つのホッパースレッドに対して1度だけ呼び出すことができます。
-	 *
-	 * @throws IllegalStateException
-	 *             このホッパースレッドが既に開始されていた場合
-	 */
+	@Override
 	public Thread start()
 	{
 		if (thread == null) {
