@@ -176,7 +176,7 @@ public class TestHopper2
 	}
 
 	/*
-	 * HopperThreadedを使うと効率的にアイテムを処理できる。
+	 * HopperThreadを直接継承すると効率的にアイテムを処理できる。
 	 */
 	@Test
 	public void test6() throws InterruptedException
