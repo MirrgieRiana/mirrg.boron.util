@@ -24,7 +24,7 @@ public abstract class HopperThreadDaemon<I> extends HopperThread<I>
 
 	private boolean isRunning = false;
 	private final Object lock2 = new Object();
-	private volatile boolean isDaemonOnly = false;
+	private boolean isDaemonOnly = false;
 	private final Object lock3 = new Object();
 
 	@Override
