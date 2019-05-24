@@ -2,7 +2,6 @@ package mirrg.boron.util.hopper.lib;
 
 import java.util.Deque;
 
-import mirrg.boron.util.hopper.HopperEntry;
 import mirrg.boron.util.hopper.IHopper;
 import mirrg.boron.util.hopper.IHopperThread;
 import mirrg.boron.util.struct.Struct1;
@@ -75,7 +74,7 @@ public abstract class HopperThread<I> implements IHopperThread<I>
 		while (true) {
 
 			// 掬う処理
-			Deque<HopperEntry<I>> nBucket = hopper.pop(bucketSize);
+			Deque<I> nBucket = hopper.pop(bucketSize);
 
 			// 掬ったものの処理
 			if (nBucket == null) {
@@ -96,7 +95,7 @@ public abstract class HopperThread<I> implements IHopperThread<I>
 		}
 	}
 
-	protected void process(Deque<HopperEntry<I>> bucket) throws InterruptedException
+	protected void process(Deque<I> bucket) throws InterruptedException
 	{
 		processImpl(bucket);
 	}
@@ -105,6 +104,6 @@ public abstract class HopperThread<I> implements IHopperThread<I>
 	 * アイテムの処理を行います。
 	 * 処理の途中で例外が発生した場合の動作は実装に依存します。
 	 */
-	protected abstract void processImpl(Deque<HopperEntry<I>> bucket) throws InterruptedException;
+	protected abstract void processImpl(Deque<I> bucket) throws InterruptedException;
 
 }

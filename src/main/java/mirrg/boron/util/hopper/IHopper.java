@@ -69,11 +69,15 @@ public interface IHopper<I>
 	 * <p>
 	 * このメソッドは現在処理中のアイテムの個数を増加させます。
 	 * 処理が完了したら、{@link #minusItemCountProcessing(int)}によって減少させなければなりません。
+	 * <p>
+	 * <b>このキューは高速化のためにアイテムが直接入っていますが、キューによっては、
+	 * 意図的なヒープ汚染によってアイテムでないオブジェクトを入れる可能性があります。
+	 * ホッパースレッドの最終処理ルーチンがそのようなオブジェクトを受け取った場合、{@link ClassCastException}をスローしなければなりません。</b>
 	 *
 	 * @return キューからアイテムが取り出された場合、それらが格納されているキュー。
 	 *         ホッパーが閉じられた場合、null。
 	 */
-	public Deque<HopperEntry<I>> pop(int amount) throws InterruptedException;
+	public Deque<I> pop(int amount) throws InterruptedException;
 
 	/**
 	 * 現在処理中のアイテムの個数を増加させます。

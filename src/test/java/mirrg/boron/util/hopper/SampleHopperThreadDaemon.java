@@ -8,27 +8,25 @@ import mirrg.boron.util.hopper.lib.HopperThreadDaemon;
 public class SampleHopperThreadDaemon
 {
 
+	/**
+	 * Startのあと、ちゃんとFinishが表示されて終了したら成功。
+	 */
 	public static void main(String[] args) throws Exception
 	{
 
 		IHopper<String> hopper = new Hopper<>();
 		new HopperThreadDaemon<String>(hopper, 4) {
 			@Override
-			protected void processImpl(Deque<HopperEntry<String>> bucket) throws InterruptedException
+			protected void processImpl(Deque<String> bucket) throws InterruptedException
 			{
-				for (HopperEntry<String> entry : bucket) {
-					if (entry.getClass() == HopperEntryItem.class) {
-						HopperEntryItem<String> entryItem = (HopperEntryItem<String>) entry;
-						System.out.println("Start " + entryItem.item);
-						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {
-							throw null;
-						}
-						System.out.println("Finish " + entryItem.item);
-					} else {
-						throw new RuntimeException("Unknown entry type: " + entry.getClass().getName());
+				for (String item : bucket) {
+					System.out.println("Start " + item);
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						throw null;
 					}
+					System.out.println("Finish " + item);
 				}
 			}
 		}.start();

@@ -2,7 +2,6 @@ package mirrg.boron.util.hopper.lib;
 
 import java.util.Deque;
 
-import mirrg.boron.util.hopper.HopperEntry;
 import mirrg.boron.util.hopper.IHopper;
 
 /**
@@ -54,7 +53,7 @@ public abstract class HopperThreadDaemon<I> extends HopperThread<I>
 	}
 
 	@Override
-	protected void process(Deque<HopperEntry<I>> bucket) throws InterruptedException
+	protected void process(Deque<I> bucket) throws InterruptedException
 	{
 
 		if (isDaemonOnly) {

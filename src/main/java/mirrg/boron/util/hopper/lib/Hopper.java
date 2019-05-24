@@ -3,8 +3,6 @@ package mirrg.boron.util.hopper.lib;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-import mirrg.boron.util.hopper.HopperEntry;
-import mirrg.boron.util.hopper.HopperEntryItem;
 import mirrg.boron.util.hopper.IHopper;
 
 public class Hopper<I> implements IHopper<I>
@@ -12,7 +10,7 @@ public class Hopper<I> implements IHopper<I>
 
 	protected final Object lock = new Object();
 	protected boolean isClosed = false;
-	protected Deque<HopperEntry<I>> queue = new ArrayDeque<>();
+	protected Deque<I> queue = new ArrayDeque<>();
 	protected int itemCountProcessing = 0;
 
 	//
@@ -35,7 +33,7 @@ public class Hopper<I> implements IHopper<I>
 			}
 
 			// キューに追加
-			queue.addLast(new HopperEntryItem<>(item));
+			queue.addLast(item);
 
 			// ホッパーの状態が変わったので通知
 			lock.notifyAll();
@@ -77,7 +75,7 @@ public class Hopper<I> implements IHopper<I>
 	}
 
 	@Override
-	public Deque<HopperEntry<I>> pop(int amount) throws InterruptedException
+	public Deque<I> pop(int amount) throws InterruptedException
 	{
 		synchronized (lock) {
 
@@ -94,7 +92,7 @@ public class Hopper<I> implements IHopper<I>
 			}
 
 			// 掬う
-			Deque<HopperEntry<I>> result = popImpl(amount);
+			Deque<I> result = popImpl(amount);
 			plusItemCountProcessing(result.size());
 
 			// ホッパーの状態が変わったので通知
@@ -109,9 +107,9 @@ public class Hopper<I> implements IHopper<I>
 	 * このメソッドの呼び出し時、キューに少なくとも一つのアイテムが格納されていることが保証されます。
 	 * このメソッド内では処理中のアイテムを増加させてはなりません。
 	 */
-	protected Deque<HopperEntry<I>> popImpl(int amount)
+	protected Deque<I> popImpl(int amount)
 	{
-		Deque<HopperEntry<I>> result;
+		Deque<I> result;
 		if (amount > queue.size()) {
 			// 一度に掬える
 

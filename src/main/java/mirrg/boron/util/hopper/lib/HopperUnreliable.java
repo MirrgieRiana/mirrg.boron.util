@@ -2,8 +2,6 @@ package mirrg.boron.util.hopper.lib;
 
 import java.util.Optional;
 
-import mirrg.boron.util.hopper.HopperEntryItem;
-
 /**
  * 制限付きホッパーです。
  * キューが満杯のときにアイテムを追加しようとすると、
@@ -66,7 +64,7 @@ public class HopperUnreliable<I> extends Hopper<I>
 				if (!(capacity - queue.size() > 0)) return;
 
 				// キューに追加
-				queue.addLast(new HopperEntryItem<>(item));
+				queue.addLast(item);
 
 			} else {
 
@@ -75,7 +73,7 @@ public class HopperUnreliable<I> extends Hopper<I>
 				if (!(capacity - queue.size() > 0)) queue.pop();
 
 				// キューに追加
-				queue.addLast(new HopperEntryItem<>(item));
+				queue.addLast(item);
 
 			}
 

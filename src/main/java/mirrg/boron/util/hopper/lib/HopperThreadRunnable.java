@@ -2,8 +2,6 @@ package mirrg.boron.util.hopper.lib;
 
 import java.util.Deque;
 
-import mirrg.boron.util.hopper.HopperEntry;
-import mirrg.boron.util.hopper.HopperEntryItem;
 import mirrg.boron.util.hopper.IHopper;
 
 public class HopperThreadRunnable extends HopperThread<Runnable>
@@ -20,14 +18,10 @@ public class HopperThreadRunnable extends HopperThread<Runnable>
 	}
 
 	@Override
-	protected void processImpl(Deque<HopperEntry<Runnable>> bucket) throws InterruptedException
+	protected void processImpl(Deque<Runnable> bucket) throws InterruptedException
 	{
-		for (HopperEntry<Runnable> entry : bucket) {
-			if (entry.getClass() == HopperEntryItem.class) {
-				((HopperEntryItem<Runnable>) entry).item.run();
-			} else {
-				throw new RuntimeException("Unknown entry type: " + entry.getClass().getName());
-			}
+		for (Runnable item : bucket) {
+			item.run();
 		}
 	}
 

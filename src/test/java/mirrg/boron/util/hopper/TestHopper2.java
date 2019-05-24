@@ -193,15 +193,11 @@ public class TestHopper2
 			}
 
 			@Override
-			protected void processImpl(Deque<HopperEntry<Integer>> bucket) throws InterruptedException
+			protected void processImpl(Deque<Integer> bucket) throws InterruptedException
 			{
 				synchronized (list) {
-					for (HopperEntry<Integer> entry : bucket) {
-						if (entry.getClass() == HopperEntryItem.class) {
-							list.add(((HopperEntryItem<Integer>) entry).item);
-						} else {
-							throw new RuntimeException("Unknown entry type: " + entry.getClass().getName());
-						}
+					for (Integer item : bucket) {
+						list.add(item);
 					}
 				}
 			}
@@ -243,14 +239,10 @@ public class TestHopper2
 		// 後から処理スレッド定義
 		new HopperThread<Integer>(hopper) {
 			@Override
-			protected void processImpl(Deque<HopperEntry<Integer>> bucket) throws InterruptedException
+			protected void processImpl(Deque<Integer> bucket) throws InterruptedException
 			{
-				for (HopperEntry<Integer> entry : bucket) {
-					if (entry.getClass() == HopperEntryItem.class) {
-						sb.append(((HopperEntryItem<Integer>) entry).item);
-					} else {
-						throw new RuntimeException("Unknown entry type: " + entry.getClass().getName());
-					}
+				for (Integer item : bucket) {
+					sb.append(item);
 				}
 			}
 		}.start();
@@ -279,14 +271,10 @@ public class TestHopper2
 		// 後から処理スレッド定義
 		new HopperThread<Integer>(hopper) {
 			@Override
-			protected void processImpl(Deque<HopperEntry<Integer>> bucket) throws InterruptedException
+			protected void processImpl(Deque<Integer> bucket) throws InterruptedException
 			{
-				for (HopperEntry<Integer> entry : bucket) {
-					if (entry.getClass() == HopperEntryItem.class) {
-						sb.append(((HopperEntryItem<Integer>) entry).item);
-					} else {
-						throw new RuntimeException("Unknown entry type: " + entry.getClass().getName());
-					}
+				for (Integer item : bucket) {
+					sb.append(item);
 				}
 			}
 		}.start();
