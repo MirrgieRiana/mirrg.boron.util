@@ -17,13 +17,18 @@ public class SampleHopperThreadDaemon
 			protected void processImpl(Deque<HopperEntry<String>> bucket) throws InterruptedException
 			{
 				for (HopperEntry<String> entry : bucket) {
-					System.out.println("Start" + entry.item);
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						throw null;
+					if (entry.getClass() == HopperEntryItem.class) {
+						HopperEntryItem<String> entryItem = (HopperEntryItem<String>) entry;
+						System.out.println("Start " + entryItem.item);
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							throw null;
+						}
+						System.out.println("Finish " + entryItem.item);
+					} else {
+						throw new RuntimeException("Unknown entry type: " + entry.getClass().getName());
 					}
-					System.out.println("Finish" + entry.item);
 				}
 			}
 		}.start();

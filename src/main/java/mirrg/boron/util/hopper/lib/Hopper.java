@@ -4,6 +4,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 import mirrg.boron.util.hopper.HopperEntry;
+import mirrg.boron.util.hopper.HopperEntryItem;
 import mirrg.boron.util.hopper.IHopper;
 
 public class Hopper<I> implements IHopper<I>
@@ -34,7 +35,7 @@ public class Hopper<I> implements IHopper<I>
 			}
 
 			// キューに追加
-			queue.addLast(new HopperEntry<>(item));
+			queue.addLast(new HopperEntryItem<>(item));
 
 			// ホッパーの状態が変わったので通知
 			lock.notifyAll();
@@ -120,7 +121,7 @@ public class Hopper<I> implements IHopper<I>
 		} else {
 			// 一度では掬えない
 
-			result = new ArrayDeque<>();
+			result = new ArrayDeque<>(amount);
 			for (int i = 0; i < amount; i++) {
 				result.addLast(queue.removeFirst());
 			}

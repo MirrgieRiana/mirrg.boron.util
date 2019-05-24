@@ -2,7 +2,7 @@ package mirrg.boron.util.hopper.lib;
 
 import java.util.Optional;
 
-import mirrg.boron.util.hopper.HopperEntry;
+import mirrg.boron.util.hopper.HopperEntryItem;
 
 /**
  * 制限付きホッパーです。
@@ -66,7 +66,7 @@ public class HopperUnreliable<I> extends Hopper<I>
 				if (!(capacity - queue.size() > 0)) return;
 
 				// キューに追加
-				queue.addLast(new HopperEntry<>(item));
+				queue.addLast(new HopperEntryItem<>(item));
 
 			} else {
 
@@ -75,7 +75,7 @@ public class HopperUnreliable<I> extends Hopper<I>
 				if (!(capacity - queue.size() > 0)) queue.pop();
 
 				// キューに追加
-				queue.addLast(new HopperEntry<>(item));
+				queue.addLast(new HopperEntryItem<>(item));
 
 			}
 

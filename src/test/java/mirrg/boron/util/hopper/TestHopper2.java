@@ -197,7 +197,11 @@ public class TestHopper2
 			{
 				synchronized (list) {
 					for (HopperEntry<Integer> entry : bucket) {
-						list.add(entry.item);
+						if (entry.getClass() == HopperEntryItem.class) {
+							list.add(((HopperEntryItem<Integer>) entry).item);
+						} else {
+							throw new RuntimeException("Unknown entry type: " + entry.getClass().getName());
+						}
 					}
 				}
 			}
@@ -242,7 +246,11 @@ public class TestHopper2
 			protected void processImpl(Deque<HopperEntry<Integer>> bucket) throws InterruptedException
 			{
 				for (HopperEntry<Integer> entry : bucket) {
-					sb.append(entry.item);
+					if (entry.getClass() == HopperEntryItem.class) {
+						sb.append(((HopperEntryItem<Integer>) entry).item);
+					} else {
+						throw new RuntimeException("Unknown entry type: " + entry.getClass().getName());
+					}
 				}
 			}
 		}.start();
@@ -274,7 +282,11 @@ public class TestHopper2
 			protected void processImpl(Deque<HopperEntry<Integer>> bucket) throws InterruptedException
 			{
 				for (HopperEntry<Integer> entry : bucket) {
-					sb.append(entry.item);
+					if (entry.getClass() == HopperEntryItem.class) {
+						sb.append(((HopperEntryItem<Integer>) entry).item);
+					} else {
+						throw new RuntimeException("Unknown entry type: " + entry.getClass().getName());
+					}
 				}
 			}
 		}.start();
