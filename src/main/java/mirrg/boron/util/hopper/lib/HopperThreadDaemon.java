@@ -7,7 +7,7 @@ import mirrg.boron.util.hopper.IHopper;
 
 /**
  * 回収はデーモンスレッドで、処理は非デーモンスレッドで行うホッパースレッドです。
- * 永続的に閉じられないホッパーの処理に使用しても、処理が途中で中断させることがありません。
+ * 永続的に閉じられないホッパーの処理に使用しても、スレッドが残留せず、かつ処理が途中で中断させることがありません。
  */
 public abstract class HopperThreadDaemon<I> extends HopperThread<I>
 {
