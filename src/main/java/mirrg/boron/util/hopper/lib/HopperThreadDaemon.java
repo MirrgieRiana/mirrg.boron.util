@@ -36,7 +36,7 @@ public abstract class HopperThreadDaemon<I> extends HopperThread<I>
 			try {
 				super.process(bucket);
 			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
+
 			}
 		});
 		thread2.setDaemon(false);
