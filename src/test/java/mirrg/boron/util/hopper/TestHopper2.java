@@ -252,4 +252,36 @@ public class TestHopper2
 		assertEquals("0123456789", sb.toString());
 	}
 
+	/*
+	 * 先頭除去モードのHopperUnreliable
+	 */
+	@Test
+	public void test_HopperUnreliable2() throws InterruptedException
+	{
+		StringBuilder sb = new StringBuilder();
+
+		Hopper<Integer> hopper = new HopperUnreliable<>(10, true);
+
+		// 先につっこむ
+		for (int i = 0; i < 100; i++) {
+			hopper.push(i);
+		}
+		hopper.close();
+
+		// 後から処理スレッド定義
+		new HopperThread<Integer>(hopper) {
+			@Override
+			protected void processImpl(Deque<HopperEntry<Integer>> bucket) throws InterruptedException
+			{
+				for (HopperEntry<Integer> entry : bucket) {
+					sb.append(entry.item);
+				}
+			}
+		}.start();
+
+		hopper.join();
+
+		assertEquals("90919293949596979899", sb.toString());
+	}
+
 }
