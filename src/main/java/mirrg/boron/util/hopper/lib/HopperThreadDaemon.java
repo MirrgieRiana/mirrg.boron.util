@@ -22,9 +22,10 @@ public abstract class HopperThreadDaemon<I> extends HopperThread<I>
 		super(hopper);
 	}
 
-	private volatile boolean isDaemonOnly = false;
-	private final Object lock2 = new Object();
 	private boolean isRunning = false;
+	private final Object lock2 = new Object();
+	private volatile boolean isDaemonOnly = false;
+	private final Object lock3 = new Object();
 
 	@Override
 	protected void initThread()
@@ -35,7 +36,9 @@ public abstract class HopperThreadDaemon<I> extends HopperThread<I>
 		// 非デーモンスレッドが走っているにも関わらずJVMが終了する対策
 		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
 
-			isDaemonOnly = true;
+			synchronized (lock3) {
+				isDaemonOnly = true;
+			}
 
 			synchronized (lock2) {
 				while (isRunning) {
@@ -56,8 +59,10 @@ public abstract class HopperThreadDaemon<I> extends HopperThread<I>
 	protected void process(Deque<I> bucket) throws InterruptedException
 	{
 
-		if (isDaemonOnly) {
-			return;
+		synchronized (lock3) {
+			if (isDaemonOnly) {
+				return;
+			}
 		}
 
 		Thread thread2;
