@@ -1,11 +1,13 @@
 package mirrg.boron.util.hopper.lib;
 
-public abstract class HopperRestrictedBase<I> extends HopperBase<I>
+import java.util.Optional;
+
+public class HopperRestricted<I> extends Hopper<I>
 {
 
 	protected final int capacity;
 
-	public HopperRestrictedBase()
+	public HopperRestricted()
 	{
 		this.capacity = 100;
 	}
@@ -14,7 +16,7 @@ public abstract class HopperRestrictedBase<I> extends HopperBase<I>
 	 * @param capacity
 	 *            キューの最大処理保持数です。
 	 */
-	public HopperRestrictedBase(int capacity)
+	public HopperRestricted(int capacity)
 	{
 		this.capacity = capacity;
 	}
@@ -25,6 +27,12 @@ public abstract class HopperRestrictedBase<I> extends HopperBase<I>
 		synchronized (lock) {
 			return super.canPush() && capacity - queue.size() > 0;
 		}
+	}
+
+	@Override
+	public Optional<Integer> getBucketSizePreferred()
+	{
+		return Optional.of(capacity);
 	}
 
 }

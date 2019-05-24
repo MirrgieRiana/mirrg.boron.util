@@ -1,6 +1,7 @@
 package mirrg.boron.util.hopper;
 
 import java.util.Deque;
+import java.util.Optional;
 
 /**
  * ホッパーはイベントスレッドに処理を自動的に行わせるためのクラスです。
@@ -149,5 +150,14 @@ public interface IHopper<I>
 	 * このホッパーの排他制御するためのロックオブジェクトを返します。
 	 */
 	public Object lock();
+
+	/**
+	 * このホッパーの処理に最適な回収用バッファのサイズです。
+	 * emptyの場合、バッファのサイズの指定は特にありません。
+	 */
+	public default Optional<Integer> getBucketSizePreferred()
+	{
+		return Optional.empty();
+	}
 
 }

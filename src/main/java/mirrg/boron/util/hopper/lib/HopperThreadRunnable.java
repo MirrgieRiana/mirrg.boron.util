@@ -3,18 +3,19 @@ package mirrg.boron.util.hopper.lib;
 import java.util.Deque;
 
 import mirrg.boron.util.hopper.HopperEntry;
+import mirrg.boron.util.hopper.IHopper;
 
-public class HopperRunnable extends HopperThreaded<Runnable>
+public class HopperThreadRunnable extends HopperThread<Runnable>
 {
 
-	public HopperRunnable()
+	public HopperThreadRunnable(IHopper<Runnable> hopper)
 	{
-		super();
+		super(hopper);
 	}
 
-	public HopperRunnable(int capacity, int bucketSize)
+	public HopperThreadRunnable(IHopper<Runnable> hopper, int bucketSize)
 	{
-		super(capacity, bucketSize);
+		super(hopper, bucketSize);
 	}
 
 	@Override

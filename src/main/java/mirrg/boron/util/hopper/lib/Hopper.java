@@ -6,7 +6,7 @@ import java.util.Deque;
 import mirrg.boron.util.hopper.HopperEntry;
 import mirrg.boron.util.hopper.IHopper;
 
-public abstract class HopperBase<I> implements IHopper<I>
+public class Hopper<I> implements IHopper<I>
 {
 
 	protected final Object lock = new Object();
