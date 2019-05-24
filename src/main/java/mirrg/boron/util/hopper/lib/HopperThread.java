@@ -96,10 +96,15 @@ public abstract class HopperThread<I> implements IHopperThread<I>
 		}
 	}
 
+	protected void process(Deque<HopperEntry<I>> bucket) throws InterruptedException
+	{
+		processImpl(bucket);
+	}
+
 	/**
 	 * アイテムの処理を行います。
 	 * 処理の途中で例外が発生した場合の動作は実装に依存します。
 	 */
-	protected abstract void process(Deque<HopperEntry<I>> bucket);
+	protected abstract void processImpl(Deque<HopperEntry<I>> bucket) throws InterruptedException;
 
 }

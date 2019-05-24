@@ -192,7 +192,7 @@ public class TestHopper2
 			}
 
 			@Override
-			protected void process(Deque<HopperEntry<Integer>> bucket)
+			protected void processImpl(Deque<HopperEntry<Integer>> bucket) throws InterruptedException
 			{
 				synchronized (list) {
 					for (HopperEntry<Integer> entry : bucket) {
