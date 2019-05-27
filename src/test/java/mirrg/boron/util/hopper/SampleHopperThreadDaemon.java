@@ -17,19 +17,19 @@ public class SampleHopperThreadDaemon
 		IHopper<String> hopper = new Hopper<>();
 		new HopperThreadDaemon<String>(hopper, 4) {
 			@Override
-			protected void processImpl(Deque<String> bucket) throws InterruptedException
+			protected void processImpl(Deque<String> bucket)
 			{
-				System.out.println("Start");
+				System.out.println("{");
 				for (String item : bucket) {
-					System.out.println("Start " + item);
+					System.out.println(" { " + item);
 					try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
-						throw null;
+						throw new AssertionError();
 					}
-					System.out.println("Finish " + item);
+					System.out.println(" } " + item);
 				}
-				System.out.println("Finish");
+				System.out.println("}");
 			}
 		}.start();
 

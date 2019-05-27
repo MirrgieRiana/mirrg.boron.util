@@ -18,7 +18,7 @@ public class HopperThreadRunnable extends HopperThread<Runnable>
 	}
 
 	@Override
-	protected void processImpl(Deque<Runnable> bucket) throws InterruptedException
+	protected void processImpl(Deque<Runnable> bucket)
 	{
 		for (Runnable item : bucket) {
 			item.run();

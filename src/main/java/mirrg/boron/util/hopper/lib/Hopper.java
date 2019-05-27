@@ -2,9 +2,14 @@ package mirrg.boron.util.hopper.lib;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.Objects;
 
 import mirrg.boron.util.hopper.IHopper;
 
+/**
+ * 無制限ホッパーです。
+ * アイテムはいくらでも搬入可能で、ブロッキングは行われません。
+ */
 public class Hopper<I> implements IHopper<I>
 {
 
@@ -18,6 +23,7 @@ public class Hopper<I> implements IHopper<I>
 	@Override
 	public void push(I item) throws InterruptedException
 	{
+		Objects.requireNonNull(item);
 		synchronized (lock) {
 
 			// キュー空き待ち
@@ -26,6 +32,7 @@ public class Hopper<I> implements IHopper<I>
 				// このホッパーは既に閉じられている
 				if (isClosed()) throw new IllegalStateException("Closed hopper");
 
+				// 空きが生まれた
 				if (canPush()) break;
 
 				lock.wait();
@@ -34,22 +41,6 @@ public class Hopper<I> implements IHopper<I>
 
 			// キューに追加
 			queue.addLast(item);
-
-			// ホッパーの状態が変わったので通知
-			lock.notifyAll();
-
-		}
-	}
-
-	@Override
-	public void clear()
-	{
-		synchronized (lock) {
-
-			// このホッパーは既に空
-			if (queue.isEmpty()) return;
-
-			queue.clear();
 
 			// ホッパーの状態が変わったので通知
 			lock.notifyAll();
@@ -85,6 +76,7 @@ public class Hopper<I> implements IHopper<I>
 				// このホッパーはもうアイテムを取り出すことができない
 				if (isEmpty()) return null;
 
+				// アイテムが生まれた
 				if (canPop()) break;
 
 				lock.wait();
@@ -103,10 +95,9 @@ public class Hopper<I> implements IHopper<I>
 	}
 
 	/**
-	 * キューから指定個数までのアイテムの削除を試みます。
-	 * このメソッドの呼び出し時、キューに少なくとも一つのアイテムが格納されていることが保証されます。
-	 * このメソッド内では処理中のアイテムを増加させてはなりません。
-	 * このメソッドはロック状態で呼び出さなければならない。
+	 * このメソッドは{@link #canPop()}が真のときに呼び出されなければなりません。
+	 * このメソッド内では処理中のアイテムの個数を増加させません。
+	 * このメソッドはロック状態で呼び出されなければなりません。
 	 */
 	protected Deque<I> popImpl(int amount)
 	{

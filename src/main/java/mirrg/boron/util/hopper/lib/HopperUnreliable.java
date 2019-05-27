@@ -1,12 +1,13 @@
 package mirrg.boron.util.hopper.lib;
 
+import java.util.Objects;
 import java.util.Optional;
 
 /**
  * 制限付きホッパーです。
- * キューが満杯のときにアイテムを追加しようとすると、
+ * キューが満杯のときにアイテムを搬入しようとすると、
  * そのアイテムがキューに追加されないか、または先頭のアイテムがキューから削除されます。
- * そのため、アイテムの追加は必ずブロッキングされることなく行われます。
+ * そのため、アイテムの搬入は必ずブロッキングされることなく行われます。
  */
 public class HopperUnreliable<I> extends Hopper<I>
 {
@@ -52,35 +53,61 @@ public class HopperUnreliable<I> extends Hopper<I>
 	@Override
 	public void push(I item)
 	{
+		Objects.requireNonNull(item);
 		synchronized (lock) {
 
-			// このホッパーは既に閉じられている
-			if (isClosed()) throw new IllegalStateException("Closed hopper");
+			// キュー空き待ち
+			while (true) {
 
-			if (!excludeOlder) {
+				// このホッパーは既に閉じられている
+				if (isClosed()) throw new IllegalStateException("Closed hopper");
 
-				// キューに空きがない場合は単に捨てる
-				if (!canPush()) return;
-				if (!(capacity - queue.size() > 0)) return;
+				// 空きが生まれた
+				if (canPush()) break;
 
-				// キューに追加
-				queue.addLast(item);
-
-			} else {
-
-				// キューに空きがない場合は先頭のアイテムを捨てる
-				if (!canPush()) return;
-				if (!(capacity - queue.size() > 0)) queue.pop();
-
-				// キューに追加
-				queue.addLast(item);
+				throw new AssertionError();
 
 			}
 
-			// ホッパーの状態が変わったので通知
-			lock.notifyAll();
+			if (hasSpace()) {
+				// スペースがある場合
+
+				// キューに追加
+				queue.addLast(item);
+
+				// ホッパーの状態が変わったので通知
+				lock.notifyAll();
+
+			} else {
+				// スペースがない場合
+
+				if (!excludeOlder) {
+					// 満杯時に投入されたアイテムを捨てるモードの場合
+
+					// キューに空きがない場合は単に何もせず捨てる
+
+				} else {
+					// 満杯時に先頭のアイテムを捨てるモードの場合
+
+					// キューに空きがない場合は先頭のアイテムを捨てる
+					queue.pop();
+
+					// キューに追加
+					queue.addLast(item);
+
+					// ホッパーの状態が変わったので通知
+					lock.notifyAll();
+
+				}
+
+			}
 
 		}
+	}
+
+	public boolean hasSpace()
+	{
+		return capacity - queue.size() > 0;
 	}
 
 	@Override

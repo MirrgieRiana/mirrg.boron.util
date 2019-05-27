@@ -4,7 +4,7 @@ import java.util.Optional;
 
 /**
  * 制限付きホッパーです。
- * キューが満杯のときにアイテムを追加しようとすると、キューに空きが生まれるまでブロッキングします。
+ * キューが満杯のときにアイテムを搬入しようとすると、キューに空きが生まれるまでブロッキングします。
  */
 public class HopperRestricted<I> extends Hopper<I>
 {
@@ -29,8 +29,13 @@ public class HopperRestricted<I> extends Hopper<I>
 	public boolean canPush()
 	{
 		synchronized (lock) {
-			return super.canPush() && capacity - queue.size() > 0;
+			return super.canPush() && hasSpace();
 		}
+	}
+
+	public boolean hasSpace()
+	{
+		return capacity - queue.size() > 0;
 	}
 
 	@Override

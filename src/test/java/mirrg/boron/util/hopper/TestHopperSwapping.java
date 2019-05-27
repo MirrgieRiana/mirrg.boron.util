@@ -53,12 +53,16 @@ public class TestHopperSwapping
 			long i = 0;
 
 			@Override
-			protected void processImpl(Deque<String> bucket) throws InterruptedException
+			protected void processImpl(Deque<String> bucket)
 			{
 				for (String item : bucket) {
 					if (i % 1000 == 0) waitNs = (int) (Math.random() * 2_000_000);
 
-					Thread.sleep(waitNs / 1_000_000, waitNs % 1_000_000);
+					try {
+						Thread.sleep(waitNs / 1_000_000, waitNs % 1_000_000);
+					} catch (InterruptedException e) {
+						throw new AssertionError();
+					}
 					//System.out.println(item);
 
 					if (!item.equals("" + i)) {

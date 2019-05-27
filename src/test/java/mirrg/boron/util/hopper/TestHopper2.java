@@ -193,7 +193,7 @@ public class TestHopper2
 			}
 
 			@Override
-			protected void processImpl(Deque<Integer> bucket) throws InterruptedException
+			protected void processImpl(Deque<Integer> bucket)
 			{
 				synchronized (list) {
 					for (Integer item : bucket) {
@@ -239,7 +239,7 @@ public class TestHopper2
 		// 後から処理スレッド定義
 		new HopperThread<Integer>(hopper) {
 			@Override
-			protected void processImpl(Deque<Integer> bucket) throws InterruptedException
+			protected void processImpl(Deque<Integer> bucket)
 			{
 				for (Integer item : bucket) {
 					sb.append(item);
@@ -271,7 +271,7 @@ public class TestHopper2
 		// 後から処理スレッド定義
 		new HopperThread<Integer>(hopper) {
 			@Override
-			protected void processImpl(Deque<Integer> bucket) throws InterruptedException
+			protected void processImpl(Deque<Integer> bucket)
 			{
 				for (Integer item : bucket) {
 					sb.append(item);

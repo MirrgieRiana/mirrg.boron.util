@@ -22,10 +22,9 @@ public abstract class HopperThreadDaemon<I> extends HopperThread<I>
 		super(hopper);
 	}
 
-	private boolean isRunning = false;
 	private final Object lock2 = new Object();
-	private boolean isDaemonOnly = false;
-	private final Object lock3 = new Object();
+	private boolean isRunning = false;
+	private boolean isShutdowned = false;
 
 	@Override
 	protected void initThread()
@@ -36,18 +35,20 @@ public abstract class HopperThreadDaemon<I> extends HopperThread<I>
 		// 非デーモンスレッドが走っているにも関わらずJVMが終了する対策
 		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
 
-			synchronized (lock3) {
-				isDaemonOnly = true;
-			}
-
 			synchronized (lock2) {
+
+				// シャットダウンフラグをON
+				isShutdowned = true;
+
+				// 実行中なら終了するまで待機する
 				while (isRunning) {
 					try {
 						lock2.wait();
 					} catch (InterruptedException e) {
-						return;
+						throw new AssertionError();
 					}
 				}
+
 			}
 
 		}));
@@ -56,47 +57,45 @@ public abstract class HopperThreadDaemon<I> extends HopperThread<I>
 	}
 
 	@Override
-	protected void process(Deque<I> bucket) throws InterruptedException
+	protected void process(Deque<I> bucket)
 	{
-
-		synchronized (lock3) {
-			if (isDaemonOnly) {
-				return;
-			}
-		}
 
 		Thread thread2;
 
 		synchronized (lock2) {
 
-			thread2 = new Thread(() -> {
-				try {
-					super.process(bucket);
-				} catch (InterruptedException e) {
+			// シャットダウンしているなら何も行わない
+			if (isShutdowned) return;
 
-				}
-			});
+			// スレッド初期化
+			thread2 = new Thread(() -> {
+				super.process(bucket);
+			}, "Hopper Processing Thread " + nextId());
 			thread2.setDaemon(false);
 			thread2.start();
 
+			// 実行中フラグをON
 			isRunning = true;
 
 		}
 
 		try {
 
+			// 処理の終了まで待機
 			try {
 				thread2.join();
 			} catch (InterruptedException e) {
-				thread2.interrupt();
-				thread2.join();
-				throw e;
+				throw new AssertionError();
 			}
 
 		} finally {
 			synchronized (lock2) {
+
+				// 実行中フラグをOFF
 				isRunning = false;
+
 				lock2.notifyAll();
+
 			}
 		}
 

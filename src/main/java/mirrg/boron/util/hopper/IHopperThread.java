@@ -3,7 +3,6 @@ package mirrg.boron.util.hopper;
 /**
  * ホッパーを処理するためのスレッドです。
  * ホッパーには複数のホッパースレッドを適用することができます。
- * ホッパースレッドを使用した場合、アイテムがキューの順番に処理されることが保証されます。
  */
 public interface IHopperThread<I>
 {

@@ -2,20 +2,20 @@ package mirrg.boron.util.hopper.lib;
 
 import java.util.Deque;
 
-import mirrg.boron.util.hopper.IHopper;
+import mirrg.boron.util.hopper.IHopperReader;
 import mirrg.boron.util.hopper.IHopperThread;
 import mirrg.boron.util.struct.Struct1;
 
 public abstract class HopperThread<I> implements IHopperThread<I>
 {
 
-	protected final IHopper<I> hopper;
+	protected final IHopperReader<I> hopper;
 	protected final int bucketSize;
 
 	/**
 	 * ホッパーが指定する最適なbucketSizeを使用してホッパースレッドを生成します。
 	 */
-	public HopperThread(IHopper<I> hopper)
+	public HopperThread(IHopperReader<I> hopper)
 	{
 		this(hopper, hopper.getBucketSizePreferred().orElse(100));
 	}
@@ -24,32 +24,13 @@ public abstract class HopperThread<I> implements IHopperThread<I>
 	 * @param bucketSize
 	 *            一度の取り出しでキューから取り出されるアイテムの個数です。
 	 */
-	public HopperThread(IHopper<I> hopper, int bucketSize)
+	public HopperThread(IHopperReader<I> hopper, int bucketSize)
 	{
 		this.hopper = hopper;
 		this.bucketSize = bucketSize;
 	}
 
 	//
-
-	protected static final Struct1<Integer> counter = new Struct1<>(0);
-
-	protected void initThread()
-	{
-		int id;
-		synchronized (counter) {
-			id = counter.x;
-			counter.x++;
-		}
-		thread = new Thread(() -> {
-			try {
-				run();
-			} catch (InterruptedException e) {
-
-			}
-		}, "Hopper" + id);
-		thread.setDaemon(false);
-	}
 
 	protected Thread thread = null;
 
@@ -66,8 +47,35 @@ public abstract class HopperThread<I> implements IHopperThread<I>
 	}
 
 	/**
+	 * アイテム搬出を行うスレッドを初期化します。
+	 */
+	protected void initThread()
+	{
+		thread = new Thread(() -> {
+			try {
+				run();
+			} catch (InterruptedException e) {
+
+			}
+		}, "Hopper Thread " + nextId());
+		thread.setDaemon(false);
+	}
+
+	protected static final Struct1<Integer> counter = new Struct1<>(0);
+
+	protected int nextId()
+	{
+		synchronized (counter) {
+			int id = counter.x;
+			counter.x++;
+			return id;
+		}
+	}
+
+	/**
 	 * ホッパーの動作を行います。
-	 * このメソッドは、このホッパーが閉じられ、このスレッドの処理が終わるまでブロッキングします。
+	 * このメソッドは、このホッパーの搬出口が閉じられ、このスレッドの処理が終わるまでブロッキングします。
+	 * このメソッドはシングルスレッドで呼び出されることが保証されます。
 	 */
 	protected void run() throws InterruptedException
 	{
@@ -95,7 +103,10 @@ public abstract class HopperThread<I> implements IHopperThread<I>
 		}
 	}
 
-	protected void process(Deque<I> bucket) throws InterruptedException
+	/**
+	 * このメソッドはシングルスレッドで呼び出されることが保証されます。
+	 */
+	protected void process(Deque<I> bucket)
 	{
 		processImpl(bucket);
 	}
@@ -103,7 +114,8 @@ public abstract class HopperThread<I> implements IHopperThread<I>
 	/**
 	 * アイテムの処理を行います。
 	 * 処理の途中で例外が発生した場合の動作は実装に依存します。
+	 * このメソッドはシングルスレッドで呼び出されることが保証されます。
 	 */
-	protected abstract void processImpl(Deque<I> bucket) throws InterruptedException;
+	protected abstract void processImpl(Deque<I> bucket);
 
 }
