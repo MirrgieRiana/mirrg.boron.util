@@ -50,7 +50,7 @@ public class HopperUnreliable<I> extends Hopper<I>
 	}
 
 	@Override
-	public void push(I item) throws InterruptedException
+	public void push(I item)
 	{
 		synchronized (lock) {
 
