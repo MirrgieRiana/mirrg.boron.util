@@ -2,7 +2,7 @@ package mirrg.boron.util.hopper.lib;
 
 import java.util.Deque;
 
-import mirrg.boron.util.hopper.IHopper;
+import mirrg.boron.util.hopper.IHopperReader;
 
 /**
  * 回収はデーモンスレッドで、処理は非デーモンスレッドで行うホッパースレッドです。
@@ -12,12 +12,12 @@ import mirrg.boron.util.hopper.IHopper;
 public abstract class HopperThreadDaemon<I> extends HopperThread<I>
 {
 
-	public HopperThreadDaemon(IHopper<I> hopper, int bucketSize)
+	public HopperThreadDaemon(IHopperReader<I> hopper, int bucketSize)
 	{
 		super(hopper, bucketSize);
 	}
 
-	public HopperThreadDaemon(IHopper<I> hopper)
+	public HopperThreadDaemon(IHopperReader<I> hopper)
 	{
 		super(hopper);
 	}
