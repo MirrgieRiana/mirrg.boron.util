@@ -16,7 +16,6 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 import mirrg.boron.util.hopper.lib.HopperSwapping;
-import mirrg.boron.util.hopper.lib.HopperSwapping.FileIO;
 import mirrg.boron.util.hopper.lib.HopperThread;
 
 public class TestHopperSwapping
@@ -26,7 +25,7 @@ public class TestHopperSwapping
 
 	public static void main(String[] args) throws Exception
 	{
-		HopperSwapping<String> hopper = new HopperSwapping<>(new FileIO<String>() {
+		HopperSwapping<String> hopper = new HopperSwapping<String>(new File("tmp/TestHopperSwapping"), 10) {
 			@Override
 			public void write(OutputStream out, String item) throws IOException
 			{
@@ -44,7 +43,7 @@ public class TestHopperSwapping
 					throw new IOException(e);
 				}
 			}
-		}, new File("tmp/TestHopperSwapping"), 10);
+		};
 
 		hopper.init();
 

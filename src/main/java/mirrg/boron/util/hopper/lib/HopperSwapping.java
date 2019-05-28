@@ -26,16 +26,14 @@ import mirrg.boron.util.suppliterator.SuppliteratorCollectors;
  * 再起動時にそれらを読み込みます。
  * このホッパーにnullを入れることはできません。
  */
-public class HopperSwapping<I> extends Hopper<I>
+public abstract class HopperSwapping<I> extends Hopper<I>
 {
 
-	protected final FileIO<I> fileIo;
 	protected final File dir;
 	protected final int swapSize;
 
-	public HopperSwapping(FileIO<I> fileIo, File dir, int swapSize)
+	public HopperSwapping(File dir, int swapSize)
 	{
-		this.fileIo = fileIo;
 		this.dir = dir;
 		this.swapSize = swapSize;
 	}
@@ -60,22 +58,35 @@ public class HopperSwapping<I> extends Hopper<I>
 		Objects.requireNonNull(item);
 		synchronized (lock) {
 
-			// このホッパーは既に閉じられている
-			if (isTerminated) throw new IllegalStateException("Terminated hopper");
-			if (isClosed()) throw new IllegalStateException("Closed hopper");
+			// キュー空き待ち
+			while (true) {
+
+				// このホッパーは終了処理がされた
+				if (isTerminated) throw new IllegalStateException("Terminated hopper");
+
+				// このホッパーは既に閉じられている
+				if (isClosed()) throw new IllegalStateException("Closed hopper");
+
+				// 空きが生まれた
+				if (canPush()) break;
+
+				throw new AssertionError();
+
+			}
 
 			// キューに追加
 			queue.addLast(item);
 
-			// スワップファイルがない場合、現在位置を更新する
+			// 現在位置を更新する
 			updateCurrentPosition();
 
-			// ファイル化の必要があるならスワップ
-			if (queue.size() - currentPosition == swapSize) {
+			// ファイル化の必要がある場合、ファイル化する
+			int tailCount = queue.size() - currentPosition;
+			if (tailCount >= swapSize) {
 
-				// キューの末尾からスワップファイルサイズの分だけ取り出し、ライターに食べさせる
+				// キューの末尾から現在位置まで全部取り出し、ライターに食べさせる
 				try (SwapFileWriter writer = swapFiles.addLast()) {
-					for (int i = 0; i < swapSize; i++) {
+					for (int i = 0; i < tailCount; i++) {
 						writer.write(queue.removeLast());
 					}
 				} catch (IOException e) {
@@ -88,7 +99,6 @@ public class HopperSwapping<I> extends Hopper<I>
 			lock.notifyAll();
 
 		}
-
 	}
 
 	/*
@@ -183,70 +193,6 @@ public class HopperSwapping<I> extends Hopper<I>
 		}
 	}
 
-	public static interface FileIO<I>
-	{
-
-		public void write(OutputStream out, I item) throws IOException;
-
-		/**
-		 * これ以上読み込めるものがなかった場合、empty。
-		 */
-		public Optional<I> read(InputStream in) throws IOException;
-
-	}
-
-	protected class SwapFileWriter implements AutoCloseable
-	{
-
-		private final OutputStream out;
-
-		public SwapFileWriter(File file) throws FileNotFoundException
-		{
-			out = UtilsFile.getOutputStreamWithMkdirs(file);
-		}
-
-		public void write(I item) throws IOException
-		{
-			fileIo.write(out, item);
-		}
-
-		@Override
-		public void close() throws IOException
-		{
-			out.close();
-		}
-
-	}
-
-	protected class SwapFileReader implements AutoCloseable
-	{
-
-		private final File file;
-		private final InputStream in;
-
-		public SwapFileReader(File file) throws FileNotFoundException
-		{
-			this.file = file;
-			in = new FileInputStream(file);
-		}
-
-		/**
-		 * これ以上読み込めるものがなかった場合、empty。
-		 */
-		public Optional<I> read() throws IOException
-		{
-			return fileIo.read(in);
-		}
-
-		@Override
-		public void close() throws IOException
-		{
-			in.close();
-			file.delete();
-		}
-
-	}
-
 	/**
 	 * ファイルシステムからスワップファイルを読み込んで初期化します。
 	 */
@@ -324,6 +270,69 @@ public class HopperSwapping<I> extends Hopper<I>
 			lock.notifyAll();
 
 		}
+	}
+
+	//
+
+	public abstract void write(OutputStream out, I item) throws IOException;
+
+	/**
+	 * これ以上読み込めるものがなかった場合、empty。
+	 */
+	public abstract Optional<I> read(InputStream in) throws IOException;
+
+	//
+
+	protected class SwapFileWriter implements AutoCloseable
+	{
+
+		private final OutputStream out;
+
+		public SwapFileWriter(File file) throws FileNotFoundException
+		{
+			out = UtilsFile.getOutputStreamWithMkdirs(file);
+		}
+
+		public void write(I item) throws IOException
+		{
+			HopperSwapping.this.write(out, item);
+		}
+
+		@Override
+		public void close() throws IOException
+		{
+			out.close();
+		}
+
+	}
+
+	protected class SwapFileReader implements AutoCloseable
+	{
+
+		private final File file;
+		private final InputStream in;
+
+		public SwapFileReader(File file) throws FileNotFoundException
+		{
+			this.file = file;
+			in = new FileInputStream(file);
+		}
+
+		/**
+		 * これ以上読み込めるものがなかった場合、empty。
+		 */
+		public Optional<I> read() throws IOException
+		{
+			return HopperSwapping.this.read(in);
+		}
+
+		@Override
+		public void close() throws IOException
+		{
+			in.close();
+			file.delete();
+		}
+
 	}
 
 	protected class SwapFiles
