@@ -1,4 +1,6 @@
-package mirrg.boron.util.struct;
+package mirrg.boron.util.struct.lib;
+
+import mirrg.boron.util.struct.IIntArrayView;
 
 public abstract class IntArrayBase implements IIntArrayView
 {

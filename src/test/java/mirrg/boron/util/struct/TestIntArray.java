@@ -6,6 +6,8 @@ import java.util.function.Consumer;
 
 import org.junit.Test;
 
+import mirrg.boron.util.struct.lib.IntArray;
+
 public class TestIntArray
 {
 

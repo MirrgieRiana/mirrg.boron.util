@@ -7,6 +7,7 @@ import java.util.function.IntConsumer;
 import java.util.function.IntUnaryOperator;
 import java.util.stream.IntStream;
 
+import mirrg.boron.util.struct.lib.IntArray;
 import mirrg.boron.util.suppliterator.ISuppliterator;
 
 public interface IIntArrayView extends Iterable<Integer>

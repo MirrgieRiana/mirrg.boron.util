@@ -1,8 +1,9 @@
-package mirrg.boron.util.struct;
+package mirrg.boron.util.struct.lib;
 
 import java.util.function.IntConsumer;
 import java.util.stream.IntStream;
 
+import mirrg.boron.util.struct.IIntArrayView;
 import mirrg.boron.util.suppliterator.ISuppliterator;
 
 /**
