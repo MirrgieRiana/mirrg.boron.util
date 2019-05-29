@@ -8,7 +8,10 @@ import mirrg.boron.util.suppliterator.ISuppliterator;
 
 /**
  * 内部にint配列の実体への参照を持つint配列ビューです。
+ *
+ * @deprecated このクラスは実験的です。メジャーバージョンの変更なしに破壊的変更が行われる可能性があります。
  */
+@Deprecated // 実験的。 TODO 検討
 public final class IntArray extends IntArrayBase
 {
 
