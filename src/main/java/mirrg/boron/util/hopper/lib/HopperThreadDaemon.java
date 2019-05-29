@@ -8,7 +8,10 @@ import mirrg.boron.util.hopper.IHopperReader;
  * 回収はデーモンスレッドで、処理は非デーモンスレッドで行うホッパースレッドです。
  * アイテムが残っている状態でJVMが終了するとき、そのアイテムは単に無視されます。
  * 永続的に閉じられないホッパーの処理に使用しても、スレッドが残留せず、かつ処理が途中で中断させることがありません。
+ *
+ * @deprecated このクラスは実験的です。メジャーバージョンの変更なしに破壊的変更が行われる可能性があります。
  */
+@Deprecated // 実験的。 TODO 検討
 public abstract class HopperThreadDaemon<I> extends HopperThread<I>
 {
 

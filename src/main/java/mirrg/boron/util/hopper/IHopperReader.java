@@ -5,7 +5,10 @@ import java.util.Optional;
 
 /**
  * ホッパーの搬出口からのアイテム取り出しを定義するインターフェースです。
+ *
+ * @deprecated このクラスは実験的です。メジャーバージョンの変更なしに破壊的変更が行われる可能性があります。
  */
+@Deprecated // 実験的。 TODO 検討
 public interface IHopperReader<I>
 {
 

@@ -8,7 +8,10 @@ import java.util.Optional;
  * キューが満杯のときにアイテムを搬入しようとすると、
  * そのアイテムがキューに追加されないか、または先頭のアイテムがキューから削除されます。
  * そのため、アイテムの搬入は必ずブロッキングされることなく行われます。
+ *
+ * @deprecated このクラスは実験的です。メジャーバージョンの変更なしに破壊的変更が行われる可能性があります。
  */
+@Deprecated // 実験的。 TODO 検討
 public class HopperUnreliable<I> extends Hopper<I>
 {
 

@@ -17,7 +17,10 @@ package mirrg.boron.util.hopper;
  * <p>
  * ホッパーは、処理がすべて完了したか否か（{@link #isFinished()}）の状態を持ちます。
  * {@link #join()}を利用すると、ホッパーの処理が完了するまで待機することができます。
+ *
+ * @deprecated このクラスは実験的です。メジャーバージョンの変更なしに破壊的変更が行われる可能性があります。
  */
+@Deprecated // 実験的。 TODO 検討
 public interface IHopper<I> extends IHopperWriter<I>, IHopperReader<I>
 {
 

@@ -25,7 +25,10 @@ import mirrg.boron.util.suppliterator.SuppliteratorCollectors;
  * また、終了時にホッパー内にアイテムが残っていると、それをファイルシステムに格納して終了し、
  * 再起動時にそれらを読み込みます。
  * このホッパーにnullを入れることはできません。
+ *
+ * @deprecated このクラスは実験的です。メジャーバージョンの変更なしに破壊的変更が行われる可能性があります。
  */
+@Deprecated // 実験的。 TODO 検討
 public abstract class HopperSwapping<I> extends Hopper<I>
 {
 

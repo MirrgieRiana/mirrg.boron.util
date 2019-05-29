@@ -9,7 +9,10 @@ import mirrg.boron.util.hopper.IHopper;
 /**
  * 無制限ホッパーです。
  * アイテムはいくらでも搬入可能で、ブロッキングは行われません。
+ *
+ * @deprecated このクラスは実験的です。メジャーバージョンの変更なしに破壊的変更が行われる可能性があります。
  */
+@Deprecated // 実験的。 TODO 検討
 public class Hopper<I> implements IHopper<I>
 {
 
