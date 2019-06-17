@@ -25,7 +25,7 @@ public interface IEventProvider<L>
 	 * @return
 	 * 		これを実行するとイベントの登録が解除されます。
 	 */
-	public IRemover register(L listener);
+	public <L2 extends L> IRemover register(L2 listener);
 
 	public L trigger();
 
