@@ -13,7 +13,7 @@ public abstract class EventProvider<L> implements IEventProvider<L>
 
 	private int index = 0;
 
-	public <L2 extends L> IRemover register(L2 listener)
+	public IRemover register(L listener)
 	{
 		int index2 = index;
 		listeners.put(index, listener);
