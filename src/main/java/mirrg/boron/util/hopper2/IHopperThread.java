@@ -1,4 +1,4 @@
-package mirrg.boron.util.hopper;
+package mirrg.boron.util.hopper2;
 
 /**
  * ホッパーを処理するためのスレッドです。

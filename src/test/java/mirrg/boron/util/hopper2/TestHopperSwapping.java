@@ -1,4 +1,4 @@
-package mirrg.boron.util.hopper;
+package mirrg.boron.util.hopper2;
 
 import java.awt.CardLayout;
 import java.io.EOFException;
@@ -15,8 +15,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-import mirrg.boron.util.hopper.lib.HopperSwapping;
-import mirrg.boron.util.hopper.lib.HopperThread;
+import mirrg.boron.util.hopper2.lib.HopperSwapping;
+import mirrg.boron.util.hopper2.lib.HopperThread;
 
 public class TestHopperSwapping
 {

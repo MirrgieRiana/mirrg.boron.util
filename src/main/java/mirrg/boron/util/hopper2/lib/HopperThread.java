@@ -1,9 +1,9 @@
-package mirrg.boron.util.hopper.lib;
+package mirrg.boron.util.hopper2.lib;
 
 import java.util.Deque;
 
-import mirrg.boron.util.hopper.IHopperReader;
-import mirrg.boron.util.hopper.IHopperThread;
+import mirrg.boron.util.hopper2.IHopperReader;
+import mirrg.boron.util.hopper2.IHopperThread;
 import mirrg.boron.util.struct.Struct1;
 
 /**

@@ -1,4 +1,4 @@
-package mirrg.boron.util.hopper;
+package mirrg.boron.util.hopper2;
 
 import static org.junit.Assert.*;
 
@@ -8,11 +8,11 @@ import java.util.List;
 
 import org.junit.Test;
 
-import mirrg.boron.util.hopper.lib.Hopper;
-import mirrg.boron.util.hopper.lib.HopperRestricted;
-import mirrg.boron.util.hopper.lib.HopperThread;
-import mirrg.boron.util.hopper.lib.HopperThreadRunnable;
-import mirrg.boron.util.hopper.lib.HopperUnreliable;
+import mirrg.boron.util.hopper2.lib.Hopper;
+import mirrg.boron.util.hopper2.lib.HopperRestricted;
+import mirrg.boron.util.hopper2.lib.HopperThread;
+import mirrg.boron.util.hopper2.lib.HopperThreadRunnable;
+import mirrg.boron.util.hopper2.lib.HopperUnreliable;
 import mirrg.boron.util.suppliterator.ISuppliterator;
 
 public class TestHopper2

@@ -1,9 +1,9 @@
-package mirrg.boron.util.hopper;
+package mirrg.boron.util.hopper2;
 
 import java.util.Deque;
 
-import mirrg.boron.util.hopper.lib.Hopper;
-import mirrg.boron.util.hopper.lib.HopperThreadDaemon;
+import mirrg.boron.util.hopper2.lib.Hopper;
+import mirrg.boron.util.hopper2.lib.HopperThreadDaemon;
 
 public class SampleHopperThreadDaemon
 {

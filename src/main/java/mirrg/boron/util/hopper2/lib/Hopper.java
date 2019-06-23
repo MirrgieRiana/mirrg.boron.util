@@ -1,10 +1,10 @@
-package mirrg.boron.util.hopper.lib;
+package mirrg.boron.util.hopper2.lib;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Objects;
 
-import mirrg.boron.util.hopper.IHopper;
+import mirrg.boron.util.hopper2.IHopper;
 
 /**
  * 無制限ホッパーです。

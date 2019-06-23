@@ -1,8 +1,8 @@
-package mirrg.boron.util.hopper.lib;
+package mirrg.boron.util.hopper2.lib;
 
 import java.util.Deque;
 
-import mirrg.boron.util.hopper.IHopperReader;
+import mirrg.boron.util.hopper2.IHopperReader;
 
 /**
  * @deprecated このクラスは実験的です。メジャーバージョンの変更なしに破壊的変更が行われる可能性があります。

@@ -1,8 +1,8 @@
-package mirrg.boron.util.hopper.lib;
+package mirrg.boron.util.hopper2.lib;
 
 import java.util.Deque;
 
-import mirrg.boron.util.hopper.IHopperReader;
+import mirrg.boron.util.hopper2.IHopperReader;
 
 /**
  * 回収はデーモンスレッドで、処理は非デーモンスレッドで行うホッパースレッドです。

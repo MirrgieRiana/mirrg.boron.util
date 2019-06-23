@@ -1,4 +1,4 @@
-package mirrg.boron.util.hopper;
+package mirrg.boron.util.hopper2;
 
 /**
  * ホッパーはイベントスレッドに処理を自動的に行わせるためのクラスです。
