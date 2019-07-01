@@ -2,6 +2,7 @@ package mirrg.boron.util.event.lib;
 
 import java.util.function.BiConsumer;
 
+@Deprecated // TODO 削除
 public class EventProviderBiConsumer<E1, E2> extends EventProvider<BiConsumer<E1, E2>>
 {
 

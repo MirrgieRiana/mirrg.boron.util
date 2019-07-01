@@ -3,10 +3,6 @@ package mirrg.boron.util.event;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-import mirrg.boron.util.event.lib.EventProviderBiConsumer;
-import mirrg.boron.util.event.lib.EventProviderConsumer;
-import mirrg.boron.util.event.lib.EventProviderRunnable;
-
 /**
  * 単一の種類のイベントが流れるイベントプロバイダーです。
  * このイベントプロバイダーは複数種類のイベントを統合的に扱うことができない代わりに、
@@ -33,19 +29,34 @@ public interface IEventProvider<L>
 
 	//
 
+	/**
+	 * @deprecated このAPIは移動されます。
+	 *             代わりに{@link EventProviders}に含まれるAPIを使用してください。
+	 */
+	@Deprecated // TODO 削除
 	public static IEventProvider<Runnable> runnable()
 	{
-		return new EventProviderRunnable();
+		return EventProviders.runnable();
 	}
 
+	/**
+	 * @deprecated このAPIは移動されます。
+	 *             代わりに{@link EventProviders}に含まれるAPIを使用してください。
+	 */
+	@Deprecated // TODO 削除
 	public static <E> IEventProvider<Consumer<E>> consumer()
 	{
-		return new EventProviderConsumer<>();
+		return EventProviders.consumer();
 	}
 
+	/**
+	 * @deprecated このAPIは移動されます。
+	 *             代わりに{@link EventProviders}に含まれるAPIを使用してください。
+	 */
+	@Deprecated // TODO 削除
 	public static <E1, E2> IEventProvider<BiConsumer<E1, E2>> biConsumer()
 	{
-		return new EventProviderBiConsumer<>();
+		return EventProviders.biConsumer();
 	}
 
 }

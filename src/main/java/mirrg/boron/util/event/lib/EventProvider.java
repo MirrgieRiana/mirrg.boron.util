@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 import mirrg.boron.util.event.IEventProvider;
 import mirrg.boron.util.event.IRemover;
 
+@Deprecated // TODO 削除
 public abstract class EventProvider<L> implements IEventProvider<L>
 {
 
