@@ -200,12 +200,22 @@ public class TestSuppliterator
 	public void test_sorted()
 	{
 		String[] ss = { "10", "-200", "5", "69", "35" };
-		String e = "5,10,69,35,-200";
+		String aa = "-200,10,35,5,69";
+		String ba = "5,10,69,35,-200";
+		String ad = "69,5,35,10,-200";
+		String bd = "-200,35,69,10,5";
 
-		assertEquals("-200,10,35,5,69", ISuppliterator.of(ss).sortedObj(s -> s).join(","));
-		assertEquals(e, ISuppliterator.of(ss).sortedInt(s -> s.length()).join(","));
-		assertEquals(e, ISuppliterator.of(ss).sortedLong(s -> s.length()).join(","));
-		assertEquals(e, ISuppliterator.of(ss).sortedDouble(s -> s.length()).join(","));
+		assertEquals(aa, ISuppliterator.of(ss).sorted(Comparable::compareTo).join(","));
+		assertEquals(aa, ISuppliterator.of(ss).sortedObj(s -> s).join(","));
+		assertEquals(ba, ISuppliterator.of(ss).sortedInt(s -> s.length()).join(","));
+		assertEquals(ba, ISuppliterator.of(ss).sortedLong(s -> s.length()).join(","));
+		assertEquals(ba, ISuppliterator.of(ss).sortedDouble(s -> s.length()).join(","));
+
+		assertEquals(ad, ISuppliterator.of(ss).sortedDescending(Comparable::compareTo).join(","));
+		assertEquals(ad, ISuppliterator.of(ss).sortedObjDescending(s -> s).join(","));
+		assertEquals(bd, ISuppliterator.of(ss).sortedIntDescending(s -> s.length()).join(","));
+		assertEquals(bd, ISuppliterator.of(ss).sortedLongDescending(s -> s.length()).join(","));
+		assertEquals(bd, ISuppliterator.of(ss).sortedDoubleDescending(s -> s.length()).join(","));
 
 		assertEquals("1a2b3c", ISuppliterator.ofIterable(ISuppliterator.of(
 			new Tuple<>(1, "a"),

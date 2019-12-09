@@ -1059,6 +1059,14 @@ public interface ISuppliterator<T> extends Iterable<T>
 	}
 
 	/**
+	 * 降順にソートします。
+	 */
+	public default ISuppliterator<T> sortedDescending(Comparator<? super T> comparator)
+	{
+		return sorted(comparator).reverse();
+	}
+
+	/**
 	 * 昇順にソートします。
 	 *
 	 * @param function
@@ -1069,6 +1077,17 @@ public interface ISuppliterator<T> extends Iterable<T>
 		List<Tuple<T, C>> list = map(t -> new Tuple<>(t, (C) function.apply(t))).toList();
 		list.sort((a, b) -> a.y.compareTo(b.y));
 		return ofIterable(list).map(t -> t.x);
+	}
+
+	/**
+	 * 降順にソートします。
+	 *
+	 * @param function
+	 *            この関数は要素ごとに1度ずつ呼び出されます。
+	 */
+	public default <C extends Comparable<? super C>> ISuppliterator<T> sortedObjDescending(Function<? super T, ? extends C> function)
+	{
+		return sortedObj(function).reverse();
 	}
 
 	/**
@@ -1097,6 +1116,17 @@ public interface ISuppliterator<T> extends Iterable<T>
 	}
 
 	/**
+	 * 降順にソートします。
+	 *
+	 * @param function
+	 *            この関数は要素ごとに1度ずつ呼び出されます。
+	 */
+	public default ISuppliterator<T> sortedIntDescending(ToIntFunction<? super T> function)
+	{
+		return sortedInt(function).reverse();
+	}
+
+	/**
 	 * 昇順にソートします。
 	 *
 	 * @param function
@@ -1122,6 +1152,17 @@ public interface ISuppliterator<T> extends Iterable<T>
 	}
 
 	/**
+	 * 降順にソートします。
+	 *
+	 * @param function
+	 *            この関数は要素ごとに1度ずつ呼び出されます。
+	 */
+	public default ISuppliterator<T> sortedLongDescending(ToLongFunction<? super T> function)
+	{
+		return sortedLong(function).reverse();
+	}
+
+	/**
 	 * 昇順にソートします。
 	 *
 	 * @param function
@@ -1144,6 +1185,17 @@ public interface ISuppliterator<T> extends Iterable<T>
 		List<Tuple> list = map(t -> new Tuple(t, function.applyAsDouble(t))).toList();
 		list.sort((a, b) -> Double.compare(a.y, b.y));
 		return ofIterable(list).map(t -> t.x);
+	}
+
+	/**
+	 * 降順にソートします。
+	 *
+	 * @param function
+	 *            この関数は要素ごとに1度ずつ呼び出されます。
+	 */
+	public default ISuppliterator<T> sortedDoubleDescending(ToDoubleFunction<? super T> function)
+	{
+		return sortedDouble(function).reverse();
 	}
 
 	/**
