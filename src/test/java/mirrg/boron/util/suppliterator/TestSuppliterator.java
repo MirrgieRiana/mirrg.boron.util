@@ -687,4 +687,11 @@ public class TestSuppliterator
 		assertEquals("", ISuppliterator.empty().join());
 	}
 
+	@Test
+	public void test_first()
+	{
+		assertEquals(1, ISuppliterator.of(1, 2, 3, 4, 5).first().get().intValue());
+		assertEquals(5, ISuppliterator.of(1, 2, 3, 4, 5).last().get().intValue());
+	}
+
 }

@@ -1289,6 +1289,21 @@ public interface ISuppliterator<T> extends Iterable<T>
 		}
 	}
 
+	public default Optional<T> first()
+	{
+		return next();
+	}
+
+	public default Optional<T> last()
+	{
+		T previous = null;
+		while (true) {
+			T next = nullableNext();
+			if (next == null) return Optional.ofNullable(previous);
+			previous = next;
+		}
+	}
+
 	public default <O> O collect(ICollectorFactory<? super T, ? extends O> collectorFactory)
 	{
 		ICollector<? super T, ? extends O> suppliteratorCollector = collectorFactory.create();
