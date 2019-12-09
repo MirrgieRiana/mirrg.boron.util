@@ -1180,6 +1180,16 @@ public interface ISuppliterator<T> extends Iterable<T>
 		});
 	}
 
+	/**
+	 * このメソッドは、呼び出された段階ですべての要素にアクセスし、その内容を配列に保持します。
+	 */
+	public default ISuppliterator<T> repeat(int times)
+	{
+		ImmutableArray<T> array = toImmutableArray();
+		return range(0, times)
+			.flatMap(i -> array.suppliterator());
+	}
+
 	// 終端操作
 
 	public static class IndexedObject<T>

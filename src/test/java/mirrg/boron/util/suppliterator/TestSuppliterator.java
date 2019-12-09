@@ -694,4 +694,28 @@ public class TestSuppliterator
 		assertEquals(5, ISuppliterator.of(1, 2, 3, 4, 5).last().get().intValue());
 	}
 
+	@Test
+	public void test_repeat()
+	{
+		assertEquals("", ISuppliterator.of().repeat(0).join());
+		assertEquals("", ISuppliterator.of().repeat(1).join());
+		assertEquals("", ISuppliterator.of().repeat(2).join());
+		assertEquals("", ISuppliterator.of().repeat(3).join());
+
+		assertEquals("", ISuppliterator.of(1).repeat(0).join());
+		assertEquals("1", ISuppliterator.of(1).repeat(1).join());
+		assertEquals("11", ISuppliterator.of(1).repeat(2).join());
+		assertEquals("111", ISuppliterator.of(1).repeat(3).join());
+
+		assertEquals("", ISuppliterator.of(1, 2).repeat(0).join());
+		assertEquals("12", ISuppliterator.of(1, 2).repeat(1).join());
+		assertEquals("1212", ISuppliterator.of(1, 2).repeat(2).join());
+		assertEquals("121212", ISuppliterator.of(1, 2).repeat(3).join());
+
+		assertEquals("", ISuppliterator.of(1, 2, 3).repeat(0).join());
+		assertEquals("123", ISuppliterator.of(1, 2, 3).repeat(1).join());
+		assertEquals("123123", ISuppliterator.of(1, 2, 3).repeat(2).join());
+		assertEquals("123123123", ISuppliterator.of(1, 2, 3).repeat(3).join());
+	}
+
 }
