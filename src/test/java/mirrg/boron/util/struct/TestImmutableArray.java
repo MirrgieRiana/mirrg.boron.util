@@ -268,4 +268,10 @@ public class TestImmutableArray
 
 	}
 
+	@Test
+	public void test_empty()
+	{
+		assertEquals("", ImmutableArray.empty().suppliterator().join());
+	}
+
 }

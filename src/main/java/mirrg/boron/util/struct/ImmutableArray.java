@@ -17,6 +17,8 @@ import mirrg.boron.util.suppliterator.SuppliteratorNullableBase;
 public final class ImmutableArray<T> implements Iterable<T>, IntFunction<T>
 {
 
+	private static final ImmutableArray<?> EMPTY = ImmutableArray.of();
+
 	private final T[] array;
 	private boolean hasNull;
 
@@ -33,6 +35,12 @@ public final class ImmutableArray<T> implements Iterable<T>, IntFunction<T>
 	}
 
 	//
+
+	@SuppressWarnings("unchecked")
+	public static <T> ImmutableArray<T> empty()
+	{
+		return (ImmutableArray<T>) EMPTY;
+	}
 
 	@SafeVarargs
 	public static <T> ImmutableArray<T> of(T... array)

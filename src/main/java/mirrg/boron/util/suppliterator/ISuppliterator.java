@@ -71,6 +71,11 @@ public interface ISuppliterator<T> extends Iterable<T>
 
 	// 生成
 
+	public static <T> ISuppliterator<T> empty()
+	{
+		return of();
+	}
+
 	/**
 	 * @param array
 	 *            nullを含まないTの配列

@@ -681,4 +681,10 @@ public class TestSuppliterator
 		assertArrayEquals(a, ISuppliterator.ofBoolArray(a).apply2(s -> s::toBoolArray));
 	}
 
+	@Test
+	public void test_empty()
+	{
+		assertEquals("", ISuppliterator.empty().join());
+	}
+
 }
