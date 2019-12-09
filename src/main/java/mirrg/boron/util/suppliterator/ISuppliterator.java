@@ -822,7 +822,14 @@ public interface ISuppliterator<T> extends Iterable<T>
 		};
 	}
 
+	@Deprecated // TODO 削除
 	public default <O> ISuppliterator<O> filterInstance(Class<? extends O> clazz)
+	{
+		return filter(clazz::isInstance)
+			.map(clazz::cast);
+	}
+
+	public default <O extends T> ISuppliterator<O> filterInstance2(Class<? extends O> clazz)
 	{
 		return filter(clazz::isInstance)
 			.map(clazz::cast);
