@@ -20,7 +20,7 @@ public final class Tuple1<X>
 		return x;
 	}
 
-	public Tuple1<X> deriveX(X x)
+	public <X2> Tuple1<X2> deriveX(X2 x)
 	{
 		return new Tuple1<>(x);
 	}

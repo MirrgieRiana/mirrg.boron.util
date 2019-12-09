@@ -24,7 +24,7 @@ public final class Tuple3<X, Y, Z>
 		return x;
 	}
 
-	public Tuple3<X, Y, Z> deriveX(X x)
+	public <X2> Tuple3<X2, Y, Z> deriveX(X2 x)
 	{
 		return new Tuple3<>(x, y, z);
 	}
@@ -34,7 +34,7 @@ public final class Tuple3<X, Y, Z>
 		return y;
 	}
 
-	public Tuple3<X, Y, Z> deriveY(Y y)
+	public <Y2> Tuple3<X, Y2, Z> deriveY(Y2 y)
 	{
 		return new Tuple3<>(x, y, z);
 	}
@@ -44,7 +44,7 @@ public final class Tuple3<X, Y, Z>
 		return z;
 	}
 
-	public Tuple3<X, Y, Z> deriveZ(Z z)
+	public <Z2> Tuple3<X, Y, Z2> deriveZ(Z2 z)
 	{
 		return new Tuple3<>(x, y, z);
 	}

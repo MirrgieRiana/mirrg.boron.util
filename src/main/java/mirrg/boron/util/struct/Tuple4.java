@@ -26,7 +26,7 @@ public final class Tuple4<X, Y, Z, W>
 		return x;
 	}
 
-	public Tuple4<X, Y, Z, W> deriveX(X x)
+	public <X2> Tuple4<X2, Y, Z, W> deriveX(X2 x)
 	{
 		return new Tuple4<>(x, y, z, w);
 	}
@@ -36,7 +36,7 @@ public final class Tuple4<X, Y, Z, W>
 		return y;
 	}
 
-	public Tuple4<X, Y, Z, W> deriveY(Y y)
+	public <Y2> Tuple4<X, Y2, Z, W> deriveY(Y2 y)
 	{
 		return new Tuple4<>(x, y, z, w);
 	}
@@ -46,7 +46,7 @@ public final class Tuple4<X, Y, Z, W>
 		return z;
 	}
 
-	public Tuple4<X, Y, Z, W> deriveZ(Z z)
+	public <Z2> Tuple4<X, Y, Z2, W> deriveZ(Z2 z)
 	{
 		return new Tuple4<>(x, y, z, w);
 	}
@@ -56,7 +56,7 @@ public final class Tuple4<X, Y, Z, W>
 		return w;
 	}
 
-	public Tuple4<X, Y, Z, W> deriveW(W w)
+	public <W2> Tuple4<X, Y, Z, W2> deriveW(W2 w)
 	{
 		return new Tuple4<>(x, y, z, w);
 	}
@@ -106,7 +106,7 @@ public final class Tuple4<X, Y, Z, W>
 	{
 		return new Tuple5<>(t, x, y, z, w);
 	}
-	
+
 	public <T> Tuple5<X, Y, Z, W, T> addLast(T t)
 	{
 		return new Tuple5<>(x, y, z, w, t);

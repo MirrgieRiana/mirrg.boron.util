@@ -3,6 +3,8 @@ package mirrg.boron.util.struct;
 import static mirrg.boron.util.struct.UtilsStruct.*;
 import static org.junit.Assert.*;
 
+import java.time.Instant;
+
 import org.junit.Test;
 
 public class TestStruct
@@ -87,6 +89,45 @@ public class TestStruct
 		assertEquals(tuple(1, 2), tuple(1, 2, 3).removeLast());
 		assertEquals(tuple(1), tuple(1, 2).removeLast());
 		assertEquals(tuple(), tuple(1).removeLast());
+	}
+
+	@Test
+	public void test_delive()
+	{
+
+		// 数値と文字列は等しくない
+		assertNotEquals(tuple("1"), tuple(1));
+		assertNotEquals(tuple(1), tuple("1"));
+
+		// 本体
+		{
+
+			assertEquals(tuple(2), tuple(1).deriveX(2));
+			assertEquals(tuple("a"), tuple(1).deriveX("a"));
+
+			assertEquals(tuple(2, 1.0), tuple(1, 1.0).deriveX(2));
+			assertEquals(tuple("a", 1.0), tuple(1, 1.0).deriveX("a"));
+			assertEquals(tuple(1, 2.0), tuple(1, 1.0).deriveY(2.0));
+			assertEquals(tuple(1, "a"), tuple(1, 1.0).deriveY("a"));
+
+			assertEquals(tuple(2, 1.0, false), tuple(1, 1.0, false).deriveX(2));
+			assertEquals(tuple("a", 1.0, false), tuple(1, 1.0, false).deriveX("a"));
+			assertEquals(tuple(1, 2.0, false), tuple(1, 1.0, false).deriveY(2.0));
+			assertEquals(tuple(1, "a", false), tuple(1, 1.0, false).deriveY("a"));
+			assertEquals(tuple(1, 1.0, true), tuple(1, 1.0, false).deriveZ(true));
+			assertEquals(tuple(1, 1.0, "a"), tuple(1, 1.0, false).deriveZ("a"));
+
+			assertEquals(tuple(2, 1.0, false, Instant.ofEpochMilli(0)), tuple(1, 1.0, false, Instant.ofEpochMilli(0)).deriveX(2));
+			assertEquals(tuple("a", 1.0, false, Instant.ofEpochMilli(0)), tuple(1, 1.0, false, Instant.ofEpochMilli(0)).deriveX("a"));
+			assertEquals(tuple(1, 2.0, false, Instant.ofEpochMilli(0)), tuple(1, 1.0, false, Instant.ofEpochMilli(0)).deriveY(2.0));
+			assertEquals(tuple(1, "a", false, Instant.ofEpochMilli(0)), tuple(1, 1.0, false, Instant.ofEpochMilli(0)).deriveY("a"));
+			assertEquals(tuple(1, 1.0, true, Instant.ofEpochMilli(0)), tuple(1, 1.0, false, Instant.ofEpochMilli(0)).deriveZ(true));
+			assertEquals(tuple(1, 1.0, "a", Instant.ofEpochMilli(0)), tuple(1, 1.0, false, Instant.ofEpochMilli(0)).deriveZ("a"));
+			assertEquals(tuple(1, 1.0, false, Instant.ofEpochMilli(100)), tuple(1, 1.0, false, Instant.ofEpochMilli(0)).deriveW(Instant.ofEpochMilli(100)));
+			assertEquals(tuple(1, 1.0, false, "a"), tuple(1, 1.0, false, Instant.ofEpochMilli(0)).deriveW("a"));
+
+		}
+
 	}
 
 }

@@ -24,7 +24,7 @@ public final class Tuple<X, Y> implements Entry<X, Y>
 		return x;
 	}
 
-	public Tuple<X, Y> deriveX(X x)
+	public <X2> Tuple<X2, Y> deriveX(X2 x)
 	{
 		return new Tuple<>(x, y);
 	}
@@ -34,7 +34,7 @@ public final class Tuple<X, Y> implements Entry<X, Y>
 		return y;
 	}
 
-	public Tuple<X, Y> deriveY(Y y)
+	public <Y2> Tuple<X, Y2> deriveY(Y2 y)
 	{
 		return new Tuple<>(x, y);
 	}
