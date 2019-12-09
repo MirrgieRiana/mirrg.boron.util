@@ -111,6 +111,7 @@ public interface ISuppliterator<T> extends Iterable<T>
 			{
 				if (index < start + length) {
 					T next = array[index];
+					if (next == null) throw new NullPointerException("" + array + "[" + index + "]");
 					index++;
 					return next;
 				} else {
@@ -476,7 +477,13 @@ public interface ISuppliterator<T> extends Iterable<T>
 			@Override
 			public T nullableNextImpl()
 			{
-				return iterator.hasNext() ? iterator.next() : null;
+				if (iterator.hasNext()) {
+					T next = iterator.next();
+					if (next == null) throw new NullPointerException("" + iterator);
+					return next;
+				} else {
+					return null;
+				}
 			}
 		};
 	}
@@ -676,7 +683,13 @@ public interface ISuppliterator<T> extends Iterable<T>
 			public O nullableNextImpl()
 			{
 				T next = this2.nullableNext();
-				return next != null ? mapper.apply(next) : null;
+				if (next != null) {
+					O next2 = mapper.apply(next);
+					if (next2 == null) throw new NullPointerException("" + mapper);
+					return next2;
+				} else {
+					return null;
+				}
 			}
 		};
 	}
@@ -692,7 +705,13 @@ public interface ISuppliterator<T> extends Iterable<T>
 			{
 				i++;
 				T next = this2.nullableNext();
-				return next != null ? mapper.apply(next, i - 1) : null;
+				if (next != null) {
+					O next2 = mapper.apply(next, i - 1);
+					if (next2 == null) throw new NullPointerException("" + mapper);
+					return next2;
+				} else {
+					return null;
+				}
 			}
 		};
 	}

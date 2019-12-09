@@ -718,4 +718,23 @@ public class TestSuppliterator
 		assertEquals("123123123", ISuppliterator.of(1, 2, 3).repeat(3).join());
 	}
 
+	@Test
+	public void test_ofNull()
+	{
+		try {
+			ISuppliterator.of(1, null, 3).join();
+			fail();
+		} catch (NullPointerException e) {
+
+		}
+		try {
+			System.out.println(ISuppliterator.ofIterable(ISuppliterator.range(5)
+				.map(i -> i == 2 ? null : i))
+				.join());
+			fail();
+		} catch (NullPointerException e) {
+
+		}
+	}
+
 }
