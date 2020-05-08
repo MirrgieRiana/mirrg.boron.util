@@ -729,6 +729,9 @@ public class TestSuppliterator
 	{
 		assertEquals(1, ISuppliterator.of(1, 2, 3, 4, 5).first().get().intValue());
 		assertEquals(5, ISuppliterator.of(1, 2, 3, 4, 5).last().get().intValue());
+		assertEquals(1, ISuppliterator.of(1, 2, 3, 4, 5).get(0).get().intValue());
+		assertEquals(5, ISuppliterator.of(1, 2, 3, 4, 5).get(4).get().intValue());
+		assertEquals(Optional.empty(), ISuppliterator.of(1, 2, 3, 4, 5).get(5));
 	}
 
 	@Test
