@@ -470,6 +470,8 @@ public final class ImmutableArray<T> implements Iterable<T>, IntFunction<T>
 		return ISuppliterator.ofIterable(this);
 	}
 
+	// TODO 名称変更：ArrayList#add(T, int)とあいまいになる
+	@Deprecated
 	public void forEach(ObjIntConsumer<T> consumer)
 	{
 		for (int i = 0; i < array.length; i++) {
