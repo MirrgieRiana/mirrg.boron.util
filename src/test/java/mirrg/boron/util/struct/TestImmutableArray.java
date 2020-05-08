@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.function.Consumer;
 
 import org.junit.Test;
 
@@ -97,7 +98,7 @@ public class TestImmutableArray
 		assertEquals(array6.get(2), list2[2]);
 
 		ArrayList<String> list3 = new ArrayList<>();
-		array6.forEach(list3::add);
+		array6.forEach((Consumer<String>) list3::add);
 		assertEquals(array6.length(), list3.size());
 		assertEquals(array6.get(0), list3.get(0));
 		assertEquals(array6.get(1), list3.get(1));
