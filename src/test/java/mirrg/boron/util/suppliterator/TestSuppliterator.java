@@ -747,4 +747,12 @@ public class TestSuppliterator
 		}
 	}
 
+	@Test
+	public void test_sandwich()
+	{
+		assertEquals("", ISuppliterator.of().sandwich(0).join());
+		assertEquals("1", ISuppliterator.of(1).sandwich(0).join());
+		assertEquals("102030405", ISuppliterator.of(1, 2, 3, 4, 5).sandwich(0).join());
+	}
+
 }

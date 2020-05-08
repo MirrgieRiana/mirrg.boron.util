@@ -1043,6 +1043,42 @@ public interface ISuppliterator<T> extends Iterable<T>
 		}
 	}
 
+	/**
+	 * 指定の値を間に挟み込みます。
+	 *
+	 * @param value
+	 *            間に挟み込まれる値
+	 */
+	public default ISuppliterator<T> sandwich(T value)
+	{
+		ISuppliterator<T> this2 = this;
+		return new SuppliteratorNullableBase<T>() {
+			private boolean first = true;
+			private boolean inSeparator;
+			private T next;
+
+			@Override
+			protected T nullableNextImpl()
+			{
+				if (first) {
+					next = this2.nullableNext();
+					if (next == null) return null;
+					first = false;
+					inSeparator = true;
+					return next;
+				} else if (inSeparator) {
+					next = this2.nullableNext();
+					if (next == null) return null;
+					inSeparator = false;
+					return value;
+				} else {
+					inSeparator = true;
+					return next;
+				}
+			}
+		};
+	}
+
 	public default ISuppliterator<T> reverse()
 	{
 		return ofIterator(toCollection(ArrayDeque::new).descendingIterator());
