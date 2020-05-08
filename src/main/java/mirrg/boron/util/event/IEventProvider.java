@@ -19,7 +19,7 @@ public interface IEventProvider<L>
 	 * そのリスナーは多重に登録され一度のイベントで複数回呼び出されます。
 	 *
 	 * @return
-	 * 		これを実行するとイベントの登録が解除されます。
+	 *         これを実行するとイベントの登録が解除されます。
 	 */
 	public IRemover register(L listener);
 

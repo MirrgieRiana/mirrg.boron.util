@@ -111,7 +111,7 @@ public final class Struct4<X, Y, Z, W>
 	{
 		return new Struct5<>(t, x, y, z, w);
 	}
-	
+
 	public <T> Struct5<X, Y, Z, W, T> addLast(T t)
 	{
 		return new Struct5<>(x, y, z, w, t);

@@ -53,7 +53,7 @@ public interface ISuppliterator<T> extends Iterable<T>
 	 * このメソッドがemptyを返した場合、以降このメソッドを呼び出してはなりません。
 	 *
 	 * @return
-	 * 		列挙がリストの末端に達して要素が存在しない場合、empty。
+	 *         列挙がリストの末端に達して要素が存在しない場合、empty。
 	 * @throws NoSuchElementException
 	 *             リストの末尾以降にメソッドを呼び出したとき。
 	 */
@@ -63,7 +63,7 @@ public interface ISuppliterator<T> extends Iterable<T>
 	 * このメソッドがnullを返した場合、以降このメソッドを呼び出してはなりません。
 	 *
 	 * @return
-	 * 		列挙がリストの末端に達して要素が存在しない場合、null。
+	 *         列挙がリストの末端に達して要素が存在しない場合、null。
 	 * @throws NoSuchElementException
 	 *             リストの末尾以降にメソッドを呼び出したとき。
 	 */

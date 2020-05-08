@@ -47,6 +47,7 @@ public interface IHopper<I> extends IHopperWriter<I>, IHopperReader<I>
 	/**
 	 * このホッパーを排他制御・待機するためのロックオブジェクトを取得します。
 	 */
+	@Override
 	public Object lock();
 
 }

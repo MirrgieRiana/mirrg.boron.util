@@ -6,9 +6,6 @@ import java.util.function.Consumer;
 
 import org.junit.Test;
 
-import mirrg.boron.util.event.IEventProvider;
-import mirrg.boron.util.event.IRemover;
-
 public class Test1
 {
 

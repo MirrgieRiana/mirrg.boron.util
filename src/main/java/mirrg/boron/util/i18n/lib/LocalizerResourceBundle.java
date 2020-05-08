@@ -59,6 +59,7 @@ public class LocalizerResourceBundle implements ILocalizer
 	public static class ControlExtension extends ResourceBundle.Control
 	{
 
+		@Override
 		public ResourceBundle newBundle(String baseName, Locale locale, String format, ClassLoader loader, boolean reload)
 			throws IllegalAccessException, InstantiationException, IOException
 		{
@@ -73,6 +74,7 @@ public class LocalizerResourceBundle implements ILocalizer
 			try {
 				stream = AccessController.doPrivileged(
 					new PrivilegedExceptionAction<InputStream>() {
+						@Override
 						public InputStream run() throws IOException
 						{
 							if (reload) {

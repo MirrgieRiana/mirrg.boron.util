@@ -7,8 +7,6 @@ import java.util.function.BiConsumer;
 
 import org.junit.Test;
 
-import mirrg.boron.util.event.IEventProvider;
-
 public class Test2
 {
 

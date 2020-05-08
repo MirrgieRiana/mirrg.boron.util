@@ -14,6 +14,7 @@ public abstract class EventProvider<L> implements IEventProvider<L>
 
 	private int index = 0;
 
+	@Override
 	public IRemover register(L listener)
 	{
 		int index2 = index;

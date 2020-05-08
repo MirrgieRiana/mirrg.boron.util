@@ -106,7 +106,7 @@ public final class Tuple4<X, Y, Z, W>
 	{
 		return new Tuple5<>(t, x, y, z, w);
 	}
-
+	
 	public <T> Tuple5<X, Y, Z, W, T> addLast(T t)
 	{
 		return new Tuple5<>(x, y, z, w, t);
