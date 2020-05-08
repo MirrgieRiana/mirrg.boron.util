@@ -25,6 +25,19 @@ public class UtilsMath
 
 	//
 
+	/**
+	 * 期待値がdになるように整数の乱数を生成します。
+	 */
+	public static int randomInt(Random random, double d)
+	{
+		int i = (int) Math.floor(d);
+		double mod = d - i;
+		if (random.nextDouble() < mod) i++;
+		return i;
+	}
+
+	//
+
 	public static OptionalInt parseInt(String s)
 	{
 		try {
