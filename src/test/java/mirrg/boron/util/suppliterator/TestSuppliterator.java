@@ -698,6 +698,14 @@ public class TestSuppliterator
 	}
 
 	@Test
+	public void test_isEmpty()
+	{
+		assertEquals(true, ISuppliterator.of().isEmpty());
+		assertEquals(false, ISuppliterator.of(1).isEmpty());
+		assertEquals(false, ISuppliterator.of(1, 2).isEmpty());
+	}
+
+	@Test
 	public void test_first()
 	{
 		assertEquals(1, ISuppliterator.of(1, 2, 3, 4, 5).first().get().intValue());

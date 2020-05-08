@@ -2127,6 +2127,11 @@ public interface ISuppliterator<T> extends Iterable<T>
 		return i;
 	}
 
+	public default boolean isEmpty()
+	{
+		return nullableNext() == null;
+	}
+
 	//
 
 	public default String join()
