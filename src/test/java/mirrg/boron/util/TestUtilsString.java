@@ -31,4 +31,12 @@ public class TestUtilsString
 		assertEquals("134568", fillRight("134568", 5));
 	}
 
+	@Test
+	public void test_toUpperCaseHead()
+	{
+		assertEquals("Aaaa", toUpperCaseHead("aaaa"));
+		assertEquals("AaAa", toUpperCaseHead("aaAa"));
+		assertEquals("AAAA", toUpperCaseHead("AAAA"));
+	}
+
 }

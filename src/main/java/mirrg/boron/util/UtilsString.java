@@ -57,4 +57,14 @@ public class UtilsString
 		return out.toString();
 	}
 
+	//
+
+	/**
+	 * 先頭だけを大文字にし、残りは変えません。
+	 */
+	public static String toUpperCaseHead(String string)
+	{
+		return string.substring(0, 1).toUpperCase() + string.substring(1);
+	}
+
 }
