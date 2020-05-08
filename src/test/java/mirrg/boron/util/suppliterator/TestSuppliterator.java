@@ -233,6 +233,25 @@ public class TestSuppliterator
 	{
 		assertEquals("12345", ISuppliterator.of(3, 4, 5).before(1, 2).join());
 		assertEquals("34512", ISuppliterator.of(3, 4, 5).after(1, 2).join());
+
+		Object three = new Object() {
+			@Override
+			public String toString()
+			{
+				return "3";
+			}
+		};
+		Object[] four = { new Object() {
+			@Override
+			public String toString()
+			{
+				return "4";
+			}
+		} };
+		assertEquals("4123", ISuppliterator.of(1, "2", three).before(four).join());
+		assertEquals("1234", ISuppliterator.of(1, "2", three).after(four).join());
+		assertTrue(ISuppliterator.of(1, "2", three).before1(four).join().matches("\\[Ljava\\.lang\\.Object;@[0-9a-f]{8}123"));
+		assertTrue(ISuppliterator.of(1, "2", three).after1(four).join().matches("123\\[Ljava\\.lang\\.Object;@[0-9a-f]{8}"));
 	}
 
 	@Test

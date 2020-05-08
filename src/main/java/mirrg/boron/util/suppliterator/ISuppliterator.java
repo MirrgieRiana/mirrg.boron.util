@@ -933,6 +933,13 @@ public interface ISuppliterator<T> extends Iterable<T>
 		return skip(start).limit(length);
 	}
 
+	// TODO 名称変更：before
+	public default ISuppliterator<T> before1(T t)
+	{
+		return before(ISuppliterator.of(t));
+	}
+
+	// TODO 名称変更：befores
 	@SuppressWarnings("unchecked")
 	public default ISuppliterator<T> before(T... ts)
 	{
@@ -944,6 +951,13 @@ public interface ISuppliterator<T> extends Iterable<T>
 		return ISuppliterator.concat(ts, this);
 	}
 
+	// TODO 名称変更：after
+	public default ISuppliterator<T> after1(T t)
+	{
+		return after(ISuppliterator.of(t));
+	}
+
+	// TODO 名称変更：afters
 	@SuppressWarnings("unchecked")
 	public default ISuppliterator<T> after(T... ts)
 	{
